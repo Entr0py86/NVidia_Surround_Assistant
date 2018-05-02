@@ -1,0 +1,6 @@
+[submodule "Display_Manager"]
+	path = Display_Manager
+	url = http://192.168.2.226/nvsa/Display_Manager
+[submodule "HookDLL"]
+	path = HookDLL
+	url = http://192.168.2.226/nvsa/HookDLL
