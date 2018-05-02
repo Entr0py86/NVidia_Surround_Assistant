@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HookDLL", "HookDLL\HookDLL.vcxproj", "{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NVidia Surround Assistant", "NVidia_Surround_Assitant_GUI\NVidia Surround Assistant.csproj", "{36CB8C99-C3BB-4163-8753-5B0B3332E683}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Display_Manger", "Display_Manager\Display_Manger.vcxproj", "{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Debug|Any CPU.ActiveCfg = Release|x64
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Debug|Any CPU.Build.0 = Release|x64
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Debug|x64.ActiveCfg = Release|x64
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Debug|x64.Build.0 = Release|x64
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Debug|x86.ActiveCfg = Release|Win32
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Debug|x86.Build.0 = Release|Win32
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Release|Any CPU.ActiveCfg = Release|Win32
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Release|x64.ActiveCfg = Release|x64
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Release|x64.Build.0 = Release|x64
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Release|x86.ActiveCfg = Release|Win32
+		{50FFB020-FD4D-4C82-9AC7-FE133DA77CAA}.Release|x86.Build.0 = Release|Win32
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Debug|x64.ActiveCfg = Debug|x64
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Debug|x64.Build.0 = Debug|x64
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Debug|x86.ActiveCfg = Debug|x86
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Debug|x86.Build.0 = Debug|x86
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Release|x64.ActiveCfg = Release|x64
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Release|x64.Build.0 = Release|x64
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Release|x86.ActiveCfg = Release|x86
+		{36CB8C99-C3BB-4163-8753-5B0B3332E683}.Release|x86.Build.0 = Release|x86
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Debug|x64.ActiveCfg = Debug|x64
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Debug|x64.Build.0 = Debug|x64
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Debug|x86.ActiveCfg = Debug|Win32
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Debug|x86.Build.0 = Debug|Win32
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|Any CPU.ActiveCfg = Release|Win32
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x64.ActiveCfg = Release|x64
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x64.Build.0 = Release|x64
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x86.ActiveCfg = Release|Win32
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F58F9EF2-36AE-4AA7-8C0E-E5FC72C25C3B}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
