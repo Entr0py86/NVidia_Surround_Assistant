@@ -23,7 +23,7 @@ using System.Net;
 using System.Data.SQLite;
 using NLog;
 using NLog.Windows.Forms;
-using nvsa;
+using Display_Manager;
 
 /*  TODO List:
  * Re-Install hooks after sleep, first make sure that it is the problem
@@ -996,6 +996,7 @@ namespace NVidia_Surround_Assistant
         {
             if (surroundManager.SM_IsSurroundActive())
             {
+                //TODO minimize scrren and save window positions here as well
                 surroundManager.SM_ApplySetupFromMemory(false);
             }
             else

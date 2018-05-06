@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Data.SQLite;
 using NLog;
-using nvsa;
+using Display_Manager;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 namespace NVidia_Surround_Assistant
 {
@@ -208,6 +209,7 @@ namespace NVidia_Surround_Assistant
                     mySurround.Initialize();
                 mySurround.SaveWindowPositions();
                 mySurround.MinimizeAllWindows();
+                Thread.Sleep(100);
                 logger.Info("DM: Window Positions saved succesfully");
             }
             catch (DisplayManager_Exception ex)
