@@ -178,6 +178,11 @@ namespace NVidia_Surround_Assistant
                 return;
             }
 
+            if (true)//todo make setting for logs view
+            {
+                pictureBoxLogs_Click(null, null);
+            }
+
             logger.Debug("Application is admin");
             //Create cfg dir
             if (!Directory.Exists(binDir + "\\cfg"))
