@@ -106,8 +106,9 @@ namespace NVidia_Surround_Assistant
             timer.Start();
         }
 
-        public bool SM_ApplySetupFromFile(string setupFile)
+        public bool SM_ApplySetupFromFile()
         {
+            string setupFile;
             openFileDialog.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\cfg";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -157,7 +158,7 @@ namespace NVidia_Surround_Assistant
             return true;
         }
 
-        //Save current setup to memory
+        //Save current setup to File
         public bool SM_SaveCurrentSetup(string filePath)
         {
             try

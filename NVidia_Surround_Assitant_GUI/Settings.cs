@@ -234,7 +234,7 @@ namespace NVidia_Surround_Assistant
 
         private void pictureBoxLoadConfig_Click(object sender, EventArgs e)
         {
-            MainForm.surroundManager.SM_ApplySetupFromFile("");
+            MainForm.surroundManager.SM_ApplySetupFromFile();
         }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e)

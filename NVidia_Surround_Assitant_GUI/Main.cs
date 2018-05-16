@@ -1017,12 +1017,12 @@ namespace NVidia_Surround_Assistant
 
         private void toolStripMenuItem_LoadSurroundFile_Click(object sender, EventArgs e)
         {            
-            surroundManager.SM_ApplySetupFromFile(openFileDialog.FileName);            
+            surroundManager.SM_ApplySetupFromFile();            
         }
 
         private void toolStripMenuItem_SaveSurroundFile_Click(object sender, EventArgs e)
         {            
-            surroundManager.SM_SaveCurrentSetup(saveSurroundFileDialog.FileName);            
+            surroundManager.SM_SaveCurrentSetupToFile();            
         }
 
         private void toolStripMenuItem_Quit_Click(object sender, EventArgs e)
