@@ -20,6 +20,7 @@ namespace NVidia_Surround_Assistant
         bool StartMinimized = NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized;
         bool CloseToTray = NVidia_Surround_Assistant.Properties.Settings.Default.CloseToTray;
         bool SaveWindowPositions = NVidia_Surround_Assistant.Properties.Settings.Default.SaveWindowPositions;
+        bool ShowLogs = NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs;
         int SurroundToNormal_OnClose = NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnClose;
         int SurroundToNormal_OnExit = NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit;
 
@@ -71,6 +72,17 @@ namespace NVidia_Surround_Assistant
             {
                 pictureBoxSaveWindowPositions_No.Visible = true;
                 pictureBoxSaveWindowPositions_Yes.Visible = false;
+            }
+
+            if (ShowLogs)
+            {
+                pictureBoxShowLogs_No.Visible = false;
+                pictureBoxShowLogs_Yes.Visible = true;
+            }
+            else
+            {
+                pictureBoxShowLogs_No.Visible = true;
+                pictureBoxShowLogs_Yes.Visible = false;
             }
 
             DialogResult = DialogResult.None;
@@ -128,6 +140,7 @@ namespace NVidia_Surround_Assistant
             NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized = StartMinimized;
             NVidia_Surround_Assistant.Properties.Settings.Default.CloseToTray = CloseToTray;
             NVidia_Surround_Assistant.Properties.Settings.Default.SaveWindowPositions = SaveWindowPositions;
+            NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs = ShowLogs;
             NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnClose = SurroundToNormal_OnClose;
             NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit = SurroundToNormal_OnExit;
 
@@ -246,6 +259,20 @@ namespace NVidia_Surround_Assistant
                     NVidia_Surround_Assistant.Properties.Settings.Default.Save();
                 }
             }
+        }
+
+        private void pictureBoxShowLogs_Yes_Click(object sender, EventArgs e)
+        {
+            pictureBoxShowLogs_Yes.Visible = false;
+            pictureBoxShowLogs_No.Visible = true;
+            ShowLogs = false;
+        }
+
+        private void pictureBoxShowLogs_No_Click(object sender, EventArgs e)
+        {
+            pictureBoxShowLogs_Yes.Visible = true;
+            pictureBoxShowLogs_No.Visible = false;
+            ShowLogs = true;
         }
     }
 }

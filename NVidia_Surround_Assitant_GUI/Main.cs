@@ -178,7 +178,7 @@ namespace NVidia_Surround_Assistant
                 return;
             }
 
-            if (true)//todo make setting for logs view
+            if (NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs)//todo make setting for logs view
             {
                 pictureBoxLogs_Click(null, null);
             }

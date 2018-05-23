@@ -52,6 +52,9 @@
             this.pictureBoxApply = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartMax = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartMin = new System.Windows.Forms.PictureBox();
+            this.pictureBoxShowLogs_Yes = new System.Windows.Forms.PictureBox();
+            this.pictureBoxShowLogs_No = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_Yes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_No)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).BeginInit();
@@ -64,6 +67,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxApply)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_Yes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_No)).BeginInit();
             this.SuspendLayout();
             // 
             // label4
@@ -93,7 +98,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label2.Location = new System.Drawing.Point(14, 149);
+            this.label2.Location = new System.Drawing.Point(14, 198);
             this.label2.MaximumSize = new System.Drawing.Size(159, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(140, 45);
@@ -108,7 +113,7 @@
             "Always",
             "Ask",
             "Never"});
-            this.comboBoxSurroundToNormal_OnClose.Location = new System.Drawing.Point(181, 160);
+            this.comboBoxSurroundToNormal_OnClose.Location = new System.Drawing.Point(181, 209);
             this.comboBoxSurroundToNormal_OnClose.Name = "comboBoxSurroundToNormal_OnClose";
             this.comboBoxSurroundToNormal_OnClose.Size = new System.Drawing.Size(121, 23);
             this.comboBoxSurroundToNormal_OnClose.TabIndex = 61;
@@ -122,7 +127,7 @@
             "Always",
             "Ask",
             "Never"});
-            this.comboBoxSurroundToNormal_OnExit.Location = new System.Drawing.Point(181, 219);
+            this.comboBoxSurroundToNormal_OnExit.Location = new System.Drawing.Point(181, 268);
             this.comboBoxSurroundToNormal_OnExit.Name = "comboBoxSurroundToNormal_OnExit";
             this.comboBoxSurroundToNormal_OnExit.Size = new System.Drawing.Size(121, 23);
             this.comboBoxSurroundToNormal_OnExit.TabIndex = 63;
@@ -133,7 +138,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label3.Location = new System.Drawing.Point(14, 208);
+            this.label3.Location = new System.Drawing.Point(14, 257);
             this.label3.MaximumSize = new System.Drawing.Size(159, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(140, 60);
@@ -199,7 +204,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label7.Location = new System.Drawing.Point(14, 276);
+            this.label7.Location = new System.Drawing.Point(14, 325);
             this.label7.MaximumSize = new System.Drawing.Size(159, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(119, 30);
@@ -211,7 +216,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label8.Location = new System.Drawing.Point(14, 318);
+            this.label8.Location = new System.Drawing.Point(14, 367);
             this.label8.MaximumSize = new System.Drawing.Size(159, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(153, 30);
@@ -221,7 +226,7 @@
             // pictureBoxLoadConfig
             // 
             this.pictureBoxLoadConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.folder_25x25;
-            this.pictureBoxLoadConfig.Location = new System.Drawing.Point(216, 323);
+            this.pictureBoxLoadConfig.Location = new System.Drawing.Point(216, 372);
             this.pictureBoxLoadConfig.Name = "pictureBoxLoadConfig";
             this.pictureBoxLoadConfig.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxLoadConfig.TabIndex = 72;
@@ -231,7 +236,7 @@
             // pictureBoxSaveConfig
             // 
             this.pictureBoxSaveConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.save_25x25;
-            this.pictureBoxSaveConfig.Location = new System.Drawing.Point(216, 281);
+            this.pictureBoxSaveConfig.Location = new System.Drawing.Point(216, 330);
             this.pictureBoxSaveConfig.Name = "pictureBoxSaveConfig";
             this.pictureBoxSaveConfig.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxSaveConfig.TabIndex = 70;
@@ -318,12 +323,52 @@
             this.pictureBoxStartMin.TabStop = false;
             this.pictureBoxStartMin.Click += new System.EventHandler(this.pictureBoxStartMin_Click);
             // 
+            // pictureBoxShowLogs_Yes
+            // 
+            this.pictureBoxShowLogs_Yes.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_25x25;
+            this.pictureBoxShowLogs_Yes.Location = new System.Drawing.Point(216, 136);
+            this.pictureBoxShowLogs_Yes.Name = "pictureBoxShowLogs_Yes";
+            this.pictureBoxShowLogs_Yes.Size = new System.Drawing.Size(25, 25);
+            this.pictureBoxShowLogs_Yes.TabIndex = 76;
+            this.pictureBoxShowLogs_Yes.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxShowLogs_Yes, "An attempt will be made to save all window positions before the surround switch a" +
+        "nd will be restored after switching back");
+            this.pictureBoxShowLogs_Yes.Click += new System.EventHandler(this.pictureBoxShowLogs_Yes_Click);
+            // 
+            // pictureBoxShowLogs_No
+            // 
+            this.pictureBoxShowLogs_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_red_25x25;
+            this.pictureBoxShowLogs_No.Location = new System.Drawing.Point(216, 136);
+            this.pictureBoxShowLogs_No.Name = "pictureBoxShowLogs_No";
+            this.pictureBoxShowLogs_No.Size = new System.Drawing.Size(25, 25);
+            this.pictureBoxShowLogs_No.TabIndex = 75;
+            this.pictureBoxShowLogs_No.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxShowLogs_No, "An attempt will be made to save all window positions before the surround switch a" +
+        "nd will be restored after switching back");
+            this.pictureBoxShowLogs_No.Click += new System.EventHandler(this.pictureBoxShowLogs_No_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label9.Location = new System.Drawing.Point(12, 139);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(106, 15);
+            this.label9.TabIndex = 74;
+            this.label9.Text = "Show log window:";
+            this.toolTip1.SetToolTip(this.label9, "An attempt will be made to save all window positions before the surround switch a" +
+        "nd will be restored after switching back");
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(319, 488);
+            this.Controls.Add(this.pictureBoxShowLogs_Yes);
+            this.Controls.Add(this.pictureBoxShowLogs_No);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.pictureBoxLoadConfig);
             this.Controls.Add(this.label7);
@@ -363,6 +408,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxApply)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_Yes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_No)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -393,5 +440,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBoxLoadConfig;
+        private System.Windows.Forms.PictureBox pictureBoxShowLogs_Yes;
+        private System.Windows.Forms.PictureBox pictureBoxShowLogs_No;
+        private System.Windows.Forms.Label label9;
     }
 }
