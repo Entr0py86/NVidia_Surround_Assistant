@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using NLog;
 
-//TODO make window ;arger until full screen depending on how many apps are added
 namespace NVidia_Surround_Assistant
 {
     public partial class ThumbGridView : UserControl
@@ -47,8 +43,7 @@ namespace NVidia_Surround_Assistant
             panelApplicationListView.AutoScrollPosition = Point.Empty;
 
             SortThumbs();
-            //Update number of rows
-            //fix update grid not working correctly anymore with colums not calcl correctly
+            
             numOfColumns = (int)Math.Floor((decimal)panelApplicationListView.Width / x_spacing);
             numOfRows = (int)Math.Ceiling((double)panelApplicationListView.Controls.Count / numOfColumns);
             

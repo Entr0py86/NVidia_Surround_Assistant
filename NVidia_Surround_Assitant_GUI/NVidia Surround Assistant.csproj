@@ -96,9 +96,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\..\..\..\..\Program Files\System.Data.SQLite\2013\bin\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="IgdbAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IGDB.API.1.0.8\lib\net45\IgdbAPI.dll</HintPath>
     </Reference>
@@ -113,9 +110,6 @@
     </Reference>
     <Reference Include="NLog.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.Windows.Forms.4.2.3\lib\net35\NLog.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite.Designer">
-      <HintPath>..\..\..\..\..\..\Program Files\System.Data.SQLite\2013\bin\SQLite.Designer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -134,12 +128,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HookManager.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="SQL.cs" />
     <Compile Include="SurroundManager.cs" />
     <Compile Include="ThumbGridView.cs">
       <SubType>UserControl</SubType>
@@ -349,9 +345,6 @@
     <None Include="Resources\minus 25x25.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\delete filled red 25x25.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\document 50x50.png" />
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +352,9 @@
       <Project>{0d349a5b-ee1f-402b-8ebf-d6ad04fec851}</Project>
       <Name>Display_Manger</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete filled red 25x25.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,69 +4,37 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using DllWrapper;
 using System.Runtime.ConstrainedExecution;
 using System.Security;
 using System.Security.Principal;
 using System.IO;
-using System.Net;
-
-using System.Data.SQLite;
 using NLog;
 using NLog.Windows.Forms;
-using Display_Manager;
+using System.Diagnostics;
+using NLog.Config;
+using NLog.Targets;
 
 /*  TODO List:
- * Re-Install hooks after sleep, first make sure that it is the problem
- * investigate why the hook stops responding after a time. Assuming its the above problem.
  * Add surround profiles that can be applied on application basis
- 
  */
 
 namespace NVidia_Surround_Assistant
 {
     public partial class MainForm : Form
     {
-        #region DLL_Imports
-        #region advapi32_dll
-        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern bool CreateProcessAsUser(
-        IntPtr hToken,
-        string lpApplicationName,
-        string lpCommandLine,
-        ref SECURITY_ATTRIBUTES lpProcessAttributes,
-        ref SECURITY_ATTRIBUTES lpThreadAttributes,
-        bool bInheritHandles,
-        uint dwCreationFlags,
-        IntPtr lpEnvironment,
-        string lpCurrentDirectory,
-        ref STARTUPINFO lpStartupInfo,
-        out PROCESS_INFORMATION lpProcessInformation);
-
-        #endregion
+        #region DLL_Imports        
         #region User32_dll
         //User32.dll  PInvoke Calls
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern uint RegisterWindowMessage(string lpString);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
-
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out IntPtr lpdwProcessId);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, uint msg, ChangeWindowMessageFilterExAction action, ref CHANGEFILTERSTRUCT changeInfo);
-
         #endregion
         #region kernel32_dll
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -96,17 +64,7 @@ namespace NVidia_Surround_Assistant
         [DllImport("psapi.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         static extern uint GetModuleFileNameEx(IntPtr hProcess, IntPtr hModule, [Out] StringBuilder lpBaseName, uint nSize);
 
-        #endregion
-        #region HookDLL_dll
-        [DllImport("HookDLL.dll", SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        static extern int InstallHook(IntPtr hWnd, ref HookId id);
-
-        [DllImport("HookDLL.dll", SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        static extern int UnInstallHook(IntPtr hWnd, ref HookId id);
-
-        [DllImport("HookDLL.dll", SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        static extern int UnInstallAllHooks();
-        #endregion
+        #endregion        
         #endregion
 
         bool formClosing = false;
@@ -126,33 +84,37 @@ namespace NVidia_Surround_Assistant
         //Hash list use to store names of applications that should trigger surround mode. Hash list used for speed of search
         List<ProcessInfo> runningApplicationsList = new List<ProcessInfo>();
 
-        //Sql
-        SQLiteConnection m_dbConnection = null;
-        SQLiteCommand command;
-
         //Logger
-        Logger logger = LogManager.GetLogger("nvsaLogger");
-        
+        Logger logger;        
+
+        //SQL
+        SQL sqlInterface = new SQL();
+
+        HookManager hookManager;
+
         //reset event used to wait for thread to exit before closing app
         private AutoResetEvent _resetEvent = new AutoResetEvent(false);
         private AutoResetEvent _newMsgEvent = new AutoResetEvent(false);
 
         //Form that receives all messages and adds them to the queue
-        MessageInfo msgTemp = new MessageInfo();
+        
         int y_spacing;
 
         public MainForm()
-        {
-            logger.Debug("Application Started {0}", Application.ExecutablePath);
+        {            
             InitializeComponent();
-
+            
             binDir = Path.GetDirectoryName(Application.ExecutablePath);            
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            SetupLogger();
+            logger = LogManager.GetLogger("nvsaLogger");
+            logger.Debug("Application Started {0}", Application.ExecutablePath);
+
             //Check the operating system and the application being run
-            if(Environment.Is64BitProcess && !Environment.Is64BitOperatingSystem)
+            if (Environment.Is64BitProcess && !Environment.Is64BitOperatingSystem)
             {
                 MessageBox.Show("Trying to run 64bit version of application on 32bit Operating system.\n\nPlease use the 32bit binaries.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 quitApplication = true;
@@ -176,12 +138,7 @@ namespace NVidia_Surround_Assistant
                 quitApplication = true;
                 Close();
                 return;
-            }
-
-            if (NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs)//todo make setting for logs view
-            {
-                pictureBoxLogs_Click(null, null);
-            }
+            }            
 
             logger.Debug("Application is admin");
             //Create cfg dir
@@ -195,18 +152,31 @@ namespace NVidia_Surround_Assistant
             //run setup if file does not exist
             if (!File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName) || !File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.DefaultSetupFileName))
                 SaveSetupFiles();
-            
+
             //Initialize application
+            hookManager = new HookManager(hWnd, ref registeredWindows);
             Initialize();
             //Get Y Spacing for resizes
             y_spacing = Height - textBoxLogs.Bottom;
 
+            if (NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs)
+            {
+                pictureBoxLogs_Click(null, null);
+            }
+
             //Re-init richtext for NLog
-            RichTextBoxTarget.ReInitializeAllTextboxes(this);
+            try
+            {
+                RichTextBoxTarget.ReInitializeAllTextboxes(this);
+            }
+            catch(NullReferenceException)
+            {
+
+            }
 
             //Start minimized 
             if (NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized)
-                WindowState = FormWindowState.Minimized;
+                WindowState = FormWindowState.Minimized;           
         }
         
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -234,16 +204,16 @@ namespace NVidia_Surround_Assistant
             if (hookInstalled)
             {
                 //Uninstall hooks
-                int exitValue = UnInstallAllHooks();
+                int exitValue = hookManager.UninstallHooks();
                 logger.Debug("Hook uninstall value: {0}", exitValue);
                 //Cancel background worker
-                hookMessageCatcher.CancelAsync();
+                processCreatedCatcher.CancelAsync();
                 _newMsgEvent.Set();
                 //Wait for signal that dowork has compeleted
                 _resetEvent.WaitOne();
             }
             //Close db connections
-            SQL_CloseConnection();
+            sqlInterface.SQL_CloseConnection();
 
             _newMsgEvent.Dispose();
             _resetEvent.Dispose();
@@ -257,6 +227,7 @@ namespace NVidia_Surround_Assistant
         protected override void WndProc(ref Message m)
         {
             Boolean handled = false;
+            MessageInfo msgTemp = new MessageInfo();
             m.Result = IntPtr.Zero;
 
             uint msg_id = (uint)m.Msg;
@@ -282,9 +253,13 @@ namespace NVidia_Surround_Assistant
         void Initialize()
         {            
             //Install the hooks
-            hookInstalled = InstallHooksAndRegisterWindows();
+            hookInstalled = hookManager.InstallHooksAndRegisterWindows();
+            if (!processCreatedCatcher.IsBusy)
+            {
+                processCreatedCatcher.RunWorkerAsync();
+            }
             //Open SQL conection to db
-            SQL_OpenConnection(binDir + "\\cfg\\nvsa_db.sqlite");
+            sqlInterface.SQL_OpenConnection(binDir + "\\cfg\\nvsa_db.sqlite");
             //Init and load the surround config
             
             //Load all applications into list
@@ -386,39 +361,20 @@ namespace NVidia_Surround_Assistant
 
         void LoadApplicationList()
         {
-            SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM ApplicationList");
-            if (reader != null)
+            List<ApplicationInfo> appList = sqlInterface.GetApplicationList();
+
+            foreach (ApplicationInfo app in appList)
             {
-                if (reader.VisibleFieldCount > 0)
-                {
-                    while (reader.Read())
-                    {
-                        try
-                        {
-                            RegisterApplication(new ApplicationInfo
-                            {
-                                Id = (int)reader.GetInt32(reader.GetOrdinal("id")),
-                                Enabled = (bool)reader["enabled"],
-                                DisplayName = (string)reader["DisplayName"],
-                                FullPath = (string)reader["fullPath"],
-                                Image = new Bitmap(ByteToImage((byte[])reader["image"]))
-                            });
-                        }
-                        catch (System.InvalidCastException ex)
-                        {
-                            logger.Debug("Invalid Cast: {0}", ex.Message);
-                        }
-                    }
-                }
-            }
+                RegisterApplication(app);
+            }           
         }
 
         void DeleteApplicationFromList(Thumb AppThumb)
         {
             if (MessageBox.Show("Delete from database?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                SQLiteParameter[] parameters = { new SQLiteParameter("@id", AppThumb.Id) };
-                if (SQL_ExecuteNonQuery("DELETE FROM ApplicationList WHERE id = @id", parameters) > 0)
+                
+                if (sqlInterface.DeleteApplication(AppThumb.Id))
                 {
                     //Remove data from lists    
                     logger.Info("Delete Application: {0} deleted from library", AppThumb.DisplayName);
@@ -428,8 +384,7 @@ namespace NVidia_Surround_Assistant
             }
             else
             {
-                SQLiteParameter[] parameters = { new SQLiteParameter("@Enabled", false), new SQLiteParameter("@id", AppThumb.Id) };
-                int rowsAffected = SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled WHERE id = @id", parameters);
+                sqlInterface.DisableApplication(AppThumb.Id);
                 AppThumb.AppEnabled = false;
                 logger.Info("Disable Application: {0} disabled", AppThumb.DisplayName);
             }
@@ -449,23 +404,11 @@ namespace NVidia_Surround_Assistant
            
             if (editWindow.ShowDialog() == DialogResult.OK)
             {
-                newApp = editWindow.AppInfo;                
-
-                SQLiteParameter[] parameters = { new SQLiteParameter("@enabled", newApp.Enabled), new SQLiteParameter("@DisplayName", newApp.DisplayName), new SQLiteParameter("@fullPath", newApp.FullPath), new SQLiteParameter("@image", ImageToByte(newApp.Image)) };
-                if (SQL_ExecuteNonQuery("INSERT INTO ApplicationList (enabled,  DisplayName, fullPath, image) values (@enabled, @DisplayName, @fullPath, @image)", parameters) > 0)
+                newApp = editWindow.AppInfo;
+                newApp.Id = sqlInterface.AddApplication(newApp);
+                if (newApp.Id >= 0)
                 {
-                    SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM ApplicationList WHERE DisplayName = @DisplayName", parameters);
-                    if (reader != null)
-                    {
-                        if (reader.VisibleFieldCount > 0)
-                        {
-                            while (reader.Read())
-                            {
-                                newApp.Id = (int)reader.GetInt32(reader.GetOrdinal("id"));
-                                RegisterApplication(newApp);
-                            }
-                        }
-                    }
+                    RegisterApplication(newApp);                
                 }
                 else
                 {
@@ -492,11 +435,11 @@ namespace NVidia_Surround_Assistant
             if(editWindow.ShowDialog() == DialogResult.OK)
             {
                 AppThumb.applicationInfo = editWindow.AppInfo;
-
-                SQLiteParameter[] parameters = { new SQLiteParameter("@id", AppThumb.Id), new SQLiteParameter("@enabled", AppThumb.Enabled),  new SQLiteParameter("@DisplayName", AppThumb.DisplayName), new SQLiteParameter("@fullPath", AppThumb.FullPath), new SQLiteParameter("@image", ImageToByte(AppThumb.Image)) };
-                int rowsAffected = SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled, DisplayName = @DisplayName, fullPath = @fullPath, image = @image WHERE id = @id", parameters);
-                logger.Info("Edit Application: {0} edited", AppThumb.DisplayName);
-            }            
+                if(sqlInterface.UpdateApplication(editWindow.AppInfo))
+                    logger.Info("Edit Application: {0} edited", AppThumb.DisplayName);
+                else
+                    logger.Error("Edit Application: {0} edited", AppThumb.DisplayName);
+            }       
         }
 
         public static void DelayAction(int millisecond, Action action)
@@ -537,148 +480,6 @@ namespace NVidia_Surround_Assistant
                 }
             }
         }
-        
-        public static byte[] ImageToByte(Image img)
-        {
-            if (img != null)
-            {
-                using (var stream = new MemoryStream())
-                {
-                    img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                    return stream.ToArray();
-                }
-            }
-            return null;
-        }
-
-        public static Image ByteToImage(byte[] byteImg)
-        {
-            if (byteImg != null)
-            {
-                using (var stream = new MemoryStream(byteImg))
-                {
-                    return Image.FromStream(stream);
-                }
-            }
-            return null;
-        }
-
-        #region HookFunctions
-        
-
-        private bool InstallHooksAndRegisterWindows()
-        {
-            bool cbtHookInstalled = false;
-            bool shellHookInstalled = false;
-            bool result = false;
-            HookId installHook;
-            //install the CBT hook
-            installHook = HookId.wh_cbt;
-            try
-            {
-                cbtHookInstalled = Convert.ToBoolean(InstallHook(hWnd, ref installHook));
-
-                if (cbtHookInstalled)
-                {
-                    //This is the CBT create window register from the HookDLL 
-                    registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HCBT_CREATEWND));
-                    logger.Info("CBT Hook installed succesfully");
-                }
-                else
-                {
-                    MessageBox.Show("Could not load HookDLL.dll. Application can not function without it.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    logger.Fatal("Could not load HookDLL.dll.");
-                }
-
-                //install the Shell hook
-                installHook = HookId.wh_shell;
-                shellHookInstalled = Convert.ToBoolean(InstallHook(hWnd, ref installHook));
-                if (shellHookInstalled)
-                {
-                    //This is the SHELL create window register from the HookDLL 
-                    registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HSHELL_WINDOWCREATED));
-                    logger.Info("Shell Hook installed succesfully");
-                }
-            }
-            catch (DllNotFoundException ex)
-            {
-                MessageBox.Show("Could not load HookDLL.dll. Application can not function without it.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Fatal("Hook DLL not found. {0}", ex.Message);
-            }
-            finally
-            {
-                if ((shellHookInstalled || cbtHookInstalled) && !hookMessageCatcher.IsBusy)
-                {
-                    hookMessageCatcher.RunWorkerAsync();
-                    result =  true;
-                }
-            }
-
-            return result;
-        }
-
-        private bool InstallHooks()
-        {
-            bool cbtHookInstalled = false;
-            bool shellHookInstalled = false;
-            bool result = false;
-            HookId installHook;
-            //install the CBT hook
-            installHook = HookId.wh_cbt;
-            try
-            {
-                cbtHookInstalled = Convert.ToBoolean(InstallHook(hWnd, ref installHook));
-                if (!cbtHookInstalled)
-                {
-                    MessageBox.Show("Could not load HookDLL.dll. Application can not function without it.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    logger.Fatal("Could not load HookDLL.dll.");
-                }
-
-                //install the Shell hook
-                installHook = HookId.wh_shell;
-                shellHookInstalled = Convert.ToBoolean(InstallHook(hWnd, ref installHook));                
-
-            }
-            catch (DllNotFoundException ex)
-            {
-                MessageBox.Show("Could not load HookDLL.dll. Application can not function without it.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Fatal("Hook DLL not found. {0}", ex.Message);
-            }
-            finally
-            {
-                if ((shellHookInstalled || cbtHookInstalled) && !hookMessageCatcher.IsBusy)
-                {
-                    try
-                    {
-                        hookMessageCatcher.RunWorkerAsync();
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        logger.Debug("Background Worker: {0}", ex.Message);
-                    }
-                    result = true;
-
-                }
-            }
-
-            return result;
-        }
-
-        RegisteredWindowInfo CreateWindowRegister(HookType type, String messageName)
-        {
-            RegisteredWindowInfo winRegTemp = new RegisteredWindowInfo();
-            CHANGEFILTERSTRUCT filterStatus = new CHANGEFILTERSTRUCT();
-            filterStatus.size = (uint)Marshal.SizeOf(filterStatus);
-            filterStatus.info = 0;
-
-            //Register the window wiht api call
-            winRegTemp.windowRegisterID = RegisterWindowMessage(messageName);
-            //Allow messages to be received form lower privileged processes
-            ChangeWindowMessageFilterEx(hWnd, winRegTemp.windowRegisterID, ChangeWindowMessageFilterExAction.Allow, ref filterStatus);
-            winRegTemp.type = type;
-
-            return winRegTemp;
-        }
 
         //Get the window name from the window handle
         private void GetWindowHandleInfo(IntPtr hWnd, ref MessageInfo msg)
@@ -698,9 +499,10 @@ namespace NVidia_Surround_Assistant
             msg.procInfo.processName = strBuilder.ToString();
         }
 
-        private void HookMessageCatcher_DoWork(object sender, DoWorkEventArgs e)
+        private void processCreatedCatcher_DoWork(object sender, DoWorkEventArgs e)
         {
-            MessageInfo message = new MessageInfo();
+            MessageInfo message;
+            logger.Debug("App Paused: {0}", GetLastError().ToString());
             BackgroundWorker thisWorker = sender as BackgroundWorker;
             while (!thisWorker.CancellationPending)
             {
@@ -720,8 +522,8 @@ namespace NVidia_Surround_Assistant
             //Signal to the destructor that do work has completed
             _resetEvent.Set();
         }
-        
-        private void HookMessageCatcher_ProgressChanged(object sender, ProgressChangedEventArgs e)
+
+        private void processCreatedCatcher_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             MessageInfo msg = (MessageInfo)e.UserState;
             if (msg == null) return;
@@ -741,32 +543,35 @@ namespace NVidia_Surround_Assistant
 
             //if the msg id does not match then process
             if ((index = runningApplicationsList.FindIndex(r => r.procID == msg.procInfo.procID)) == -1)
-            {                   
+            {
                 if (!surroundManager.SM_IsSurroundActive())
                 {
                     //Pause detected application until surround has been activated
                     if (DebugActiveProcess(msg.procInfo.procID) != 0)
                     {
-                        
                         logger.Debug("App Paused: {0}", GetLastError().ToString());
                         //Save current dispaly setup for re-apllication later
                         surroundManager.SM_SaveCurrentSetup();
                         if (!surroundManager.SM_ApplySetupFromMemory(true))
                         {
-                            if (MessageBox.Show("Would you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1,(MessageBoxOptions)0x40000) == DialogResult.No)
-                            {                                
+                            if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
+                            {
                                 if (DebugActiveProcessStop(msg.procInfo.procID) == 0)
                                 {
                                     logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
+                                    Thread.Sleep(100);
                                 }
 
                                 try
                                 {
                                     msg.procInfo.process = Process.GetProcessById((int)msg.procInfo.procID);
-                                    //TODO this needs to be fixed not sure why detected applications id is returning this application process
-                                    //msg.procInfo.process.Kill();
+                                    msg.procInfo.process.Kill();
                                 }
-                                catch(Win32Exception ex)
+                                catch (ArgumentException ex)
+                                {
+                                    logger.Error("Process kill error: {0}", ex.Message);
+                                }
+                                catch (Win32Exception ex)
                                 {
                                     logger.Error("Process kill error: {0}", ex.Message);
                                 }
@@ -793,7 +598,7 @@ namespace NVidia_Surround_Assistant
                             if (DebugActiveProcessStop(msg.procInfo.procID) == 0)
                             {
                                 logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
-                            }                            
+                            }
                         }
                     }
                     else
@@ -801,7 +606,7 @@ namespace NVidia_Surround_Assistant
                         logger.Debug("App Pause: {0}", GetLastError().ToString());
                     }
                 }
-                
+
             }
         }
 
@@ -823,155 +628,77 @@ namespace NVidia_Surround_Assistant
                 //If no other app is in list switch back to normal mode
                 if (runningApplicationsList.Count == 0)
                 {
-                    SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);                    
+                    SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
                 }
             }
         }
 
-        #endregion
-
-        #region SQLite
-        bool SQL_OpenConnection(string SQLiteDbName)
+        private void SetupLogger()
         {
-            try
-            {
-                if (m_dbConnection != null && m_dbConnection.State != ConnectionState.Closed)
-                    m_dbConnection.Close();
+            // Create configuration object 
+            LoggingConfiguration config = new LoggingConfiguration();            
+            NLog.Layouts.Layout layout = @"${level:uppercase=true} ${longdate} ${message}";
 
-                if (!File.Exists(SQLiteDbName))
-                {
-                    NVidia_Surround_Assistant.Properties.Settings.Default.SQLiteDbName = SQLiteDbName;
-                    //Create db and all relevant tables
-                    SQLiteConnection.CreateFile(SQLiteDbName);
-                    m_dbConnection = new SQLiteConnection($"Data Source={SQLiteDbName};Version=3;");
-                    m_dbConnection.Open();
-                    SQL_ExecuteNonQuery("CREATE TABLE ApplicationList (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, enabled BOOLEAN, DisplayName STRING (256), fullPath STRING (260) UNIQUE, image BLOB (20971520))");//20mb file
-                }
-                else
-                {
-                    m_dbConnection = new SQLiteConnection($"Data Source=\"{SQLiteDbName}\";Version=3;");
-                    m_dbConnection.Open();
-                }
-            }
-            catch (SQLiteException ex)
+            // Create targets and add them to the configuration 
+            ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget();
+            config.AddTarget("console", consoleTarget);
+
+            FileTarget fileTarget = new FileTarget();
+            config.AddTarget("logFile", fileTarget);
+
+            RichTextBoxTarget textBoxTarget = new RichTextBoxTarget();
+            config.AddTarget("textBox", textBoxTarget);
+
+            //Set target properties
+            consoleTarget.Layout = layout;            
+            fileTarget.Layout = layout;
+            textBoxTarget.Layout = layout;
+            
+            fileTarget.FileName = "logs/nvsa_log.txt";
+            textBoxTarget.AutoScroll = true;
+            textBoxTarget.ControlName = "textBoxLogs";
+            textBoxTarget.FormName = "MainForm";
+            textBoxTarget.AllowAccessoryFormCreation = true;
+            textBoxTarget.MaxLines = 500;
+
+            // Define rules
+            LogLevel logLevel;
+
+            switch (NVidia_Surround_Assistant.Properties.Settings.Default.LogLevel)
             {
-                logger.Debug("SQLite: SQL Open: {0}", ex.Message);
-            }
-            catch (System.DllNotFoundException ex)
-            {
-                MessageBox.Show("Could not open SQL database.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Fatal("Dll not Found: SQL Open: {0}", ex.Message);
-            }
-            catch(BadImageFormatException ex)
-            {
-                logger.Fatal("Wrong Dll: SQL Open: {0}", ex.Message);//TODO expand on the rror message
+                case 0:
+                    logLevel = LogLevel.Off;
+                    break;
+                case 1:
+                    logLevel = LogLevel.Debug;
+                    break;
+                case 2:
+                    logLevel = LogLevel.Info;
+                    break;
+                case 3:
+                    logLevel = LogLevel.Error;
+                    break;
+                case 4:
+                    logLevel = LogLevel.Fatal;
+                    break;
+                default:
+                    logLevel = LogLevel.Info;
+                    break;
             }
 
-            if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
-                return true;
-            else
-                return false;
+            
+
+            LoggingRule rule1 = new LoggingRule("*", logLevel, consoleTarget);
+            LoggingRule rule2 = new LoggingRule("*", logLevel, fileTarget);
+            LoggingRule rule3 = new LoggingRule("*", logLevel, textBoxTarget);
+            config.LoggingRules.Add(rule1);
+            config.LoggingRules.Add(rule2);
+            config.LoggingRules.Add(rule3);
+
+            // Activate the configuration
+            LogManager.Configuration = config;
         }
 
-        bool SQL_CloseConnection()
-        {
-            try
-            {
-                if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
-                {
-                    m_dbConnection.Close();
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                logger.Debug("SQL: Close: {0}", ex.Message);
-            }
-
-            if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Closed)
-                return true;
-            else
-                return false;
-        }
-
-        int SQL_ExecuteNonQuery(string sqlCommand)// need to make sqlliteparmaters list to pass into here. creat an overloaded function
-        {
-            int result = 0;
-            try
-            {
-                if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
-                {
-                    command = new SQLiteCommand(sqlCommand, m_dbConnection);
-                    result = command.ExecuteNonQuery();
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                logger.Debug("SQL: Execute No Query: {0}", ex.Message);
-                result = -1;
-            }
-            return result;
-        }
-
-        int SQL_ExecuteNonQuery(string sqlCommand, SQLiteParameter[] parameters)// need to make sqlliteparmaters list to pass into here. creat an overloaded function
-        {
-            int result = 0;
-            try
-            {
-                if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
-                {
-                    command = new SQLiteCommand(sqlCommand, m_dbConnection);
-                    command.Parameters.AddRange(parameters);
-                    result = command.ExecuteNonQuery();
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                logger.Debug("SQL: Execute No Query: {0}", ex.Message);
-                result = -1;
-            }
-            return result;
-        }
-
-        SQLiteDataReader SQL_ExecuteQuery(string sqlCommand)
-        {
-            SQLiteDataReader reader = null;
-            try
-            {
-                if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
-                {
-                    command = new SQLiteCommand(sqlCommand, m_dbConnection);
-                    reader = command.ExecuteReader();
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                logger.Debug("SQL: Execute: {0}", ex.Message);
-            }
-            return reader;
-        }
-
-        SQLiteDataReader SQL_ExecuteQuery(string sqlCommand, SQLiteParameter[] parameters)
-        {
-            SQLiteDataReader reader = null;
-            try
-            {
-                if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
-                {
-                    command = new SQLiteCommand(sqlCommand, m_dbConnection);
-                    command.Parameters.AddRange(parameters);
-                    reader = command.ExecuteReader();
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                logger.Debug("SQL: Execute: {0}", ex.Message);
-            }
-            return reader;
-        }
-
-        #endregion
-
-       
         #region controls
         private void PictureBoxAddGame_Click(object sender, EventArgs e)
         {
@@ -1001,7 +728,6 @@ namespace NVidia_Surround_Assistant
         {
             if (surroundManager.SM_IsSurroundActive())
             {
-                //TODO minimize scrren and save window positions here as well
                 surroundManager.SM_ApplySetupFromMemory(false);
             }
             else

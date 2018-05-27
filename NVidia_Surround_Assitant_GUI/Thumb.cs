@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace NVidia_Surround_Assistant
 {
@@ -85,9 +81,16 @@ namespace NVidia_Surround_Assistant
         {
             if (appInfo.Image != null)
             {
-                pbGameBoxCover.Image = MergeImages(appInfo.Image,
-                    (appInfo.Enabled ? NVidia_Surround_Assistant.Properties.Resources.success_green_25x25
-                    : NVidia_Surround_Assistant.Properties.Resources.success_red_25x25));
+                //if ((appInfo.Image.Size.Height < pbGameBoxCover.Height) && (appInfo.Image.Size.Width < pbGameBoxCover.Width))
+                //{
+                //    pbGameBoxCover.SizeMode = PictureBoxSizeMode.CenterImage;
+                //}
+                //else
+                {
+                    pbGameBoxCover.Image = MergeImages(appInfo.Image,
+                        (appInfo.Enabled ? NVidia_Surround_Assistant.Properties.Resources.success_green_25x25
+                        : NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_25x25));
+                }
             }
             else
                 pbGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.close_50x50;
@@ -97,12 +100,28 @@ namespace NVidia_Surround_Assistant
 
         private Image MergeImages(Image cover, Image tickMark)
         {
+            Image target;
 
-            //TODO complete function
-            //Rectangle rect = new Rectangle(new Point(0,0), cover.Size);
+            if ((cover.Height < pbGameBoxCover.Height) && (cover.Width < pbGameBoxCover.Width))
+            {
+                target = new Bitmap(pbGameBoxCover.Width, pbGameBoxCover.Height, PixelFormat.Format32bppArgb);
+                var graphics = Graphics.FromImage(target);
+                graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
+                                
+                graphics.DrawImage(cover, (int)Math.Floor((pbGameBoxCover.Width - cover.Width) / 2.0), (int)Math.Floor((pbGameBoxCover.Height - cover.Height) / 2.0));
+                graphics.DrawImage(tickMark, 5, 5, 25, 25);
+            }
+            else
+            {
+                target = new Bitmap(cover.Width, cover.Height, PixelFormat.Format32bppArgb);
+                var graphics = Graphics.FromImage(target);
+                graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
 
-
-            return cover;
+                graphics.DrawImage(cover, 0, 0);
+                graphics.DrawImage(tickMark, 5, 5, 25, 25);
+            }
+                        
+            return target;
         }
 
         private void lbGameName_ClientSizeChanged(object sender, EventArgs e)

@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.hookMessageCatcher = new System.ComponentModel.BackgroundWorker();
+            this.processCreatedCatcher = new System.ComponentModel.BackgroundWorker();
             this.saveSurroundFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.systemTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -54,12 +54,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).BeginInit();
             this.SuspendLayout();
             // 
-            // hookMessageCatcher
+            // processCreatedCatcher
             // 
-            this.hookMessageCatcher.WorkerReportsProgress = true;
-            this.hookMessageCatcher.WorkerSupportsCancellation = true;
-            this.hookMessageCatcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.HookMessageCatcher_DoWork);
-            this.hookMessageCatcher.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.HookMessageCatcher_ProgressChanged);
+            this.processCreatedCatcher.WorkerReportsProgress = true;
+            this.processCreatedCatcher.WorkerSupportsCancellation = true;
+            this.processCreatedCatcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.processCreatedCatcher_DoWork);
+            this.processCreatedCatcher.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.processCreatedCatcher_ProgressChanged);
             // 
             // saveSurroundFileDialog
             // 
@@ -178,10 +178,10 @@
             this.textBoxLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxLogs.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.textBoxLogs.Location = new System.Drawing.Point(12, 510);
-            this.textBoxLogs.Multiline = true;
             this.textBoxLogs.Name = "textBoxLogs";
             this.textBoxLogs.Size = new System.Drawing.Size(1086, 141);
             this.textBoxLogs.TabIndex = 46;
+            this.textBoxLogs.Text = "";
             // 
             // pictureBoxLogs
             // 
@@ -217,12 +217,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.ComponentModel.BackgroundWorker hookMessageCatcher;
+        private System.ComponentModel.BackgroundWorker processCreatedCatcher;
         private System.Windows.Forms.SaveFileDialog saveSurroundFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.PictureBox pictureBoxAddGame;

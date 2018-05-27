@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.SQLite;
 using NLog;
 using Display_Manager;
 using System.Windows.Forms;
@@ -7,7 +6,7 @@ using System.IO;
 using System.Threading;
 
 namespace NVidia_Surround_Assistant
-{
+{    
     public class SurroundManager
     {
         bool surroundSetupLoaded = false;

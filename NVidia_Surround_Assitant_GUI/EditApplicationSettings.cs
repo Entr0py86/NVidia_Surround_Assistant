@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
-using System.Xml;
 using NLog;
-using System.Xml.Serialization;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace NVidia_Surround_Assistant
 {
-    //TODO cancel search and restart if search is pressed while searching
     public partial class EditApplicationSettings : Form
     {
         //Logger
@@ -121,13 +115,9 @@ namespace NVidia_Surround_Assistant
         #region APIinterface
         private async void GetGameList()
         {
+            pictureBoxSearch.Enabled = false;
             ToggleWait(false);
             await IGDB_GetGameList();
-            for (int i = 0; i < 1000; i++)
-            {
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(1);
-            }
 
             comboBoxGameList.SuspendLayout();
             comboBoxGameList.SelectedIndexChanged -= comboBoxGameList_SelectedIndexChanged;
@@ -141,6 +131,7 @@ namespace NVidia_Surround_Assistant
                 UpdateDisplay((ApplicationInfo)comboBoxGameList.SelectedItem);
             }            
             ToggleWait(true);
+            pictureBoxSearch.Enabled = true;
         }
         #endregion
 
@@ -177,8 +168,10 @@ namespace NVidia_Surround_Assistant
                         {
                             cover = new Bitmap(Bitmap.FromStream(stream));
                             //compress image if required
-                            if (CheckImageSize(cover, 20971520))
-                                return cover;
+                            if (CheckImageSizeBytes(cover, 20971520))
+                            {
+                                return ResizeImage(cover, pictureBoxGameBoxCover.ClientSize.Width, pictureBoxGameBoxCover.ClientSize.Height);
+                            }
                             else
                                 return null;
                         }
@@ -238,7 +231,39 @@ namespace NVidia_Surround_Assistant
 
         #endregion
 
-        private bool CheckImageSize(Bitmap img, long sizeRequired)
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        private bool CheckImageSizeBytes(Bitmap img, long sizeRequired)
         {
             using (var mss = new MemoryStream())
             {
@@ -282,7 +307,7 @@ namespace NVidia_Surround_Assistant
         }
 
         private void pictureBoxSearch_Click(object sender, EventArgs e)
-        {
+        {            
             GetGameList();
         }
 
@@ -317,7 +342,7 @@ namespace NVidia_Surround_Assistant
                 {
                     // Open document 
                     Image newImage = Image.FromFile(openFileDialog1.FileName);
-                    if (CheckImageSize((Bitmap)newImage, 20971520))
+                    if (CheckImageSizeBytes((Bitmap)newImage, 20971520))
                         pictureBoxGameBoxCover.Image = newImage;
                     else
                         MessageBox.Show("Image is to large for database. Limit is 20MB.", "Image Size Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

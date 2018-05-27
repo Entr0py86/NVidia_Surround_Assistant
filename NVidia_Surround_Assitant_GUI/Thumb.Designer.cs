@@ -79,7 +79,6 @@
             this.pbGameBoxCover.Name = "pbGameBoxCover";
             this.pbGameBoxCover.Padding = new System.Windows.Forms.Padding(2);
             this.pbGameBoxCover.Size = new System.Drawing.Size(227, 320);
-            this.pbGameBoxCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbGameBoxCover.TabIndex = 0;
             this.pbGameBoxCover.TabStop = false;
             // 
