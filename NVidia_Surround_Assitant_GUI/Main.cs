@@ -259,8 +259,7 @@ namespace NVidia_Surround_Assistant
                 processCreatedCatcher.RunWorkerAsync();
             }
             //Open SQL conection to db
-            sqlInterface.SQL_OpenConnection(binDir + "\\cfg\\nvsa_db.sqlite");
-            //Init and load the surround config
+            sqlInterface.SQL_OpenConnection(binDir + "\\cfg\\nvsa_db.sqlite");            
             
             //Load all applications into list
             LoadApplicationList();           
@@ -270,86 +269,78 @@ namespace NVidia_Surround_Assistant
         {
             string SurroundSetupFileName = binDir + "\\cfg\\Default Surround Setup.nvsa";
             string SetupFileName = binDir + "\\cfg\\Default Setup.nvsa";
-            bool skipSurround = false;
-            bool skipDefault = false;
-            bool nonSurroundSaved = false;
-                
-            //Check if surround setup file already exists
-            if (File.Exists(SurroundSetupFileName))
-            {
-                if (MessageBox.Show("Default Surround Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    File.Delete(SurroundSetupFileName);
-                else
-                    skipSurround = true;
-            }
+            bool nonSurroundSaved = false;           
 
             //Check if surround setup file already exists
             if (File.Exists(SetupFileName))
             {
                 if (MessageBox.Show("Default Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
                     File.Delete(SetupFileName);
-                else
-                    skipDefault = true;
-            }
-
-            if (!skipDefault)
-            {
-                if (surroundManager.SM_IsSurroundActive())
-                {                                        
-                    MessageBox.Show("Please disable NVidia Surround via NVidia control panel now.\n\nWhen surround is deactivated and setup to your liking, press OK", "Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                if (!surroundManager.SM_IsSurroundActive())
-                {
-                    if (MessageBox.Show("Surround deactivated.\n\nSave current default setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    if (surroundManager.SM_IsSurroundActive())
                     {
-                        //Save memory to file
-                        surroundManager.SM_SaveCurrentSetup(SetupFileName);                        
+                        MessageBox.Show("Please disable NVidia Surround via NVidia control panel now.\n\nWhen surround is deactivated and setup to your liking, press OK", "Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else
-                    {
-                        MessageBox.Show("Default setup not saved.\nPlease re-run setup for proper operation of application.");
-                        return false;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Surround not deactivated, setup not saved.\nPlease re-run setup.");
-                    return false;
-                }
-            }
 
-            if (!skipSurround)
-            {
-                if (!surroundManager.SM_IsSurroundActive())
-                {
-                    //Save current dispaly setup for re-apllication later
-                    surroundManager.SM_SaveCurrentSetup();
-                    surroundManager.SM_SaveWindowPositions();
-                    nonSurroundSaved = true;
-                    MessageBox.Show("Please setup and enable NVidia Surround via NVidia control panel now.\n\nWhen surround is active and setup to your liking, press OK", "Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                if (surroundManager.SM_IsSurroundActive())
-                {
-                    if (MessageBox.Show("Surround active.\n\nSave current surround setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    if (!surroundManager.SM_IsSurroundActive())
                     {
-                        //Save memory to file
-                        surroundManager.SM_SaveCurrentSetup(SurroundSetupFileName);
-                        if (nonSurroundSaved)
+                        if (MessageBox.Show("Surround deactivated.\n\nSave current default setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                         {
-                            surroundManager.SM_ApplySetupFromMemory(false);
-                            surroundManager.SM_ApplyWindowPositions();
+                            //Save memory to file
+                            surroundManager.SM_SaveCurrentSetup(SetupFileName);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Default setup not saved.\n.");
+                            return false;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Default surround setup not saved.\nPlease re-run setup for proper operation of application.");
+                        MessageBox.Show("Surround not deactivated, setup not saved.\nPlease re-run setup.");
                         return false;
                     }
                 }
-                else
+            }
+
+            //Check if surround setup file already exists
+            if (File.Exists(SurroundSetupFileName))
+            {
+                if (MessageBox.Show("Default Surround Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
-                    MessageBox.Show("Surround not active, setup not saved.\nPlease re-run setup.");
-                    return false;
+                    File.Delete(SurroundSetupFileName);
+
+                    if (!surroundManager.SM_IsSurroundActive())
+                    {
+                        //Save current dispaly setup for re-apllication later
+                        surroundManager.SM_SaveCurrentSetup();
+                        surroundManager.SM_SaveWindowPositions();
+                        nonSurroundSaved = true;
+                        MessageBox.Show("Please setup and enable NVidia Surround via NVidia control panel now.\n\nWhen surround is active and setup to your liking, press OK", "Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    if (surroundManager.SM_IsSurroundActive())
+                    {
+                        if (MessageBox.Show("Surround active.\n\nSave current surround setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                        {
+                            //Save memory to file
+                            surroundManager.SM_SaveCurrentSetup(SurroundSetupFileName);
+                            if (nonSurroundSaved)
+                            {
+                                surroundManager.SM_ApplySetupFromMemory(false);
+                                surroundManager.SM_ApplyWindowPositions();
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Default surround setup not saved.\n");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Surround not active, setup not saved.\nPlease re-run setup.");
+                        return false;
+                    }
                 }
             }
 
@@ -422,6 +413,7 @@ namespace NVidia_Surround_Assistant
             Thumb newThumb = new Thumb(App, logger);
             newThumb.removeApplication += DeleteApplicationFromList;
             newThumb.editApplication += EditApplication;
+            newThumb.silentEditApplication += SilentEditApplication;
 
             //Add data to lists    
             applicationDetectList.Add(App.FullPath);
@@ -430,16 +422,28 @@ namespace NVidia_Surround_Assistant
 
         void EditApplication(Thumb AppThumb)
         {
-            EditApplicationSettings editWindow = new EditApplicationSettings(AppThumb.applicationInfo, false);
+            EditApplicationSettings editWindow = new EditApplicationSettings(AppThumb.ApplicationInfo, false);
             
             if(editWindow.ShowDialog() == DialogResult.OK)
             {
-                AppThumb.applicationInfo = editWindow.AppInfo;
+                AppThumb.ApplicationInfo = editWindow.AppInfo;
                 if(sqlInterface.UpdateApplication(editWindow.AppInfo))
                     logger.Info("Edit Application: {0} edited", AppThumb.DisplayName);
                 else
                     logger.Error("Edit Application: {0} edited", AppThumb.DisplayName);
             }       
+        }
+
+        void SilentEditApplication(Thumb AppThumb)
+        {
+            if (AppThumb.AppEnabled)
+                AppThumb.AppEnabled = false;
+            else
+                AppThumb.AppEnabled = true;
+            if (sqlInterface.UpdateApplication(AppThumb.ApplicationInfo))
+                logger.Info("Edit Application: {0} edited", AppThumb.DisplayName);
+            else
+                logger.Error("Edit Application: {0} edited", AppThumb.DisplayName);
         }
 
         public static void DelayAction(int millisecond, Action action)

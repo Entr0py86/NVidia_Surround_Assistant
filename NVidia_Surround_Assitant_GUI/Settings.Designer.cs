@@ -180,7 +180,7 @@
             // 
             // pictureBoxSaveWindowPositions_No
             // 
-            this.pictureBoxSaveWindowPositions_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_red_25x25;
+            this.pictureBoxSaveWindowPositions_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_25x25;
             this.pictureBoxSaveWindowPositions_No.Location = new System.Drawing.Point(216, 105);
             this.pictureBoxSaveWindowPositions_No.Name = "pictureBoxSaveWindowPositions_No";
             this.pictureBoxSaveWindowPositions_No.Size = new System.Drawing.Size(25, 25);
@@ -204,7 +204,7 @@
             // 
             // pictureBoxShowLogs_No
             // 
-            this.pictureBoxShowLogs_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_red_25x25;
+            this.pictureBoxShowLogs_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_25x25;
             this.pictureBoxShowLogs_No.Location = new System.Drawing.Point(216, 136);
             this.pictureBoxShowLogs_No.Name = "pictureBoxShowLogs_No";
             this.pictureBoxShowLogs_No.Size = new System.Drawing.Size(25, 25);
@@ -284,7 +284,7 @@
             // 
             // pictureBoxStartOnStartup_No
             // 
-            this.pictureBoxStartOnStartup_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_red_25x25;
+            this.pictureBoxStartOnStartup_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_25x25;
             this.pictureBoxStartOnStartup_No.Location = new System.Drawing.Point(216, 12);
             this.pictureBoxStartOnStartup_No.Name = "pictureBoxStartOnStartup_No";
             this.pictureBoxStartOnStartup_No.Size = new System.Drawing.Size(25, 25);
@@ -314,7 +314,7 @@
             // 
             // pictureBoxCloseOnClose
             // 
-            this.pictureBoxCloseOnClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_red_25x25;
+            this.pictureBoxCloseOnClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_25x25;
             this.pictureBoxCloseOnClose.Location = new System.Drawing.Point(216, 74);
             this.pictureBoxCloseOnClose.Name = "pictureBoxCloseOnClose";
             this.pictureBoxCloseOnClose.Size = new System.Drawing.Size(25, 25);
@@ -344,7 +344,7 @@
             // 
             // pictureBoxStartMax
             // 
-            this.pictureBoxStartMax.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_red_25x25;
+            this.pictureBoxStartMax.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_25x25;
             this.pictureBoxStartMax.Location = new System.Drawing.Point(216, 43);
             this.pictureBoxStartMax.Name = "pictureBoxStartMax";
             this.pictureBoxStartMax.Size = new System.Drawing.Size(25, 25);
@@ -406,7 +406,6 @@
             this.Controls.Add(this.pictureBoxLoadConfig);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.pictureBoxSaveConfig);
-            this.Controls.Add(this.pictureBoxStartOnStartup_No);
             this.Controls.Add(this.pictureBoxStartOnStartup_Yes);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pictureBoxSaveWindowPositions_Yes);
@@ -421,9 +420,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBoxCancel);
             this.Controls.Add(this.pictureBoxApply);
-            this.Controls.Add(this.pictureBoxStartMax);
             this.Controls.Add(this.pictureBoxStartMin);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.pictureBoxStartOnStartup_No);
+            this.Controls.Add(this.pictureBoxStartMax);
             this.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Settings";

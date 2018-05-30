@@ -170,7 +170,7 @@ namespace NVidia_Surround_Assistant
                 return false;
         }
 
-        int SQL_ExecuteNonQuery(string sqlCommand)
+        private int SQL_ExecuteNonQuery(string sqlCommand)
         {
             int result = 0;
             try
@@ -189,7 +189,7 @@ namespace NVidia_Surround_Assistant
             return result;
         }
 
-        int SQL_ExecuteNonQuery(string sqlCommand, SQLiteParameter[] parameters)
+        private int SQL_ExecuteNonQuery(string sqlCommand, SQLiteParameter[] parameters)
         {
             int result = 0;
             try
@@ -209,7 +209,7 @@ namespace NVidia_Surround_Assistant
             return result;
         }
 
-        SQLiteDataReader SQL_ExecuteQuery(string sqlCommand)
+        private SQLiteDataReader SQL_ExecuteQuery(string sqlCommand)
         {
             SQLiteDataReader reader = null;
             try
@@ -227,7 +227,7 @@ namespace NVidia_Surround_Assistant
             return reader;
         }
 
-        SQLiteDataReader SQL_ExecuteQuery(string sqlCommand, SQLiteParameter[] parameters)
+        private SQLiteDataReader SQL_ExecuteQuery(string sqlCommand, SQLiteParameter[] parameters)
         {
             SQLiteDataReader reader = null;
             try
@@ -246,7 +246,7 @@ namespace NVidia_Surround_Assistant
             return reader;
         }
 
-        public static byte[] ImageToByte(Image img)
+        private static byte[] ImageToByte(Image img)
         {
             if (img != null)
             {
@@ -259,7 +259,7 @@ namespace NVidia_Surround_Assistant
             return null;
         }
 
-        public static Image ByteToImage(byte[] byteImg)
+        private static Image ByteToImage(byte[] byteImg)
         {
             if (byteImg != null)
             {

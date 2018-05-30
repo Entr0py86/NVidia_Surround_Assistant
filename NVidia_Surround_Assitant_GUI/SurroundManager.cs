@@ -18,7 +18,7 @@ namespace NVidia_Surround_Assistant
         SaveFileDialog saveSurroundFileDialog = new SaveFileDialog();        
         
         // openFileDialog
-        OpenFileDialog openFileDialog = new OpenFileDialog();        
+        OpenFileDialog openFileDialog = new OpenFileDialog();
 
         public SurroundManager()
         {

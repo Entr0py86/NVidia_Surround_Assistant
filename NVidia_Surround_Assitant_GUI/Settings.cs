@@ -383,6 +383,7 @@ namespace NVidia_Surround_Assistant
                     SetNlogLogLevel(LogLevel.Fatal);
                     break;
             }
+            configLogLevel = comboBoxLogLevel.SelectedIndex;
         }
     }
 }

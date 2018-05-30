@@ -59,7 +59,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBoxEdit_Click);
             // 
             // pictureBoxDelete
             // 
@@ -81,6 +81,8 @@
             this.pbGameBoxCover.Size = new System.Drawing.Size(227, 320);
             this.pbGameBoxCover.TabIndex = 0;
             this.pbGameBoxCover.TabStop = false;
+            this.pbGameBoxCover.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbGameBoxCover_MouseClick);
+            this.pbGameBoxCover.MouseHover += new System.EventHandler(this.pbGameBoxCover_MouseHover);
             // 
             // Thumb
             // 

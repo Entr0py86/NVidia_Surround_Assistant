@@ -14,7 +14,8 @@ namespace NVidia_Surround_Assistant
     public partial class Thumb : UserControl
     {
         public DelegateEditApplication editApplication;
-        public DelegateRemoveApplication removeApplication;
+        public DelegateEditApplication silentEditApplication;
+        public DelegateRemoveApplication removeApplication;        
 
         private ApplicationInfo appInfo;
 
@@ -67,7 +68,7 @@ namespace NVidia_Surround_Assistant
             set { appInfo.Image = value; }
         }
 
-        public ApplicationInfo applicationInfo
+        public ApplicationInfo ApplicationInfo
         {
             get { return appInfo; }
             set
@@ -77,7 +78,7 @@ namespace NVidia_Surround_Assistant
             }
         }
 
-        public void UpdateThumb()
+        private void UpdateThumb()
         {
             if (appInfo.Image != null)
             {
@@ -148,10 +149,38 @@ namespace NVidia_Surround_Assistant
                 removeApplication(this);
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void pictureBoxEdit_Click(object sender, EventArgs e)
         {
             if (editApplication != null)
                 editApplication(this);
+        }
+
+        private void pbGameBoxCover_MouseClick(object sender, MouseEventArgs e)
+        {
+            if((e.Location.X < 35) && (e.Location.X > pbGameBoxCover.Location.X)
+                && (e.Location.Y < 35) && (e.Location.Y > pbGameBoxCover.Location.Y))
+            {
+                if(silentEditApplication != null)
+                    silentEditApplication(this);
+                UpdateThumb();
+            }
+        }
+
+        private void pbGameBoxCover_MouseHover(object sender, EventArgs e)
+        {
+            ToolTip toolTip = new ToolTip();
+            Point mousePos = pbGameBoxCover.PointToClient(Control.MousePosition);            
+            String toolMsg;
+
+            if ((mousePos.X < 35) && (mousePos.X > pbGameBoxCover.Location.X)
+                && (mousePos.Y < 35) && (mousePos.Y > pbGameBoxCover.Location.Y))
+            {
+                if (appInfo.Enabled)
+                    toolMsg = "Auto Surround Enabled";
+                else
+                    toolMsg = "Auto Surround Disabled";
+                toolTip.Show(toolMsg, this, mousePos, 1000);
+            }
         }
     }
 }
