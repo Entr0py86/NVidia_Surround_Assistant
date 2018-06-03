@@ -83,6 +83,8 @@ namespace NVidia_Surround_Assistant
         HashSet<String> applicationDetectList = new HashSet<string>();
         //Hash list use to store names of applications that should trigger surround mode. Hash list used for speed of search
         List<ProcessInfo> runningApplicationsList = new List<ProcessInfo>();
+        //List off all applications
+        List<ApplicationInfo> applicationList = new List<ApplicationInfo>();
 
         //Logger
         Logger logger;        
@@ -109,7 +111,7 @@ namespace NVidia_Surround_Assistant
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            SetupLogger();
+            LoggerSetup();
             logger = LogManager.GetLogger("nvsaLogger");
             logger.Debug("Application Started {0}", Application.ExecutablePath);
 
@@ -150,7 +152,7 @@ namespace NVidia_Surround_Assistant
             logger.Debug("Directories created/checked");
 
             //run setup if file does not exist
-            if (!File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName) || !File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.DefaultSetupFileName))
+            if (!File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName) || !File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.DefaultSetupFileName) || !surroundManager.surroundSetupLoaded)
                 SaveSetupFiles();
 
             //Initialize application
@@ -267,94 +269,80 @@ namespace NVidia_Surround_Assistant
 
         public bool SaveSetupFiles()
         {
-            string SurroundSetupFileName = binDir + "\\cfg\\Default Surround Setup.nvsa";
-            string SetupFileName = binDir + "\\cfg\\Default Setup.nvsa";
-            bool nonSurroundSaved = false;           
+            string SurroundSetupFileName = binDir + "\\cfg\\Default Surround Grid.nvsa";
+            string SetupFileName = binDir + "\\cfg\\Default Grid.nvsa";            
+            bool skipSurround = false;
+            bool skipDefault = false;
 
-            //Check if surround setup file already exists
-            if (File.Exists(SetupFileName))
-            {
-                if (MessageBox.Show("Default Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                {
-                    File.Delete(SetupFileName);
-                    if (surroundManager.SM_IsSurroundActive())
-                    {
-                        MessageBox.Show("Please disable NVidia Surround via NVidia control panel now.\n\nWhen surround is deactivated and setup to your liking, press OK", "Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-
-                    if (!surroundManager.SM_IsSurroundActive())
-                    {
-                        if (MessageBox.Show("Surround deactivated.\n\nSave current default setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                        {
-                            //Save memory to file
-                            surroundManager.SM_SaveCurrentSetup(SetupFileName);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Default setup not saved.\n.");
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Surround not deactivated, setup not saved.\nPlease re-run setup.");
-                        return false;
-                    }
-                }
-            }
+            //Save current dispaly setup for re-apllication later
+            surroundManager.SM_SaveCurrentSetup();
+            surroundManager.SM_SaveWindowPositions();
 
             //Check if surround setup file already exists
             if (File.Exists(SurroundSetupFileName))
             {
                 if (MessageBox.Show("Default Surround Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                {
                     File.Delete(SurroundSetupFileName);
+                else
+                    skipSurround = true;
+            }
 
-                    if (!surroundManager.SM_IsSurroundActive())
-                    {
-                        //Save current dispaly setup for re-apllication later
-                        surroundManager.SM_SaveCurrentSetup();
-                        surroundManager.SM_SaveWindowPositions();
-                        nonSurroundSaved = true;
-                        MessageBox.Show("Please setup and enable NVidia Surround via NVidia control panel now.\n\nWhen surround is active and setup to your liking, press OK", "Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+            //Check if surround setup file already exists
+            if (File.Exists(SetupFileName))
+            {
+                if (MessageBox.Show("Default Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    File.Delete(SetupFileName);
+                else
+                    skipDefault = true;
+            }
+
+            if (!skipDefault)
+            {
+                if (MessageBox.Show("Save current display setup as default?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
                     if (surroundManager.SM_IsSurroundActive())
                     {
-                        if (MessageBox.Show("Surround active.\n\nSave current surround setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                        {
-                            //Save memory to file
-                            surroundManager.SM_SaveCurrentSetup(SurroundSetupFileName);
-                            if (nonSurroundSaved)
-                            {
-                                surroundManager.SM_ApplySetupFromMemory(false);
-                                surroundManager.SM_ApplyWindowPositions();
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Default surround setup not saved.\n");
-                            return false;
-                        }
+                        MessageBox.Show("NVidia Surround mode currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(keyboard shortcuts) now.\n\nWhen display is setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);                        
                     }
-                    else
-                    {
-                        MessageBox.Show("Surround not active, setup not saved.\nPlease re-run setup.");
-                        return false;
-                    }
+                    //Save memory to file
+                    surroundManager.SM_SaveCurrentSetup(SetupFileName);
+                }
+                else
+                {
+                    MessageBox.Show("Default setup not saved. Certain functionality will not work until application is restarted");
+                    return false;
                 }
             }
+
+            if (!skipSurround)
+            {
+                if (MessageBox.Show("Save current display setup as surround setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    //Save memory to file
+                    surroundManager.SM_SaveCurrentSetup(SurroundSetupFileName);
+                }
+                else
+                {
+                    MessageBox.Show("Default surround setup not saved.\nPlease re-run setup for proper operation of application.");
+                    return false;
+                }
+            }            
+            //Apply saved config. Display manager will not switch if there is no difference to grid setup
+            surroundManager.SM_ApplySetupFromMemory(false);
+            surroundManager.SM_ApplyWindowPositions();
 
             NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName = SurroundSetupFileName;
             NVidia_Surround_Assistant.Properties.Settings.Default.DefaultSetupFileName = SetupFileName;
 
+            surroundManager.SM_ReadDefaultSurroundConfig();
             return true;
         }       
 
         void LoadApplicationList()
         {
-            List<ApplicationInfo> appList = sqlInterface.GetApplicationList();
+            applicationList = sqlInterface.GetApplicationList();
 
-            foreach (ApplicationInfo app in appList)
+            foreach (ApplicationInfo app in applicationList)
             {
                 RegisterApplication(app);
             }           
@@ -370,7 +358,8 @@ namespace NVidia_Surround_Assistant
                     //Remove data from lists    
                     logger.Info("Delete Application: {0} deleted from library", AppThumb.DisplayName);
                     applicationDetectList.Remove(AppThumb.FullPath);
-                    thumbGridView.RemoveThumb(AppThumb);                    
+                    thumbGridView.RemoveThumb(AppThumb);
+                    applicationList.Remove(AppThumb.ApplicationInfo);
                 }
             }
             else
@@ -418,6 +407,16 @@ namespace NVidia_Surround_Assistant
             //Add data to lists    
             applicationDetectList.Add(App.FullPath);
             thumbGridView.AddThumb(newThumb);
+        }
+
+        ApplicationInfo GetApplicationFromList(String processName)
+        {
+            foreach(ApplicationInfo app in applicationList)
+            {
+                if (app.FullPath.Equals(processName))
+                    return app;
+            }
+            return null;
         }
 
         void EditApplication(Thumb AppThumb)
@@ -533,7 +532,7 @@ namespace NVidia_Surround_Assistant
             if (msg == null) return;
 
             GetWindowHandleInfo(msg.WParam, ref msg);
-            logger.Debug("Hook captured: {0}", msg.procInfo.processName);
+            logger.Debug("Hook captured: {0} Hook Type: {1}", msg.procInfo.processName, msg.regWndInfo.type.ToString());
             if (applicationDetectList.Contains(msg.procInfo.processName))
             {
                 ProcessCreatedWindow(msg);
@@ -543,74 +542,143 @@ namespace NVidia_Surround_Assistant
         void ProcessCreatedWindow(MessageInfo msg)
         {
             int index = 0;
+            ApplicationInfo app;
             //Program suspension has mutliple methods. I chose the one that seemd to always worked and was simple. Read this post https://stackoverflow.com/questions/11010165/how-to-suspend-resume-a-process-in-windows
 
             //if the msg id does not match then process
             if ((index = runningApplicationsList.FindIndex(r => r.procID == msg.procInfo.procID)) == -1)
             {
-                if (!surroundManager.SM_IsSurroundActive())
+                app = GetApplicationFromList(msg.procInfo.processName);
+                if (app == null)
                 {
-                    //Pause detected application until surround has been activated
-                    if (DebugActiveProcess(msg.procInfo.procID) != 0)
+                    if (!surroundManager.SM_IsSurroundActive())
                     {
-                        logger.Debug("App Paused: {0}", GetLastError().ToString());
-                        //Save current dispaly setup for re-apllication later
-                        surroundManager.SM_SaveCurrentSetup();
-                        if (!surroundManager.SM_ApplySetupFromMemory(true))
+                        //Pause detected application until surround has been activated
+                        if (DebugActiveProcess(msg.procInfo.procID) != 0)
                         {
-                            if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
+                            logger.Debug("App Paused: {0}", GetLastError().ToString());
+                            //Save current dispaly setup for re-apllication later
+                            surroundManager.SM_SaveCurrentSetup();
+                            if (!surroundManager.SM_ApplySetupFromMemory(true))
                             {
+                                if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
+                                {
+                                    if (DebugActiveProcessStop(msg.procInfo.procID) == 0)
+                                    {
+                                        logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
+                                        Thread.Sleep(100);
+                                    }
+
+                                    try
+                                    {
+                                        msg.procInfo.process = Process.GetProcessById((int)msg.procInfo.procID);
+                                        msg.procInfo.process.Kill();
+                                    }
+                                    catch (ArgumentException ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                    catch (Win32Exception ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                    catch (NotSupportedException ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                    catch (InvalidOperationException ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                logger.Info("Application Detected: {0}", msg.procInfo.processName);
+                                runningApplicationsList.Add(msg.procInfo);
+
+                                //Attach to OnExited event of Window
+                                msg.procInfo.process = Process.GetProcessById((int)msg.procInfo.procID);
+                                msg.procInfo.process.EnableRaisingEvents = true;
+                                msg.procInfo.process.Exited += (sender, e) => ListedProcess_Exited(sender, e);
+
                                 if (DebugActiveProcessStop(msg.procInfo.procID) == 0)
                                 {
                                     logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
-                                    Thread.Sleep(100);
-                                }
-
-                                try
-                                {
-                                    msg.procInfo.process = Process.GetProcessById((int)msg.procInfo.procID);
-                                    msg.procInfo.process.Kill();
-                                }
-                                catch (ArgumentException ex)
-                                {
-                                    logger.Error("Process kill error: {0}", ex.Message);
-                                }
-                                catch (Win32Exception ex)
-                                {
-                                    logger.Error("Process kill error: {0}", ex.Message);
-                                }
-                                catch (NotSupportedException ex)
-                                {
-                                    logger.Error("Process kill error: {0}", ex.Message);
-                                }
-                                catch (InvalidOperationException ex)
-                                {
-                                    logger.Error("Process kill error: {0}", ex.Message);
                                 }
                             }
                         }
                         else
                         {
-                            logger.Info("Application Detected: {0}", msg.procInfo.processName);
-                            runningApplicationsList.Add(msg.procInfo);
-
-                            //Attach to OnExited event of Window
-                            msg.procInfo.process = Process.GetProcessById((int)msg.procInfo.procID);
-                            msg.procInfo.process.EnableRaisingEvents = true;
-                            msg.procInfo.process.Exited += (sender, e) => ListedProcess_Exited(sender, e);
-
-                            if (DebugActiveProcessStop(msg.procInfo.procID) == 0)
-                            {
-                                logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
-                            }
+                            logger.Debug("App Pause: {0}", GetLastError().ToString());
                         }
                     }
-                    else
+                }
+                else
+                {
+                    if (!surroundManager.SM_IsSurroundActive(binDir + "\\cfg\\" + app.SurroundGrid))
                     {
-                        logger.Debug("App Pause: {0}", GetLastError().ToString());
+                        //Pause detected application until surround has been activated
+                        if (DebugActiveProcess(msg.procInfo.procID) != 0)
+                        {
+                            logger.Debug("App Paused: {0}", GetLastError().ToString());
+                            //Save current dispaly setup for re-apllication later
+                            surroundManager.SM_SaveCurrentSetup();
+                            if (!surroundManager.SM_ApplySetupFromFile(binDir + "\\cfg\\" + app.SurroundGrid))
+                            {
+                                if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
+                                {
+                                    if (DebugActiveProcessStop(msg.procInfo.procID) == 0)
+                                    {
+                                        logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
+                                        Thread.Sleep(100);
+                                    }
+
+                                    try
+                                    {
+                                        msg.procInfo.process = Process.GetProcessById((int)msg.procInfo.procID);
+                                        msg.procInfo.process.Kill();
+                                    }
+                                    catch (ArgumentException ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                    catch (Win32Exception ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                    catch (NotSupportedException ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                    catch (InvalidOperationException ex)
+                                    {
+                                        logger.Error("Process kill error: {0}", ex.Message);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                logger.Info("Application Detected: {0}", msg.procInfo.processName);
+                                runningApplicationsList.Add(msg.procInfo);
+
+                                //Attach to OnExited event of Window
+                                msg.procInfo.process = Process.GetProcessById((int)msg.procInfo.procID);
+                                msg.procInfo.process.EnableRaisingEvents = true;
+                                msg.procInfo.process.Exited += (sender, e) => ListedProcess_Exited(sender, e);
+
+                                if (DebugActiveProcessStop(msg.procInfo.procID) == 0)
+                                {
+                                    logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
+                                }
+                            }
+                        }
+                        else
+                        {
+                            logger.Debug("App Pause: {0}", GetLastError().ToString());
+                        }
                     }
                 }
-
             }
         }
 
@@ -637,7 +705,7 @@ namespace NVidia_Surround_Assistant
             }
         }
 
-        private void SetupLogger()
+        private void LoggerSetup()
         {
             // Create configuration object 
             LoggingConfiguration config = new LoggingConfiguration();            
@@ -810,6 +878,18 @@ namespace NVidia_Surround_Assistant
                 this.Size = new Size(this.Width, textBoxLogs.Bottom + y_spacing);                
             }
         }
+
+        private void pictureBoxSaveConfig_Click(object sender, EventArgs e)
+        {
+            surroundManager.SM_SaveCurrentSetupToFile();
+        }
+
+        private void pictureBoxLoadConfig_Click(object sender, EventArgs e)
+        {
+            surroundManager.SM_ApplySetupFromFile();
+        }
         #endregion
+
+
     }
 }

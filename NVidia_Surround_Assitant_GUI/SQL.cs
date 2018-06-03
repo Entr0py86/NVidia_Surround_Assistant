@@ -30,7 +30,7 @@ namespace NVidia_Surround_Assistant
                     SQLiteConnection.CreateFile(SQLiteDbName);
                     m_dbConnection = new SQLiteConnection($"Data Source={SQLiteDbName};Version=3;");
                     m_dbConnection.Open();
-                    SQL_ExecuteNonQuery("CREATE TABLE ApplicationList (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, enabled BOOLEAN, DisplayName STRING (256), fullPath STRING (260) UNIQUE, image BLOB (20971520))");//20mb file
+                    SQL_ExecuteNonQuery("CREATE TABLE ApplicationList (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, enabled BOOLEAN, DisplayName STRING (256), fullPath STRING (260) UNIQUE, image BLOB (20971520), normalGrid STRING (260), surroundGrid STRING (260))");//20mb file
                 }
                 else
                 {
@@ -97,7 +97,9 @@ namespace NVidia_Surround_Assistant
                                 Enabled = (bool)reader["enabled"],
                                 DisplayName = (string)reader["DisplayName"],
                                 FullPath = (string)reader["fullPath"],
-                                Image = new Bitmap(ByteToImage((byte[])reader["image"]))
+                                Image = new Bitmap(ByteToImage((byte[])reader["image"])),
+                                NormalGrid = (string)reader["normalGrid"],
+                                SurroundGrid = (string)reader["surroundGrid"],
                             });
                         }
                         catch (System.InvalidCastException ex)
@@ -112,8 +114,8 @@ namespace NVidia_Surround_Assistant
 
         public int AddApplication(ApplicationInfo newApp)
         {
-            SQLiteParameter[] parameters = { new SQLiteParameter("@enabled", newApp.Enabled), new SQLiteParameter("@DisplayName", newApp.DisplayName), new SQLiteParameter("@fullPath", newApp.FullPath), new SQLiteParameter("@image", ImageToByte(newApp.Image)) };
-            if (SQL_ExecuteNonQuery("INSERT INTO ApplicationList (enabled,  DisplayName, fullPath, image) values (@enabled, @DisplayName, @fullPath, @image)", parameters) > 0)
+            SQLiteParameter[] parameters = { new SQLiteParameter("@enabled", newApp.Enabled), new SQLiteParameter("@DisplayName", newApp.DisplayName), new SQLiteParameter("@fullPath", newApp.FullPath), new SQLiteParameter("@image", ImageToByte(newApp.Image)), new SQLiteParameter("@normalGrid", newApp.NormalGrid), new SQLiteParameter("@surroundGrid", newApp.SurroundGrid) };
+            if (SQL_ExecuteNonQuery("INSERT INTO ApplicationList (enabled,  DisplayName, fullPath, image) values (@enabled, @DisplayName, @fullPath, @image, @normalGrid, @surroundGrid)", parameters) > 0)
             {
                 SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM ApplicationList WHERE DisplayName = @DisplayName", parameters);
                 if (reader != null)
@@ -163,8 +165,8 @@ namespace NVidia_Surround_Assistant
 
         public bool UpdateApplication(ApplicationInfo editApp)
         {
-            SQLiteParameter[] parameters = { new SQLiteParameter("@id", editApp.Id), new SQLiteParameter("@enabled", editApp.Enabled), new SQLiteParameter("@DisplayName", editApp.DisplayName), new SQLiteParameter("@fullPath", editApp.FullPath), new SQLiteParameter("@image", ImageToByte(editApp.Image)) };
-            if (SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled, DisplayName = @DisplayName, fullPath = @fullPath, image = @image WHERE id = @id", parameters) > 0)
+            SQLiteParameter[] parameters = { new SQLiteParameter("@id", editApp.Id), new SQLiteParameter("@enabled", editApp.Enabled), new SQLiteParameter("@DisplayName", editApp.DisplayName), new SQLiteParameter("@fullPath", editApp.FullPath), new SQLiteParameter("@image", ImageToByte(editApp.Image)), new SQLiteParameter("@normalGrid", editApp.NormalGrid), new SQLiteParameter("@surroundGrid", editApp.SurroundGrid) };
+            if (SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled, DisplayName = @DisplayName, fullPath = @fullPath, image = @image, normalGrid = @normalGrid, surroundGrid = @surroundGrid WHERE id = @id", parameters) > 0)
                 return true;
             else
                 return false;

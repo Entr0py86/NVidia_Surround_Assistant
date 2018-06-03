@@ -51,6 +51,10 @@
             this.pictureBoxGameBoxCover = new System.Windows.Forms.PictureBox();
             this.pictureBoxSearch = new System.Windows.Forms.PictureBox();
             this.pictureBoxChangeFileLocation = new System.Windows.Forms.PictureBox();
+            this.comboBoxNormalSetup = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxSurroundSetup = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxApply)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDisabled)).BeginInit();
@@ -92,6 +96,8 @@
             // 
             // comboBoxGameList
             // 
+            this.comboBoxGameList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.comboBoxGameList.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.comboBoxGameList.FormattingEnabled = true;
             this.comboBoxGameList.Location = new System.Drawing.Point(91, 53);
             this.comboBoxGameList.Name = "comboBoxGameList";
@@ -112,6 +118,8 @@
             // 
             // textBoxGameSearch
             // 
+            this.textBoxGameSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBoxGameSearch.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.textBoxGameSearch.Location = new System.Drawing.Point(91, 24);
             this.textBoxGameSearch.Name = "textBoxGameSearch";
             this.textBoxGameSearch.Size = new System.Drawing.Size(121, 20);
@@ -122,7 +130,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label5.Location = new System.Drawing.Point(296, 21);
+            this.label5.Location = new System.Drawing.Point(308, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 15);
             this.label5.TabIndex = 50;
@@ -144,7 +152,7 @@
             this.textBoxAppPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxAppPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxAppPath.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.textBoxAppPath.Location = new System.Drawing.Point(135, 220);
+            this.textBoxAppPath.Location = new System.Drawing.Point(163, 220);
             this.textBoxAppPath.Name = "textBoxAppPath";
             this.textBoxAppPath.Size = new System.Drawing.Size(124, 21);
             this.textBoxAppPath.TabIndex = 47;
@@ -165,7 +173,7 @@
             this.textBoxDisplayName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxDisplayName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxDisplayName.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.textBoxDisplayName.Location = new System.Drawing.Point(135, 193);
+            this.textBoxDisplayName.Location = new System.Drawing.Point(163, 193);
             this.textBoxDisplayName.Name = "textBoxDisplayName";
             this.textBoxDisplayName.Size = new System.Drawing.Size(124, 21);
             this.textBoxDisplayName.TabIndex = 45;
@@ -208,7 +216,7 @@
             // pictureBoxDisabled
             // 
             this.pictureBoxDisabled.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_red_25x25;
-            this.pictureBoxDisabled.Location = new System.Drawing.Point(147, 152);
+            this.pictureBoxDisabled.Location = new System.Drawing.Point(175, 152);
             this.pictureBoxDisabled.Name = "pictureBoxDisabled";
             this.pictureBoxDisabled.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxDisabled.TabIndex = 51;
@@ -218,7 +226,7 @@
             // pictureBoxEnabled
             // 
             this.pictureBoxEnabled.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_25x25;
-            this.pictureBoxEnabled.Location = new System.Drawing.Point(147, 152);
+            this.pictureBoxEnabled.Location = new System.Drawing.Point(175, 152);
             this.pictureBoxEnabled.Name = "pictureBoxEnabled";
             this.pictureBoxEnabled.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxEnabled.TabIndex = 49;
@@ -229,7 +237,7 @@
             // 
             this.pictureBoxEditImage.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxEditImage.Image = global::NVidia_Surround_Assistant.Properties.Resources.edit_25x25;
-            this.pictureBoxEditImage.Location = new System.Drawing.Point(479, 18);
+            this.pictureBoxEditImage.Location = new System.Drawing.Point(491, 16);
             this.pictureBoxEditImage.Name = "pictureBoxEditImage";
             this.pictureBoxEditImage.Size = new System.Drawing.Size(15, 15);
             this.pictureBoxEditImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -241,7 +249,7 @@
             // 
             this.pictureBoxDeleteImage.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxDeleteImage.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_25x25;
-            this.pictureBoxDeleteImage.Location = new System.Drawing.Point(500, 18);
+            this.pictureBoxDeleteImage.Location = new System.Drawing.Point(512, 16);
             this.pictureBoxDeleteImage.Name = "pictureBoxDeleteImage";
             this.pictureBoxDeleteImage.Size = new System.Drawing.Size(15, 15);
             this.pictureBoxDeleteImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -252,7 +260,7 @@
             // 
             this.pictureBoxGameBoxCover.ErrorImage = global::NVidia_Surround_Assistant.Properties.Resources.delete_50x50;
             this.pictureBoxGameBoxCover.InitialImage = global::NVidia_Surround_Assistant.Properties.Resources.delete_50x50;
-            this.pictureBoxGameBoxCover.Location = new System.Drawing.Point(300, 39);
+            this.pictureBoxGameBoxCover.Location = new System.Drawing.Point(312, 37);
             this.pictureBoxGameBoxCover.Name = "pictureBoxGameBoxCover";
             this.pictureBoxGameBoxCover.Padding = new System.Windows.Forms.Padding(2);
             this.pictureBoxGameBoxCover.Size = new System.Drawing.Size(227, 320);
@@ -274,7 +282,7 @@
             // 
             this.pictureBoxChangeFileLocation.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxChangeFileLocation.Image = global::NVidia_Surround_Assistant.Properties.Resources.edit_25x25;
-            this.pictureBoxChangeFileLocation.Location = new System.Drawing.Point(265, 223);
+            this.pictureBoxChangeFileLocation.Location = new System.Drawing.Point(291, 223);
             this.pictureBoxChangeFileLocation.Name = "pictureBoxChangeFileLocation";
             this.pictureBoxChangeFileLocation.Size = new System.Drawing.Size(15, 15);
             this.pictureBoxChangeFileLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -282,12 +290,60 @@
             this.pictureBoxChangeFileLocation.TabStop = false;
             this.pictureBoxChangeFileLocation.Click += new System.EventHandler(this.pictureBoxChangeFileLocation_Click);
             // 
+            // comboBoxNormalSetup
+            // 
+            this.comboBoxNormalSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.comboBoxNormalSetup.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.comboBoxNormalSetup.FormattingEnabled = true;
+            this.comboBoxNormalSetup.Location = new System.Drawing.Point(163, 274);
+            this.comboBoxNormalSetup.Name = "comboBoxNormalSetup";
+            this.comboBoxNormalSetup.Size = new System.Drawing.Size(124, 21);
+            this.comboBoxNormalSetup.TabIndex = 56;
+            this.comboBoxNormalSetup.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.label1.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label1.Location = new System.Drawing.Point(22, 275);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(129, 15);
+            this.label1.TabIndex = 55;
+            this.label1.Text = "Normal Display Setup:";
+            this.label1.Visible = false;
+            // 
+            // comboBoxSurroundSetup
+            // 
+            this.comboBoxSurroundSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.comboBoxSurroundSetup.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.comboBoxSurroundSetup.FormattingEnabled = true;
+            this.comboBoxSurroundSetup.Location = new System.Drawing.Point(163, 247);
+            this.comboBoxSurroundSetup.Name = "comboBoxSurroundSetup";
+            this.comboBoxSurroundSetup.Size = new System.Drawing.Size(124, 21);
+            this.comboBoxSurroundSetup.TabIndex = 58;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.label7.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label7.Location = new System.Drawing.Point(22, 248);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(139, 15);
+            this.label7.TabIndex = 57;
+            this.label7.Text = "Surround Display Setup:";
+            // 
             // EditApplicationSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(551, 382);
+            this.ClientSize = new System.Drawing.Size(560, 382);
+            this.Controls.Add(this.comboBoxSurroundSetup);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.comboBoxNormalSetup);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBoxChangeFileLocation);
             this.Controls.Add(this.pictureBoxCancel);
             this.Controls.Add(this.pictureBoxApply);
@@ -349,5 +405,9 @@
         private System.Windows.Forms.PictureBox pictureBoxApply;
         private System.Windows.Forms.PictureBox pictureBoxCancel;
         private System.Windows.Forms.PictureBox pictureBoxChangeFileLocation;
+        private System.Windows.Forms.ComboBox comboBoxNormalSetup;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxSurroundSetup;
+        private System.Windows.Forms.Label label7;
     }
 }

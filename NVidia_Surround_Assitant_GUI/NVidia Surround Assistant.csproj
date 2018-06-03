@@ -356,5 +356,11 @@
   <ItemGroup>
     <None Include="Resources\delete filled red 25x25.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save 50x50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder 50x50.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,6 +9,7 @@ using NLog;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
+//TODO chage boxes to same color as rest
 namespace NVidia_Surround_Assistant
 {
     public partial class EditApplicationSettings : Form
@@ -43,15 +44,18 @@ namespace NVidia_Surround_Assistant
                 gameList_UserChoice.Add(Appinfo);
                 //Update all textboxes
                 textBoxGameSearch.Text = Appinfo.DisplayName;
-            }
-            
+            }            
+
             autoSearchNewApp = AutoSearchNewApp;
-            if(!autoSearchNewApp)
+
+            //Get nvsa file names
+            PopulateGridComboBoxes();
+            if (!autoSearchNewApp)
             {
                 pictureBoxDisabled.Visible = !AppInfo.Enabled;
-                pictureBoxEnabled.Visible = AppInfo.Enabled;
-            }
-                        
+                pictureBoxEnabled.Visible = AppInfo.Enabled;     
+            }           
+
             //Setup Rest client for IGDB
             igdbClient.SetAuthHeader("user-key", "ac7be2d5cce384506dfc786fdabec51c");
         }
@@ -88,6 +92,8 @@ namespace NVidia_Surround_Assistant
             pictureBoxEnabled.Visible = waitDisabled && AppInfo.Enabled;
             pictureBoxGameBoxCover.Visible = waitDisabled;
             pictureBoxChangeFileLocation.Visible = waitDisabled;
+            //comboBoxNormalSetup.Visible = waitDisabled;
+            comboBoxSurroundSetup.Visible = waitDisabled;
 
             textBoxAppPath.Visible = waitDisabled;
             textBoxDisplayName.Visible = waitDisabled;
@@ -386,6 +392,9 @@ namespace NVidia_Surround_Assistant
             AppInfo.Image = (Bitmap)pictureBoxGameBoxCover.Image;
             AppInfo.DisplayName = textBoxDisplayName.Text;
             AppInfo.FullPath = textBoxAppPath.Text;
+            AppInfo.NormalGrid = "Default Grid.nvsa";
+            //AppInfo.NormalGrid = comboBoxNormalSetup.GetItemText(comboBoxNormalSetup.SelectedItem) + ".nvsa";
+            AppInfo.SurroundGrid = comboBoxSurroundSetup.GetItemText(comboBoxSurroundSetup.SelectedItem) + ".nvsa";
 
             this.DialogResult = DialogResult.OK;
             Close();
@@ -395,6 +404,29 @@ namespace NVidia_Surround_Assistant
         {
             this.DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void PopulateGridComboBoxes()
+        {
+            foreach(String file in Directory.EnumerateFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\cfg", "*.nvsa"))
+            {
+                string nvsaFile = Path.GetFileNameWithoutExtension(file);
+
+                comboBoxNormalSetup.Items.Add(nvsaFile);
+                comboBoxSurroundSetup.Items.Add(nvsaFile);
+
+                if(!autoSearchNewApp)
+                {
+                    if(AppInfo.NormalGrid.Contains(nvsaFile))
+                    {
+                        comboBoxNormalSetup.SelectedIndex = comboBoxNormalSetup.Items.Count - 1;
+                    }
+                    if (AppInfo.SurroundGrid.Contains(nvsaFile))
+                    {
+                        comboBoxSurroundSetup.SelectedIndex = comboBoxSurroundSetup.Items.Count - 1;
+                    }
+                }
+            }
         }
     }
 }

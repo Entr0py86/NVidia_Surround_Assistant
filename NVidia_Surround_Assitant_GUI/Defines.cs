@@ -139,6 +139,8 @@ namespace NVidia_Surround_Assistant
         public string DisplayName { get; set; }
         public string FullPath { get; set; }
         public Bitmap Image { get; set; }
+        public string NormalGrid { get; set; }
+        public string SurroundGrid { get; set; }
 
         public ApplicationInfo()
         {
