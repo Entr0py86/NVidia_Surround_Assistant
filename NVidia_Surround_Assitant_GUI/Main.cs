@@ -627,7 +627,7 @@ namespace NVidia_Surround_Assistant
                         return;
                     }
 #if !DEBUG_NO_SURROUND_SWITCH
-                    if (app != null)//TODO test this
+                    if (app == null)//TODO test this
                     {
                         logger.Debug("loading surround from memory");
 
