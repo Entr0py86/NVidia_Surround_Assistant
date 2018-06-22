@@ -124,6 +124,7 @@
             this.textBoxGameSearch.Name = "textBoxGameSearch";
             this.textBoxGameSearch.Size = new System.Drawing.Size(121, 20);
             this.textBoxGameSearch.TabIndex = 36;
+            this.textBoxGameSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxGameSearch_KeyDown);
             // 
             // label5
             // 

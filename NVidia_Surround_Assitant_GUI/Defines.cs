@@ -98,7 +98,10 @@ namespace NVidia_Surround_Assistant
     {
         windowCreate,
         windowDestroy,
-        windowReplaced
+        windowReplaced,
+        windowActivated,
+        windowRedraw,
+        sysCommand,
     };
 
     public enum Settings_AskSwitch
@@ -122,12 +125,13 @@ namespace NVidia_Surround_Assistant
         public IntPtr       procID;
         public IntPtr       handleID;
         public String       processName;
+        public String       processExeName;        
+        public String       processFullPath;
     };
 
-    public class MessageInfo
+    public class HookMessageInfo
     {
-        public RegisteredWindowInfo regWndInfo;
-        public ProcessInfo          procInfo;
+        public RegisteredWindowInfo regWndInfo;        
         public IntPtr               WParam;
         public IntPtr               LParam;        
     };
@@ -138,6 +142,7 @@ namespace NVidia_Surround_Assistant
         public bool Enabled { get; set; }
         public string DisplayName { get; set; }
         public string FullPath { get; set; }
+        public string ProcessName { get; set; }
         public Bitmap Image { get; set; }
         public string NormalGrid { get; set; }
         public string SurroundGrid { get; set; }

@@ -52,23 +52,6 @@ namespace NVidia_Surround_Assistant
             return result;
         }
 
-        public bool SM_ReadSurroundConfig(string fileName)
-        {
-            bool result = false;
-            try
-            {
-                if (!mySurround.apiLoaded)
-                    mySurround.Initialize();
-                mySurround.LoadSetup(NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName, true);
-                result = true;
-            }
-            catch (DisplayManager_Exception ex)
-            {
-                logger.Debug("DM: {0}", ex.Message);
-            }
-            return result;
-        }
-
         public bool SM_ApplySetupFromMemory(bool Surround)
         {
             bool result = false;
@@ -99,7 +82,6 @@ namespace NVidia_Surround_Assistant
         {
             var timer = new System.Windows.Forms.Timer();
             timer.Tick += delegate
-
             {
                 action.Invoke();
                 timer.Stop();
@@ -169,12 +151,12 @@ namespace NVidia_Surround_Assistant
                 if (mySurround.IsSurroundActive())
                 {
                     mySurround.SaveSetupToMemory(true);
-                    logger.Info("DM: Saving Surround to memory succesfull");
+                    logger.Info("DM: Saving Surround to memory successful");
                 }
                 else
                 {
                     mySurround.SaveSetupToMemory(false);
-                    logger.Info("DM: Saving Non-Surround to memory succesfull");
+                    logger.Info("DM: Saving Non-Surround to memory successful");
                 }
                 result = true;
             }
@@ -195,7 +177,7 @@ namespace NVidia_Surround_Assistant
                 if (!mySurround.apiLoaded)
                     mySurround.Initialize();
                 mySurround.SaveSetupToFile(filePath);
-                logger.Info("DM: Saving to file succesfull");
+                logger.Info("DM: Saving to file successful");
                 result = true;
             }
             catch (DisplayManager_Exception ex)
@@ -218,7 +200,7 @@ namespace NVidia_Surround_Assistant
                     if (!mySurround.apiLoaded)
                         mySurround.Initialize();
                     mySurround.SaveSetupToFile(saveSurroundFileDialog.FileName);
-                    logger.Info("DM: Saving to file succesfull");
+                    logger.Info("DM: Saving to file successful");
                     result = true;
                 }
                 catch (DisplayManager_Exception ex)
@@ -241,7 +223,7 @@ namespace NVidia_Surround_Assistant
                 mySurround.SaveWindowPositions();
                 mySurround.MinimizeAllWindows();
                 Thread.Sleep(100);
-                logger.Info("DM: Window Positions saved succesfully");
+                logger.Info("DM: Window Positions saved successfully");
                 result = true;
             }
             catch (DisplayManager_Exception ex)
@@ -259,8 +241,9 @@ namespace NVidia_Surround_Assistant
             {
                 if (!mySurround.apiLoaded)
                     mySurround.Initialize();
+                mySurround.MinimizeAllWindows();//TODO This must be moved to before witching back to nomral mode
                 mySurround.ApplyWindowPositions();
-                logger.Info("DM: Window Positions applied succesfully");
+                logger.Info("DM: Window Positions applied successfully");
                 result = true;
             }
             catch (DisplayManager_Exception ex)
@@ -302,6 +285,18 @@ namespace NVidia_Surround_Assistant
                 logger.Debug("DM: IsSurroundActive Error: {0}", ex.Message);                
             }
             return result;
+        }
+
+        public void SM_SwitchSurround()
+        {
+            if (SM_IsSurroundActive())
+            {
+                SM_ApplySetupFromMemory(false);
+            }
+            else
+            {
+                SM_ApplySetupFromMemory(true);
+            }
         }
     }
 }

@@ -56,21 +56,22 @@ namespace NVidia_Surround_Assistant
 
         public bool InstallHooksAndRegisterWindows()
         {
-            bool cbtHookInstalled = false;
-            bool shellHookInstalled = false;
+            bool hookInstalled = false;
             bool result = false;
             HookId installHook;
             //install the CBT hook
             installHook = HookId.wh_cbt;
             try
             {
-                cbtHookInstalled = Convert.ToBoolean(InstallHook(hWnd, ref installHook));
+                hookInstalled = Convert.ToBoolean(InstallHook(hWnd, ref installHook));
 
-                if (cbtHookInstalled)
+                if (hookInstalled)
                 {
                     //This is the CBT create window register from the HookDLL 
                     registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HCBT_CREATEWND));
-                    logger.Info("CBT Hook installed succesfully");
+                    registeredWindows.Add(CreateWindowRegister(HookType.windowActivated, SharedDefines.UWM_HCBT_ACTIVATE));
+                    registeredWindows.Add(CreateWindowRegister(HookType.sysCommand, SharedDefines.UWM_HCBT_SYSCOMMAND));
+                    logger.Info("CBT Hook installed successfully");
                 }
                 else
                 {
@@ -80,12 +81,14 @@ namespace NVidia_Surround_Assistant
 
                 //install the Shell hook
                 installHook = HookId.wh_shell;
-                shellHookInstalled = Convert.ToBoolean(InstallHook(hWnd, ref installHook));
-                if (shellHookInstalled)
+                hookInstalled &= Convert.ToBoolean(InstallHook(hWnd, ref installHook));
+                if (hookInstalled)
                 {
                     //This is the SHELL create window register from the HookDLL 
                     registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HSHELL_WINDOWCREATED));
-                    logger.Info("Shell Hook installed succesfully");
+                    registeredWindows.Add(CreateWindowRegister(HookType.windowRedraw, SharedDefines.UWM_HSHELL_REDRAW));
+
+                    logger.Info("Shell Hook installed successfully");
                 }
             }
             catch (DllNotFoundException ex)
@@ -95,7 +98,7 @@ namespace NVidia_Surround_Assistant
             }
             finally
             {
-                if ((shellHookInstalled || cbtHookInstalled))
+                if (hookInstalled)
                 { 
                     result = true;
                 }
@@ -116,7 +119,7 @@ namespace NVidia_Surround_Assistant
             filterStatus.size = (uint)Marshal.SizeOf(filterStatus);
             filterStatus.info = 0;
 
-            //Register the window wiht api call
+            //Register the window with api call
             winRegTemp.windowRegisterID = RegisterWindowMessage(messageName);
             //Allow messages to be received form lower privileged processes
             ChangeWindowMessageFilterEx(hWnd, winRegTemp.windowRegisterID, ChangeWindowMessageFilterExAction.Allow, ref filterStatus);

@@ -12,7 +12,7 @@ namespace NVidia_Surround_Assistant
     public class SQL
     {
         Logger logger = LogManager.GetLogger("nvsaLogger");
-        //Sql
+        //SQL
         SQLiteConnection m_dbConnection = null;
         SQLiteCommand command;
 
@@ -45,11 +45,11 @@ namespace NVidia_Surround_Assistant
             catch (System.DllNotFoundException ex)
             {
                 MessageBox.Show("Could not open SQL database.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Fatal("Dll not Found: SQL Open: {0}", ex.Message);
+                logger.Fatal("DLL not Found: SQL Open: {0}", ex.Message);
             }
             catch (BadImageFormatException ex)
             {
-                logger.Fatal("Wrong Dll Architecture: SQL Open: {0}", ex.Message);
+                logger.Fatal("Wrong DLL Architecture: SQL Open: {0}", ex.Message);
             }
 
             if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
@@ -97,6 +97,7 @@ namespace NVidia_Surround_Assistant
                                 Enabled = (bool)reader["enabled"],
                                 DisplayName = (string)reader["DisplayName"],
                                 FullPath = (string)reader["fullPath"],
+                                ProcessName = Path.GetFileNameWithoutExtension((string)reader["fullPath"]),
                                 Image = new Bitmap(ByteToImage((byte[])reader["image"])),
                                 NormalGrid = (string)reader["normalGrid"],
                                 SurroundGrid = (string)reader["surroundGrid"],
@@ -115,7 +116,7 @@ namespace NVidia_Surround_Assistant
         public int AddApplication(ApplicationInfo newApp)
         {
             SQLiteParameter[] parameters = { new SQLiteParameter("@enabled", newApp.Enabled), new SQLiteParameter("@DisplayName", newApp.DisplayName), new SQLiteParameter("@fullPath", newApp.FullPath), new SQLiteParameter("@image", ImageToByte(newApp.Image)), new SQLiteParameter("@normalGrid", newApp.NormalGrid), new SQLiteParameter("@surroundGrid", newApp.SurroundGrid) };
-            if (SQL_ExecuteNonQuery("INSERT INTO ApplicationList (enabled,  DisplayName, fullPath, image) values (@enabled, @DisplayName, @fullPath, @image, @normalGrid, @surroundGrid)", parameters) > 0)
+            if (SQL_ExecuteNonQuery("INSERT INTO ApplicationList (enabled,  DisplayName, fullPath, image, normalGrid, surroundGrid) values (@enabled, @DisplayName, @fullPath, @image, @normalGrid, @surroundGrid)", parameters) > 0)
             {
                 SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM ApplicationList WHERE DisplayName = @DisplayName", parameters);
                 if (reader != null)

@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NVidia Surround Assistant",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Display_Manger", "Display_Manager\Display_Manger.vcxproj", "{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProcessDetectionDriver", "ProcessDetectionDriver\ProcessDetectionDriver.vcxproj", "{DA431E58-6BBC-468F-8747-311C9848995C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,32 +75,6 @@ Global
 		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x64.Build.0 = Release|x64
 		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x86.ActiveCfg = Release|Win32
 		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x86.Build.0 = Release|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|ARM.ActiveCfg = Debug|ARM
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|ARM.Build.0 = Debug|ARM
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|ARM.Deploy.0 = Debug|ARM
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|ARM64.Build.0 = Debug|ARM64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|ARM64.Deploy.0 = Debug|ARM64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|x64.ActiveCfg = Debug|x64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|x64.Build.0 = Debug|x64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|x64.Deploy.0 = Debug|x64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|x86.ActiveCfg = Debug|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|x86.Build.0 = Debug|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Debug|x86.Deploy.0 = Debug|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|Any CPU.ActiveCfg = Release|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|ARM.ActiveCfg = Release|ARM
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|ARM.Build.0 = Release|ARM
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|ARM.Deploy.0 = Release|ARM
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|ARM64.ActiveCfg = Release|ARM64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|ARM64.Build.0 = Release|ARM64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|ARM64.Deploy.0 = Release|ARM64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|x64.ActiveCfg = Release|x64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|x64.Build.0 = Release|x64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|x64.Deploy.0 = Release|x64
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|x86.ActiveCfg = Release|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|x86.Build.0 = Release|Win32
-		{DA431E58-6BBC-468F-8747-311C9848995C}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

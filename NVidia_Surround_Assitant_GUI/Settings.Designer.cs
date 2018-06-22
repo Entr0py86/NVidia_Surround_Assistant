@@ -368,11 +368,11 @@
             this.comboBoxLogLevel.FormattingEnabled = true;
             this.comboBoxLogLevel.Items.AddRange(new object[] {
             "None",
+            "Trace",
             "Debug",
             "Info",
             "Error",
-            "Fatal",
-            ""});
+            "Fatal"});
             this.comboBoxLogLevel.Location = new System.Drawing.Point(181, 346);
             this.comboBoxLogLevel.Name = "comboBoxLogLevel";
             this.comboBoxLogLevel.Size = new System.Drawing.Size(121, 23);

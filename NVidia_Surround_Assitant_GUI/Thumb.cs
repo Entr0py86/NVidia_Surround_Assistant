@@ -56,11 +56,18 @@ namespace NVidia_Surround_Assistant
             set { appInfo.FullPath = value; }
         }
 
+        public string ProcessName
+        {
+            get { return appInfo.ProcessName; }
+            set { appInfo.ProcessName = value; }
+        }
+
         public string DisplayName
         {
             get { return appInfo.DisplayName; }
             set { appInfo.FullPath = value; }
         }
+        
 
         public Bitmap Image
         {

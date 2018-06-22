@@ -9,7 +9,7 @@ using NLog;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
-//TODO chage boxes to same color as rest
+//TODO change boxes to same color as rest
 namespace NVidia_Surround_Assistant
 {
     public partial class EditApplicationSettings : Form
@@ -17,7 +17,7 @@ namespace NVidia_Surround_Assistant
         //Logger
         Logger logger = LogManager.GetLogger("nvsaLogger");
 
-        //gameList created from game database api
+        //gameList created from game database API
         List<ApplicationInfo> gameList_UserChoice = new List<ApplicationInfo>();
         
         public ApplicationInfo AppInfo;
@@ -28,7 +28,7 @@ namespace NVidia_Surround_Assistant
         int spacing = 40;
         int y_spacing;
 
-        //Application Database api  interfaces
+        //Application Database API  interfaces
         IgdbAPI.ApiClient igdbClient = new IgdbAPI.ApiClient("https://api-2445582011268.apicast.io");
 
         //New app flag
@@ -54,7 +54,9 @@ namespace NVidia_Surround_Assistant
             {
                 pictureBoxDisabled.Visible = !AppInfo.Enabled;
                 pictureBoxEnabled.Visible = AppInfo.Enabled;     
-            }           
+            }
+
+            comboBoxSurroundSetup.SelectedIndex = comboBoxSurroundSetup.Items.IndexOf("Default Surround Grid");
 
             //Setup Rest client for IGDB
             igdbClient.SetAuthHeader("user-key", "ac7be2d5cce384506dfc786fdabec51c");
@@ -62,15 +64,18 @@ namespace NVidia_Surround_Assistant
 
         private void UpdateDisplay(ApplicationInfo Appinfo)
         {
-            if (Appinfo.DisplayName != null)
-                textBoxDisplayName.Text = Appinfo.DisplayName;
-            if(Appinfo.FullPath != null)
-                textBoxAppPath.Text = Appinfo.FullPath;
+            if (Appinfo != null)
+            {
+                if (Appinfo.DisplayName != null)
+                    textBoxDisplayName.Text = Appinfo.DisplayName;
+                if (Appinfo.FullPath != null)
+                    textBoxAppPath.Text = Appinfo.FullPath;
 
-            if (Appinfo.Image != null)
-                pictureBoxGameBoxCover.Image = Appinfo.Image;
-            else
-                pictureBoxGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.delete_50x50;
+                if (Appinfo.Image != null)
+                    pictureBoxGameBoxCover.Image = Appinfo.Image;
+                else
+                    pictureBoxGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.delete_50x50;
+            }
         }
 
         private void ToggleWait(bool waitDisabled)
@@ -121,11 +126,17 @@ namespace NVidia_Surround_Assistant
         #region APIinterface
         private async void GetGameList()
         {
+            if (gameList_UserChoice.Count > 0)
+            {
+                gameList_UserChoice.Clear();
+                comboBoxGameList.DataSource = null;
+                comboBoxGameList.Items.Clear();
+            }
             pictureBoxSearch.Enabled = false;
             ToggleWait(false);
             await IGDB_GetGameList();
 
-            comboBoxGameList.SuspendLayout();
+            comboBoxGameList.SuspendLayout();            
             comboBoxGameList.SelectedIndexChanged -= comboBoxGameList_SelectedIndexChanged;
             comboBoxGameList.DataSource = gameList_UserChoice;
             comboBoxGameList.DisplayMember = "DisplayName";            
@@ -392,6 +403,7 @@ namespace NVidia_Surround_Assistant
             AppInfo.Image = (Bitmap)pictureBoxGameBoxCover.Image;
             AppInfo.DisplayName = textBoxDisplayName.Text;
             AppInfo.FullPath = textBoxAppPath.Text;
+            AppInfo.ProcessName = Path.GetFileNameWithoutExtension(textBoxAppPath.Text);
             AppInfo.NormalGrid = "Default Grid.nvsa";
             //AppInfo.NormalGrid = comboBoxNormalSetup.GetItemText(comboBoxNormalSetup.SelectedItem) + ".nvsa";
             AppInfo.SurroundGrid = comboBoxSurroundSetup.GetItemText(comboBoxSurroundSetup.SelectedItem) + ".nvsa";
@@ -427,6 +439,12 @@ namespace NVidia_Surround_Assistant
                     }
                 }
             }
+        }
+
+        private void textBoxGameSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                pictureBoxSearch_Click(null, null);
         }
     }
 }

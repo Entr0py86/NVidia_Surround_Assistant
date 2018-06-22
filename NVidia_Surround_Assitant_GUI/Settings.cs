@@ -82,7 +82,7 @@ namespace NVidia_Surround_Assistant
                 pictureBoxShowLogs_Yes.Visible = false;
             }
 
-            DialogResult = DialogResult.None;
+            DialogResult = DialogResult.None;//TODO check that this is not causing a no save condition if the close button is clicked
             comboBoxSurroundToNormal_OnClose.SelectedIndex = SurroundToNormal_OnClose;
             comboBoxSurroundToNormal_OnExit.SelectedIndex = SurroundToNormal_OnExit;
             comboBoxLogLevel.SelectedIndex = configLogLevel;
@@ -96,7 +96,7 @@ namespace NVidia_Surround_Assistant
             {
                 // Create a new task definition and assign properties
                 TaskDefinition td = ts.NewTask();
-                td.RegistrationInfo.Description = "Start Nvidia Surround Assitant at Logon with admin privilages";
+                td.RegistrationInfo.Description = "Start NVidia Surround Assistant at Login with admin privileges";
                 td.Principal.RunLevel = TaskRunLevel.Highest;
                 
                 // Create a trigger that will fire the task at this time every other day
@@ -130,6 +130,18 @@ namespace NVidia_Surround_Assistant
             {
 
             }
+        }
+
+        private void UpdateLogRules(LogLevel logLevel)
+        {
+            for (int i = 0; i < LogManager.Configuration.LoggingRules.Count; i++)
+            {
+                if (LogManager.Configuration.LoggingRules[i].IsLoggingEnabledForLevel(logLevel))
+                    LogManager.Configuration.LoggingRules[i].DisableLoggingForLevel(logLevel);
+                else
+                    LogManager.Configuration.LoggingRules[i].EnableLoggingForLevel(logLevel);
+            }
+            
         }
 
         private void pictureBoxApply_Click(object sender, EventArgs e)
@@ -196,7 +208,7 @@ namespace NVidia_Surround_Assistant
             CloseToTray = true;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Close normaly.");
+            logger.Info("Settings: Close normally.");
         }
 
         private void pictureBoxSaveWindowPositions_Yes_Click(object sender, EventArgs e)
@@ -216,7 +228,7 @@ namespace NVidia_Surround_Assistant
             SaveWindowPositions = true;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Discard window posisitions.");
+            logger.Info("Settings: Discard window positions.");
         }
 
         private void pictureBoxStartOnStartup_Yes_Click(object sender, EventArgs e)
@@ -259,7 +271,7 @@ namespace NVidia_Surround_Assistant
                 logger.Info("Settings: Never switch to normal on NVSA exit.");
                 break;
             default:
-                logger.Info("Settings: Unknwon selection for switch to normal on NVSA exit.");
+                logger.Info("Settings: Unknown selection for switch to normal on NVSA exit.");
                 break;
             }            
         }
@@ -284,7 +296,7 @@ namespace NVidia_Surround_Assistant
                     logger.Info("Settings: Never switch to normal on application exit.");
                     break;
                 default:
-                    logger.Info("Settings: Unknwon selection for switch to normal on application exit.");
+                    logger.Info("Settings: Unknown selection for switch to normal on application exit.");
                     break;
             }
         }
@@ -303,9 +315,9 @@ namespace NVidia_Surround_Assistant
         {
             if(DialogResult == DialogResult.Cancel && settingsNotSaved)
             {
-                if(MessageBox.Show("Would you like to save your chnaged settings?", "Unsaved Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if(MessageBox.Show("Would you like to save your changed settings?", "Unsaved Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    NVidia_Surround_Assistant.Properties.Settings.Default.Save();
+                    NVidia_Surround_Assistant.Properties.Settings.Default.Save();//todo this is wrong should use click button or created apply function. Currently not updating new settings
                 }
             }
         }
@@ -365,25 +377,41 @@ namespace NVidia_Surround_Assistant
 
         private void comboBoxLogLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LogLevel logLevel;
             switch (comboBoxLogLevel.SelectedIndex)
             {
                 case 0:
+                    logLevel = LogLevel.Off;
                     SetNlogLogLevel(LogLevel.Off);
                     break;
                 case 1:
-                    SetNlogLogLevel(LogLevel.Debug);
+                    logLevel = LogLevel.Trace;
+                    SetNlogLogLevel(LogLevel.Trace);
                     break;
                 case 2:
-                    SetNlogLogLevel(LogLevel.Info);
+                    logLevel = LogLevel.Debug;
+                    SetNlogLogLevel(LogLevel.Debug);
                     break;
                 case 3:
-                    SetNlogLogLevel(LogLevel.Error);
+                    logLevel = LogLevel.Info;
+                    SetNlogLogLevel(LogLevel.Info);
                     break;
                 case 4:
+                    logLevel = LogLevel.Error;
+                    SetNlogLogLevel(LogLevel.Error);
+                    break;
+                case 5:
+                    logLevel = LogLevel.Fatal;
                     SetNlogLogLevel(LogLevel.Fatal);
+                    break;
+                default:
+                    logLevel = LogLevel.Info;
                     break;
             }
             configLogLevel = comboBoxLogLevel.SelectedIndex;
+            UpdateLogRules(logLevel);
+            LogManager.Configuration.Reload();
+
         }
     }
 }

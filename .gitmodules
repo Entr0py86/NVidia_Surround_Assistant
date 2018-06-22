@@ -4,7 +4,3 @@
 [submodule "HookDLL"]
 	path = HookDLL
 	url = http://192.168.2.226/nvsa/HookDLL
-[submodule "ProcessDetectionDriver"]
-	path = ProcessDetectionDriver
-	url = http://192.168.2.226/nvsa/ProcessDetectionDriver
-	branch = master
