@@ -1,5 +1,5 @@
 ﻿#define CLR
-//#define DEBUG_NO_SURROUND_SWITCH
+#define DEBUG_NO_SURROUND_SWITCH
 
 using System;
 using System.Collections.Generic;
@@ -70,6 +70,7 @@ namespace NVidia_Surround_Assistant
         #endregion
 
         bool formClosing = false;
+        bool formShown = false;
         bool hookInstalled = false;
 
         bool quitApplication = false;
@@ -97,19 +98,31 @@ namespace NVidia_Surround_Assistant
 
         //PRocess creation detectors
         HookManager hookManager;
-        ManagementEventWatcher startWatch;
+        ManagementEventWatcher processStartEvent;
+        ManagementEventWatcher processStopEvent;
+
+        //List used to add all stopped processes that are in the applicationDetectList
+        ConcurrentQueue<ProcessInfo> StoppedProcessList = new ConcurrentQueue<ProcessInfo>();
+        int processStoppedSyncPoint = 0;
+        //Timer used to stagger switching as some applications start multiple processes of the same name but exit before the application actually runs
+        System.Timers.Timer processStopTimer = new System.Timers.Timer();
 
         //reset event used to wait for thread to exit before closing app
         private AutoResetEvent _resetEvent = new AutoResetEvent(false);
         private AutoResetEvent _newMsgEvent = new AutoResetEvent(false);
 
+        int border_spacing_Form = 0;
+        int y_spacing_logBox = 0;
+
         //Form that receives all messages and adds them to the queue
-
-        int y_spacing;
-
         public MainForm()
         {
             InitializeComponent();
+
+            //Setup process stopped timer. 
+            processStopTimer.Interval = 2000;//2seconds
+            processStopTimer.AutoReset = false;
+            processStopTimer.Elapsed += processStopTimer_OnTimedEvent;
 
             binDir = Path.GetDirectoryName(Application.ExecutablePath);
         }
@@ -163,13 +176,6 @@ namespace NVidia_Surround_Assistant
             //Initialize application
             hookManager = new HookManager(hWnd, ref registeredWindows);
             Initialize();
-            //Get Y Spacing for resizes
-            y_spacing = Height - textBoxLogs.Bottom;
-
-            if (NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs)
-            {
-                pictureBoxLogs_Click(null, null);
-            }
 
             //Re-init richtext for NLog
             try
@@ -180,11 +186,6 @@ namespace NVidia_Surround_Assistant
             {
 
             }
-
-            //Start minimized 
-            if (NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized)
-                WindowState = FormWindowState.Minimized;
-            systemTrayIcon.Visible = true;
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -197,8 +198,8 @@ namespace NVidia_Surround_Assistant
             else
             {
                 //Stop event manager
-                if (startWatch != null)
-                    startWatch.Stop();
+                if (processStartEvent != null)
+                    processStartEvent.Stop();
                 //Switch back to normal mode depending on settings
                 SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnClose);
             }
@@ -274,7 +275,7 @@ namespace NVidia_Surround_Assistant
             //Load all applications into list
             LoadApplicationList();
 
-            StartProcessCreateWatcher();
+            CreateProcessWatchers();
         }
 
         public bool SaveSetupFiles()
@@ -355,7 +356,7 @@ namespace NVidia_Surround_Assistant
             foreach (ApplicationInfo app in applicationList)
             {
                 RegisterApplication(app);
-            }
+            }            
         }
 
         void DeleteApplicationFromList(Thumb AppThumb)
@@ -510,18 +511,22 @@ namespace NVidia_Surround_Assistant
             }
         }
 
-        void StartProcessCreateWatcher()
+        void CreateProcessWatchers()
         {
-            startWatch = new ManagementEventWatcher(
+            processStartEvent = new ManagementEventWatcher(
               new WqlEventQuery("SELECT * FROM Win32_ProcessStartTrace"));
-            startWatch.EventArrived += new EventArrivedEventHandler(startWatch_EventArrived);
-            startWatch.Start();
+            processStartEvent.EventArrived += new EventArrivedEventHandler(processStartEvent_EventArrived);
+            processStartEvent.Start();
+
+            processStopEvent = new ManagementEventWatcher("SELECT * FROM Win32_ProcessStopTrace");
+            processStopEvent.EventArrived += new EventArrivedEventHandler(processStopEvent_EventArrived);
+            processStopEvent.Start();
         }
         //Event is fired when a new process is created
-        void startWatch_EventArrived(object sender, EventArrivedEventArgs e)
+        void processStartEvent_EventArrived(object sender, EventArrivedEventArgs e)
         {
             ProcessInfo process = new ProcessInfo();
-            Process[] processList = new Process[0];
+            Process[] processList;
 
             process.processExeName = e.NewEvent.Properties["ProcessName"].Value as string;
             process.processName = Path.GetFileNameWithoutExtension(process.processExeName);
@@ -529,18 +534,31 @@ namespace NVidia_Surround_Assistant
 
             if (applicationDetectList.Contains(process.processName))
             {
-                startWatch.Stop();
-                while (processList.Length == 0)
-                    processList = Process.GetProcessesByName(process.processName);
+                processList = Process.GetProcessesByName(process.processName);
 
-                startWatch.Start();
                 if (processList.Length > 0)
                 {
                     process.procID = (IntPtr)processList[0].Id;
                     process.processFullPath = processList[0].MainModule.FileName;
+                    ProcessCreatedWindow(process);
                 }
+            }
+        }
 
-                ProcessCreatedWindow(process);
+        void processStopEvent_EventArrived(object sender, EventArrivedEventArgs e)
+        {
+            ProcessInfo process = new ProcessInfo();
+
+            process.processExeName = e.NewEvent.Properties["ProcessName"].Value as string;
+            process.procID = new IntPtr(Convert.ToInt64(e.NewEvent.Properties["ProcessID"].Value));
+            process.processName = Path.GetFileNameWithoutExtension(process.processExeName);
+            logger.Trace("WMI Process stopped: {0} ", process.processExeName);
+
+            if (applicationDetectList.Contains(process.processName))
+            {
+                StoppedProcessList.Enqueue(process);
+                if (!processStopTimer.Enabled)
+                    processStopTimer.Start();
             }
         }
 
@@ -622,87 +640,13 @@ namespace NVidia_Surround_Assistant
                 if ((index = runningApplicationsList.FindIndex(r => r.processName == process.processName)) == -1)
                 {
                     app = GetApplicationFromList(process.processFullPath);
-                    if (app != null && !app.Enabled)
-                    {
-                        return;
-                    }
 #if !DEBUG_NO_SURROUND_SWITCH
-                    if (app == null)//TODO test this
-                    {
-                        logger.Debug("loading surround from memory");
-
-                        if (!surroundManager.SM_IsSurroundActive())
-                        {
-                            //Pause detected application until surround has been activated                            
-                            if (DebugActiveProcess(process.procID) != 0)
-                            {
-
-                                logger.Debug("App Pause Error: {0}", GetLastError().ToString());
-                                //Save current display setup for re-application later
-                                surroundManager.SM_SaveCurrentSetup();
-                                if (!surroundManager.SM_ApplySetupFromMemory(true))
-                                {
-                                    if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
-                                    {
-                                        if (DebugActiveProcessStop(process.procID) == 0)
-                                        {
-                                            logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
-                                            Thread.Sleep(100);
-                                        }
-
-                                        try
-                                        {
-                                            process.process = Process.GetProcessById((int)process.procID);
-                                            process.process.Kill();
-                                        }
-                                        catch (ArgumentException ex)
-                                        {
-                                            logger.Error("Process kill error: {0}", ex.Message);
-                                        }
-                                        catch (Win32Exception ex)
-                                        {
-                                            logger.Error("Process kill error: {0}", ex.Message);
-                                        }
-                                        catch (NotSupportedException ex)
-                                        {
-                                            logger.Error("Process kill error: {0}", ex.Message);
-                                        }
-                                        catch (InvalidOperationException ex)
-                                        {
-                                            logger.Error("Process kill error: {0}", ex.Message);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    logger.Info("Application Detected and Surround Applied: {0}", process.processName);
-                                    runningApplicationsList.Add(process);
-
-                                    //Attach to OnExited event of Window
-                                    process.process = Process.GetProcessById((int)process.procID);
-                                    process.process.EnableRaisingEvents = true;
-                                    process.process.Exited += (sender, e) => ListedProcess_Exited(sender, e);
-
-                                    if (DebugActiveProcessStop(process.procID) == 0)
-                                    {
-                                        logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
-                                    }
-                                }
-
-                            }
-                            else
-                            {
-                                logger.Debug("Could not pause app. Error: {0}", GetLastError().ToString());
-                            }
-                        }
-
-                    }
-                    else
+                    if (app != null && app.Enabled)
                     {
                         logger.Debug("loading surround from file: {0}", app.SurroundGrid);
                         if (!surroundManager.SM_IsSurroundActive(binDir + "\\cfg\\" + app.SurroundGrid))
                         {
-                            //Pause detected application until surround has been activated
+                            //Pause detected application until surround has been activated. If no error then switch will be done without pause. Might cause issues to driver
                             if (DebugActiveProcess(process.procID) != 0)
                             {
                                 logger.Debug("App Pause Error: {0}", GetLastError().ToString());
@@ -744,12 +688,8 @@ namespace NVidia_Surround_Assistant
                                 else
                                 {
                                     logger.Info("Application Detected and Surround Applied: {0}", process.processName);
-                                    runningApplicationsList.Add(process);
-
-                                    //Attach to OnExited event of Window
-                                    process.process = Process.GetProcessById((int)process.procID);
-                                    process.process.EnableRaisingEvents = true;
-                                    process.process.Exited += (sender, e) => ListedProcess_Exited(sender, e);
+                                    //Add To running application list
+                                    runningApplicationsList.Add(process);                                   
 
                                     if (DebugActiveProcessStop(process.procID) == 0)
                                     {
@@ -762,15 +702,15 @@ namespace NVidia_Surround_Assistant
                                 logger.Debug("App Pause: {0}", GetLastError().ToString());
                             }
                         }
-                    }
-#else 
-                    logger.Info("Application Detected and Surround Applied: {0}", process.processName);
-                    runningApplicationsList.Add(process);
 
-                    //Attach to OnExited event of Window
-                    process.process = Process.GetProcessById((int)process.procID);
-                    process.process.EnableRaisingEvents = true;
-                    process.process.Exited += (sender, e) => ListedProcess_Exited(sender, e);
+                    }
+                    else
+                    {
+                        logger.Error("App not in list: {0}", process.processName);
+                    }
+#else
+                    logger.Info("Application Detected and Surround Applied: {0}, {1}", process.processName, process.procID);
+                    runningApplicationsList.Add(process);
 
                     if (DebugActiveProcessStop(process.procID) == 0)
                     {
@@ -780,12 +720,9 @@ namespace NVidia_Surround_Assistant
                 }
                 else
                 {
-                    logger.Info("Application Detected but already in list: {0}", process.processName);
+                    logger.Info("Application Detected but already in list: {0}, {1}", process.processName, process.procID);
+                    //Add To running application list
                     runningApplicationsList.Add(process);
-                    //Attach to OnExited event of Window
-                    process.process = Process.GetProcessById((int)process.procID);
-                    process.process.EnableRaisingEvents = true;
-                    process.process.Exited += (sender, e) => ListedProcess_Exited(sender, e);
                 }
             }
             finally
@@ -794,41 +731,89 @@ namespace NVidia_Surround_Assistant
             }
         }
 
-        // Handle Exited event: check running list if none switch back to normal display setup
-        private void ListedProcess_Exited(object sender, System.EventArgs e)
+        private void processStopTimer_OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
-            //If the event is fired from another thread, then we want to invoke the method again in the applications main context
-            if (InvokeRequired)
-            {
-                Invoke(new Action<object, EventArgs>(ListedProcess_Exited), sender, e);
-                return;
-            }
-            
-            Process proc = sender as Process;
+            ProcessInfo proc = new ProcessInfo();
             int index = 0;
             try
             {
-                logger.Info("Application exiting: {0}", proc.ProcessName);
-                //newProcessMutex.WaitOne();
-                if((index = runningApplicationsList.FindIndex(r => r.processName == proc.ProcessName)) == -1)
-                    runningApplicationsList.RemoveAt(index);
-                //If no other app is in list switch back to normal mode
-                if (runningApplicationsList.Count == 0)
+                processStopTimer.Stop();
+                if (Interlocked.CompareExchange(ref processStoppedSyncPoint, 1, 0) == 0)
                 {
-                    logger.Info("No more running applications, switching called");
-                    SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
+                    while (!StoppedProcessList.IsEmpty)
+                    {
+                        if (StoppedProcessList.TryDequeue(out proc))
+                        {
+                            logger.Info("Application exiting: {0}, {1}", proc.processName, proc.procID);
+                            //if in running list remove it
+                            if ((index = runningApplicationsList.FindIndex(r => r.procID == proc.procID)) != -1)
+                            {
+                                logger.Debug("Removing from running list: {0} , {1}", proc.processName, proc.procID);
+                                runningApplicationsList.RemoveAt(index);
+                            }
+                        }
+                    }
+                    //If no other app is in list switch back to normal mode
+                    if (runningApplicationsList.Count == 0)
+                    {
+                        logger.Info("No more running applications, switching called");
+                        SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
+                    }
+                    else if (CheckRunningListForZombies())
+                    {
+                        logger.Debug("Zombie check");
+                        logger.Info("No more running applications, switching called");
+                        SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
+                    }
+                    else
+                    {
+                        //Do nothing
+                    }
+                    // Release control of syncPoint.
+                    processStoppedSyncPoint = 0;
                 }
             }
             catch (InvalidOperationException)
             {
-            }
-            finally
-            {
-                //newProcessMutex.ReleaseMutex();
+                // Release control of syncPoint.
+                processStoppedSyncPoint = 0;
             }
         }
 
-        //private void SurroundConfigApplyFailed()
+        //Ahh brains ;D Check that none of the applications listed in running have not been missed somehow
+        private bool CheckRunningListForZombies()
+        {
+            ProcessInfo proc = new ProcessInfo();
+            int count = runningApplicationsList.Count;
+
+            newProcessMutex.WaitOne();
+            for (int index = 0; index < count; index++)
+            {
+                proc = runningApplicationsList[index];
+                try
+                {
+                    //Process id should never be 0
+                    if ((int)proc.procID != 0)
+                        Process.GetProcessById((int)proc.procID);
+                    else
+                    {
+                        runningApplicationsList.RemoveAt(index);
+                        count--;
+                        index--;
+                    }
+                }
+                //If the process id is no longer running ArgumentException will be thrown thus we can remove it from list
+                catch (ArgumentException)
+                {
+                    logger.Debug("Removing from running list: {0} , {1}", proc.processName, proc.procID);
+                    runningApplicationsList.RemoveAt(index);
+                    count--;
+                    index--;
+                }
+            }
+            newProcessMutex.ReleaseMutex();
+            return (runningApplicationsList.Count == 0);
+        }
 
         private void LoggerSetup()
         {
@@ -899,6 +884,13 @@ namespace NVidia_Surround_Assistant
             LogManager.Configuration = config;
         }
 
+        private void UpdateForm()
+        {
+            pictureBoxClose.SuspendLayout();
+            pictureBoxClose.Location = new Point(this.ClientSize.Width - (pictureBoxClose.Width + border_spacing_Form), border_spacing_Form);
+            pictureBoxClose.ResumeLayout();
+        }
+
         #region controls
         private void PictureBoxAddGame_Click(object sender, EventArgs e)
         {
@@ -955,19 +947,26 @@ namespace NVidia_Surround_Assistant
         {
             Show();
             this.WindowState = FormWindowState.Normal;
+            thumbGridView.SetAutoScroll(true);
         }
 
         private void SystemTrayIcon_DoubleClick(object sender, EventArgs e)
         {
             Show();
             this.WindowState = FormWindowState.Normal;
+            thumbGridView.SetAutoScroll(true);
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized)
             {
+                thumbGridView.SetAutoScroll(false);
                 Hide();
+            }            
+            else
+            {
+                thumbGridView.ResetScrollBar(0);
             }
         }
 
@@ -988,15 +987,10 @@ namespace NVidia_Surround_Assistant
             if (textBoxLogs.Visible == true)
             {
                 textBoxLogs.Visible = false;
-                thumbGridView.Size = new Size(thumbGridView.Width, textBoxLogs.Top + y_spacing);
-                this.Size = new Size(this.Width, textBoxLogs.Top + y_spacing);
-
             }
             else
             {
                 textBoxLogs.Visible = true;
-                thumbGridView.Size = new Size(thumbGridView.Width, textBoxLogs.Top + y_spacing);
-                this.Size = new Size(this.Width, textBoxLogs.Bottom + y_spacing);
             }
         }
 
@@ -1008,18 +1002,61 @@ namespace NVidia_Surround_Assistant
         private void pictureBoxLoadConfig_Click(object sender, EventArgs e)
         {
             surroundManager.SM_ApplySetupFromFile();
-        }        
+        }
 
         private void pictureBoxClose_Click(object sender, EventArgs e)
         {
             quitApplication = true;
             Close();
         }
-        #endregion
 
         private void pictureBoxSwitchSurround_Click(object sender, EventArgs e)
         {
             surroundManager.SM_SwitchSurround();
         }
+
+        private void MainForm_Layout(object sender, LayoutEventArgs e)
+        {
+            if (formShown)
+                UpdateForm();
+        }
+
+        private void textBoxLogs_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Maximized)
+            {
+                if (textBoxLogs.Visible == true)
+                {
+                    this.Size = new Size(this.Width, this.Height + textBoxLogs.Height);
+                }
+                else
+                {
+                    this.Size = new Size(this.Width, this.Height - textBoxLogs.Height + y_spacing_logBox);
+                }
+            }
+        }        
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (y_spacing_logBox == 0 || border_spacing_Form == 0)
+            {
+                //Get Y Spacing for resizes
+                formShown = true;
+                y_spacing_logBox = ClientSize.Height - textBoxLogs.Bottom;
+                border_spacing_Form = pictureBoxClose.Top;
+                textBoxLogs.Visible = NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs;
+                if(!textBoxLogs.Visible)
+                {
+                    this.Size = new Size(this.Width, this.Height - textBoxLogs.Height + y_spacing_logBox);
+                }
+                textBoxLogs.VisibleChanged += textBoxLogs_VisibleChanged;
+                UpdateForm();
+                thumbGridView.ResetScrollBar(0);
+                //Start minimized 
+                if (NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized)
+                    WindowState = FormWindowState.Minimized;
+            }
+        }
+        #endregion
     }
 }

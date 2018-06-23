@@ -44,22 +44,22 @@
             this.toolStripMenuItem_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxLogs = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.pictureBoxSwitchSurround = new System.Windows.Forms.PictureBox();
+            this.pictureBoxClose = new System.Windows.Forms.PictureBox();
             this.pictureBoxLoadConfig = new System.Windows.Forms.PictureBox();
             this.pictureBoxSaveConfig = new System.Windows.Forms.PictureBox();
             this.pictureBoxLogs = new System.Windows.Forms.PictureBox();
             this.pictureBoxSettings = new System.Windows.Forms.PictureBox();
             this.pictureBoxAddGame = new System.Windows.Forms.PictureBox();
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
-            this.pictureBoxClose = new System.Windows.Forms.PictureBox();
-            this.pictureBoxSwitchSurround = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip_SystemTray.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
             this.SuspendLayout();
             // 
             // processCreatedCatcher
@@ -148,15 +148,44 @@
             // 
             // textBoxLogs
             // 
+            this.textBoxLogs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxLogs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxLogs.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.textBoxLogs.Location = new System.Drawing.Point(12, 510);
+            this.textBoxLogs.Location = new System.Drawing.Point(12, 522);
             this.textBoxLogs.Name = "textBoxLogs";
             this.textBoxLogs.Size = new System.Drawing.Size(1086, 141);
             this.textBoxLogs.TabIndex = 46;
             this.textBoxLogs.Text = "";
+            // 
+            // pictureBoxSwitchSurround
+            // 
+            this.pictureBoxSwitchSurround.Image = global::NVidia_Surround_Assistant.Properties.Resources.help_50x50;
+            this.pictureBoxSwitchSurround.Location = new System.Drawing.Point(180, 12);
+            this.pictureBoxSwitchSurround.Name = "pictureBoxSwitchSurround";
+            this.pictureBoxSwitchSurround.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxSwitchSurround.TabIndex = 76;
+            this.pictureBoxSwitchSurround.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxSwitchSurround, "Switch Surround Mode");
+            this.pictureBoxSwitchSurround.Click += new System.EventHandler(this.pictureBoxSwitchSurround_Click);
+            // 
+            // pictureBoxClose
+            // 
+            this.pictureBoxClose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.close_50x50;
+            this.pictureBoxClose.Location = new System.Drawing.Point(1052, 12);
+            this.pictureBoxClose.MaximumSize = new System.Drawing.Size(50, 50);
+            this.pictureBoxClose.MinimumSize = new System.Drawing.Size(50, 50);
+            this.pictureBoxClose.Name = "pictureBoxClose";
+            this.pictureBoxClose.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxClose.TabIndex = 75;
+            this.pictureBoxClose.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxClose, "Exit");
+            this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
             // 
             // pictureBoxLoadConfig
             // 
@@ -215,42 +244,20 @@
             // 
             // thumbGridView
             // 
-            this.thumbGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.thumbGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.thumbGridView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.thumbGridView.Location = new System.Drawing.Point(12, 77);
+            this.thumbGridView.Location = new System.Drawing.Point(12, 105);
             this.thumbGridView.Name = "thumbGridView";
-            this.thumbGridView.Size = new System.Drawing.Size(1086, 444);
+            this.thumbGridView.Size = new System.Drawing.Size(1086, 411);
             this.thumbGridView.TabIndex = 5;
-            // 
-            // pictureBoxClose
-            // 
-            this.pictureBoxClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.close_50x50;
-            this.pictureBoxClose.Location = new System.Drawing.Point(1052, 12);
-            this.pictureBoxClose.Name = "pictureBoxClose";
-            this.pictureBoxClose.Size = new System.Drawing.Size(50, 50);
-            this.pictureBoxClose.TabIndex = 75;
-            this.pictureBoxClose.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxClose, "Show Log");
-            this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
-            // 
-            // pictureBoxSwitchSurround
-            // 
-            this.pictureBoxSwitchSurround.Location = new System.Drawing.Point(180, 12);
-            this.pictureBoxSwitchSurround.Name = "pictureBoxSwitchSurround";
-            this.pictureBoxSwitchSurround.Size = new System.Drawing.Size(50, 50);
-            this.pictureBoxSwitchSurround.TabIndex = 76;
-            this.pictureBoxSwitchSurround.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxSwitchSurround, "Settings");
-            this.pictureBoxSwitchSurround.Click += new System.EventHandler(this.pictureBoxSwitchSurround_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1114, 658);
+            this.ClientSize = new System.Drawing.Size(1114, 675);
             this.Controls.Add(this.pictureBoxSwitchSurround);
             this.Controls.Add(this.pictureBoxClose);
             this.Controls.Add(this.pictureBoxLoadConfig);
@@ -266,15 +273,17 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
+            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.MainForm_Layout);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.contextMenuStrip_SystemTray.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).EndInit();
             this.ResumeLayout(false);
 
         }

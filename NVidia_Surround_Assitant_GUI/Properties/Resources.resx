@@ -145,6 +145,9 @@
   <data name="folder_50x50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder 50x50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="help_50x50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help 50x50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="maximize_25x25" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\maximize 25x25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

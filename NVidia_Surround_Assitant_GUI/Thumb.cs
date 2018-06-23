@@ -19,6 +19,10 @@ namespace NVidia_Surround_Assistant
 
         private ApplicationInfo appInfo;
 
+        Point tickMarkLocation = new Point(5, 5);
+        Point tickMarkOuter;
+        Size tickMarkSize = new Size(25, 25);
+
         public Thumb(ApplicationInfo AppInfo, NLog.Logger logger)
         {
             InitializeComponent();
@@ -27,6 +31,8 @@ namespace NVidia_Surround_Assistant
             //Allocate appInfo
             appInfo = AppInfo;
             UpdateThumb();
+
+            tickMarkOuter = new Point(tickMarkLocation.X + tickMarkSize.Width, tickMarkLocation.Y + tickMarkSize.Height);
 
             try
             {
@@ -117,7 +123,7 @@ namespace NVidia_Surround_Assistant
                 graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
                                 
                 graphics.DrawImage(cover, (int)Math.Floor((pbGameBoxCover.Width - cover.Width) / 2.0), (int)Math.Floor((pbGameBoxCover.Height - cover.Height) / 2.0));
-                graphics.DrawImage(tickMark, 5, 5, 25, 25);
+                graphics.DrawImage(tickMark, tickMarkLocation.X, tickMarkLocation.Y, tickMarkSize.Width, tickMarkSize.Height);
             }
             else
             {
@@ -126,9 +132,9 @@ namespace NVidia_Surround_Assistant
                 graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
 
                 graphics.DrawImage(cover, 0, 0);
-                graphics.DrawImage(tickMark, 5, 5, 25, 25);
-            }
-                        
+                graphics.DrawImage(tickMark, tickMarkLocation.X, tickMarkLocation.Y, tickMarkSize.Width, tickMarkSize.Height);
+            }            
+
             return target;
         }
 
@@ -164,8 +170,9 @@ namespace NVidia_Surround_Assistant
 
         private void pbGameBoxCover_MouseClick(object sender, MouseEventArgs e)
         {
-            if((e.Location.X < 35) && (e.Location.X > pbGameBoxCover.Location.X)
-                && (e.Location.Y < 35) && (e.Location.Y > pbGameBoxCover.Location.Y))
+            Point mousePos = pbGameBoxCover.PointToClient(Control.MousePosition);
+            if ((mousePos.X < tickMarkOuter.X) && (mousePos.X > tickMarkLocation.X)
+                && (mousePos.Y < tickMarkOuter.Y) && (mousePos.Y > tickMarkLocation.Y))
             {
                 if(silentEditApplication != null)
                     silentEditApplication(this);
@@ -178,9 +185,9 @@ namespace NVidia_Surround_Assistant
             ToolTip toolTip = new ToolTip();
             Point mousePos = pbGameBoxCover.PointToClient(Control.MousePosition);            
             String toolMsg;
-
-            if ((mousePos.X < 35) && (mousePos.X > pbGameBoxCover.Location.X)
-                && (mousePos.Y < 35) && (mousePos.Y > pbGameBoxCover.Location.Y))
+                        
+            if ((mousePos.X < tickMarkOuter.X) && (mousePos.X > tickMarkLocation.X)
+                && (mousePos.Y < tickMarkOuter.Y) && (mousePos.Y > tickMarkLocation.Y))
             {
                 if (appInfo.Enabled)
                     toolMsg = "Auto Surround Enabled";
