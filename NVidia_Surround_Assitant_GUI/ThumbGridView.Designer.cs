@@ -39,8 +39,9 @@
             this.panelApplicationListView.AutoScroll = true;
             this.panelApplicationListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelApplicationListView.Location = new System.Drawing.Point(3, 3);
+            this.panelApplicationListView.MinimumSize = new System.Drawing.Size(257, 411);
             this.panelApplicationListView.Name = "panelApplicationListView";
-            this.panelApplicationListView.Size = new System.Drawing.Size(540, 382);
+            this.panelApplicationListView.Size = new System.Drawing.Size(540, 411);
             this.panelApplicationListView.TabIndex = 0;
             this.panelApplicationListView.Resize += new System.EventHandler(this.panelApplicationListView_Resize);
             // 
@@ -50,8 +51,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.Controls.Add(this.panelApplicationListView);
+            this.MinimumSize = new System.Drawing.Size(260, 414);
             this.Name = "ThumbGridView";
-            this.Size = new System.Drawing.Size(546, 388);
+            this.Size = new System.Drawing.Size(546, 414);
             this.Layout += new System.Windows.Forms.LayoutEventHandler(this.panelApplicationListView_Layout);
             this.ResumeLayout(false);
 

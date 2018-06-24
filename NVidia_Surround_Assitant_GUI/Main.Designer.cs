@@ -154,11 +154,12 @@
             this.textBoxLogs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxLogs.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.textBoxLogs.Location = new System.Drawing.Point(12, 522);
+            this.textBoxLogs.Location = new System.Drawing.Point(12, 541);
             this.textBoxLogs.Name = "textBoxLogs";
-            this.textBoxLogs.Size = new System.Drawing.Size(1086, 141);
+            this.textBoxLogs.Size = new System.Drawing.Size(1056, 141);
             this.textBoxLogs.TabIndex = 46;
             this.textBoxLogs.Text = "";
+            this.textBoxLogs.VisibleChanged += new System.EventHandler(this.textBoxLogs_VisibleChanged);
             // 
             // pictureBoxSwitchSurround
             // 
@@ -177,7 +178,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.close_50x50;
-            this.pictureBoxClose.Location = new System.Drawing.Point(1052, 12);
+            this.pictureBoxClose.Location = new System.Drawing.Point(1022, 12);
             this.pictureBoxClose.MaximumSize = new System.Drawing.Size(50, 50);
             this.pictureBoxClose.MinimumSize = new System.Drawing.Size(50, 50);
             this.pictureBoxClose.Name = "pictureBoxClose";
@@ -244,12 +245,14 @@
             // 
             // thumbGridView
             // 
-            this.thumbGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.thumbGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.thumbGridView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.thumbGridView.Location = new System.Drawing.Point(12, 105);
+            this.thumbGridView.MinimumSize = new System.Drawing.Size(260, 414);
             this.thumbGridView.Name = "thumbGridView";
-            this.thumbGridView.Size = new System.Drawing.Size(1086, 411);
+            this.thumbGridView.Size = new System.Drawing.Size(1056, 417);
             this.thumbGridView.TabIndex = 5;
             // 
             // MainForm
@@ -257,7 +260,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1114, 675);
+            this.ClientSize = new System.Drawing.Size(1084, 687);
             this.Controls.Add(this.pictureBoxSwitchSurround);
             this.Controls.Add(this.pictureBoxClose);
             this.Controls.Add(this.pictureBoxLoadConfig);

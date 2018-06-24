@@ -114,6 +114,8 @@ namespace NVidia_Surround_Assistant
         int border_spacing_Form = 0;
         int y_spacing_logBox = 0;
 
+        int textBoxLogs_PixelShift = 0;
+
         //Form that receives all messages and adds them to the queue
         public MainForm()
         {
@@ -886,9 +888,27 @@ namespace NVidia_Surround_Assistant
 
         private void UpdateForm()
         {
-            pictureBoxClose.SuspendLayout();
-            pictureBoxClose.Location = new Point(this.ClientSize.Width - (pictureBoxClose.Width + border_spacing_Form), border_spacing_Form);
-            pictureBoxClose.ResumeLayout();
+            this.SuspendLayout();
+            pictureBoxClose.Location = new Point(this.ClientSize.Width - (pictureBoxClose.Width + border_spacing_Form), border_spacing_Form);           
+            this.ResumeLayout();
+        }
+
+        private void UpdateTextBoxLogAndThumbGrid()
+        {
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                thumbGridView.SetAutoScroll(false);
+                if (textBoxLogs.Visible == true)
+                {
+                    this.Size = new Size(this.Width, this.Height + textBoxLogs_PixelShift);
+                }
+                else
+                {
+                    this.Size = new Size(this.Width, this.Height - textBoxLogs_PixelShift);                    
+                }
+                thumbGridView.SetAutoScroll(true);
+                thumbGridView.ResetScrollBar(0);
+            }
         }
 
         #region controls
@@ -963,11 +983,7 @@ namespace NVidia_Surround_Assistant
             {
                 thumbGridView.SetAutoScroll(false);
                 Hide();
-            }            
-            else
-            {
-                thumbGridView.ResetScrollBar(0);
-            }
+            }     
         }
 
         private void contextMenuStrip_SystemTray_Opening(object sender, CancelEventArgs e)
@@ -1018,44 +1034,30 @@ namespace NVidia_Surround_Assistant
         private void MainForm_Layout(object sender, LayoutEventArgs e)
         {
             if (formShown)
-                UpdateForm();
-        }
-
-        private void textBoxLogs_VisibleChanged(object sender, EventArgs e)
-        {
-            if (this.WindowState != FormWindowState.Maximized)
-            {
-                if (textBoxLogs.Visible == true)
-                {
-                    this.Size = new Size(this.Width, this.Height + textBoxLogs.Height);
-                }
-                else
-                {
-                    this.Size = new Size(this.Width, this.Height - textBoxLogs.Height + y_spacing_logBox);
-                }
-            }
-        }        
+                UpdateForm();            
+        }     
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
             if (y_spacing_logBox == 0 || border_spacing_Form == 0)
             {
-                //Get Y Spacing for resizes
-                formShown = true;
+                //Get Spacing and sizes for resizes                
                 y_spacing_logBox = ClientSize.Height - textBoxLogs.Bottom;
                 border_spacing_Form = pictureBoxClose.Top;
-                textBoxLogs.Visible = NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs;
-                if(!textBoxLogs.Visible)
-                {
-                    this.Size = new Size(this.Width, this.Height - textBoxLogs.Height + y_spacing_logBox);
-                }
-                textBoxLogs.VisibleChanged += textBoxLogs_VisibleChanged;
-                UpdateForm();
+                textBoxLogs_PixelShift = y_spacing_logBox + textBoxLogs.Height;
+
+                textBoxLogs.Visible = NVidia_Surround_Assistant.Properties.Settings.Default.ShowLogs;                
                 thumbGridView.ResetScrollBar(0);
                 //Start minimized 
                 if (NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized)
                     WindowState = FormWindowState.Minimized;
+                formShown = true;
             }
+        }
+
+        private void textBoxLogs_VisibleChanged(object sender, EventArgs e)
+        {
+            UpdateTextBoxLogAndThumbGrid();
         }
         #endregion
     }
