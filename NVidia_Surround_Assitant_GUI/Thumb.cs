@@ -23,7 +23,7 @@ namespace NVidia_Surround_Assistant
         Point tickMarkOuter;
         Size tickMarkSize = new Size(25, 25);
 
-        public Thumb(ApplicationInfo AppInfo, NLog.Logger logger)
+        public Thumb(ApplicationInfo AppInfo)
         {
             InitializeComponent();
             if (AppInfo == null)
@@ -193,6 +193,7 @@ namespace NVidia_Surround_Assistant
                     toolMsg = "Auto Surround Enabled";
                 else
                     toolMsg = "Auto Surround Disabled";
+                mousePos.Y -= 5;
                 toolTip.Show(toolMsg, this, mousePos, 1000);
             }
         }

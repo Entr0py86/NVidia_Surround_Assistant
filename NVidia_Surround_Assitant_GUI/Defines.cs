@@ -144,12 +144,24 @@ namespace NVidia_Surround_Assistant
         public string FullPath { get; set; }
         public string ProcessName { get; set; }
         public Bitmap Image { get; set; }
-        public string NormalGrid { get; set; }
-        public string SurroundGrid { get; set; }
+        public int NormalGrid { get; set; }
+        public int SurroundGrid { get; set; }
 
         public ApplicationInfo()
         {
             Image = null;
+        }
+    };
+
+    public class SurroundConfig
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public byte[] Config { get; set; }
+
+        public SurroundConfig()
+        {
+            Config = null;
         }
     };
 };

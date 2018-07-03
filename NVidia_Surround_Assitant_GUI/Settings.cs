@@ -9,7 +9,6 @@ namespace NVidia_Surround_Assistant
     public partial class Settings : Form
     {
         //Load all settings to local class
-        Logger logger = LogManager.GetLogger("nvsaLogger");
         LoggingConfiguration loggingConfiguration = new LoggingConfiguration();
         
         bool StartOnStartup = NVidia_Surround_Assistant.Properties.Settings.Default.StartOnStartup;
@@ -82,7 +81,7 @@ namespace NVidia_Surround_Assistant
                 pictureBoxShowLogs_Yes.Visible = false;
             }
 
-            DialogResult = DialogResult.None;//TODO check that this is not causing a no save condition if the close button is clicked
+            DialogResult = DialogResult.None;
             comboBoxSurroundToNormal_OnClose.SelectedIndex = SurroundToNormal_OnClose;
             comboBoxSurroundToNormal_OnExit.SelectedIndex = SurroundToNormal_OnExit;
             comboBoxLogLevel.SelectedIndex = configLogLevel;
@@ -140,11 +139,10 @@ namespace NVidia_Surround_Assistant
                     LogManager.Configuration.LoggingRules[i].DisableLoggingForLevel(logLevel);
                 else
                     LogManager.Configuration.LoggingRules[i].EnableLoggingForLevel(logLevel);
-            }
-            
+            }            
         }
 
-        private void pictureBoxApply_Click(object sender, EventArgs e)
+        private void SaveSettings()
         {
             NVidia_Surround_Assistant.Properties.Settings.Default.StartOnStartup = StartOnStartup;
             NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized = StartMinimized;
@@ -157,8 +155,12 @@ namespace NVidia_Surround_Assistant
 
             //Save settings
             NVidia_Surround_Assistant.Properties.Settings.Default.Save();
+        }
 
-            logger.Debug("Settings: Saved");
+        private void pictureBoxApply_Click(object sender, EventArgs e)
+        {
+            SaveSettings();
+            MainForm.logger.Debug("Settings: Saved");
 
             settingsNotSaved = false;
             DialogResult = DialogResult.OK;
@@ -178,7 +180,7 @@ namespace NVidia_Surround_Assistant
             StartMinimized = false;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Minimize on start-up.");
+            MainForm.logger.Info("Settings: Minimize on start-up.");
         }
 
         private void pictureBoxStartMax_Click(object sender, EventArgs e)
@@ -188,7 +190,7 @@ namespace NVidia_Surround_Assistant
             StartMinimized = true;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Maximize on start-up.");
+            MainForm.logger.Info("Settings: Maximize on start-up.");
         }
 
         private void pictureBoxCloseToTray_Click(object sender, EventArgs e)
@@ -198,7 +200,7 @@ namespace NVidia_Surround_Assistant
             CloseToTray = false;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Close to tray.");
+            MainForm.logger.Info("Settings: Close to tray.");
         }
 
         private void pictureBoxCloseOnClose_Click(object sender, EventArgs e)
@@ -208,7 +210,7 @@ namespace NVidia_Surround_Assistant
             CloseToTray = true;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Close normally.");
+            MainForm.logger.Info("Settings: Close normally.");
         }
 
         private void pictureBoxSaveWindowPositions_Yes_Click(object sender, EventArgs e)
@@ -218,7 +220,7 @@ namespace NVidia_Surround_Assistant
             SaveWindowPositions = false;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Save Window positions on surround switch.");
+            MainForm.logger.Info("Settings: Save Window positions on surround switch.");
         }
 
         private void pictureBoxSaveWindowPositions_No_Click(object sender, EventArgs e)
@@ -228,7 +230,7 @@ namespace NVidia_Surround_Assistant
             SaveWindowPositions = true;
             settingsNotSaved = true;
 
-            logger.Info("Settings: Discard window positions.");
+            MainForm.logger.Info("Settings: Discard window positions.");
         }
 
         private void pictureBoxStartOnStartup_Yes_Click(object sender, EventArgs e)
@@ -238,7 +240,7 @@ namespace NVidia_Surround_Assistant
             StartOnStartup = false;
             DeleteTask();
 
-            logger.Info("Settings: Start with windows.");
+            MainForm.logger.Info("Settings: Start with windows.");
         }
 
         private void pictureBoxStartOnStartup_No_Click(object sender, EventArgs e)
@@ -248,7 +250,7 @@ namespace NVidia_Surround_Assistant
             StartOnStartup = true;
             CreateTask();
 
-            logger.Info("Settings: Start manually.");
+            MainForm.logger.Info("Settings: Start manually.");
         }        
 
         private void comboBoxSurroundToNormal_OnClose_SelectedIndexChanged(object sender, EventArgs e)
@@ -262,16 +264,16 @@ namespace NVidia_Surround_Assistant
             switch(SurroundToNormal_OnClose)
             {
             case 0:
-                logger.Info("Settings: Always switch to normal on NVSA exit.");
+                MainForm.logger.Info("Settings: Always switch to normal on NVSA exit.");
                 break;
             case 1:
-                logger.Info("Settings: Ask switch to normal on NVSA exit.");
+                MainForm.logger.Info("Settings: Ask switch to normal on NVSA exit.");
                 break;
             case 2:
-                logger.Info("Settings: Never switch to normal on NVSA exit.");
+                MainForm.logger.Info("Settings: Never switch to normal on NVSA exit.");
                 break;
             default:
-                logger.Info("Settings: Unknown selection for switch to normal on NVSA exit.");
+                MainForm.logger.Info("Settings: Unknown selection for switch to normal on NVSA exit.");
                 break;
             }            
         }
@@ -287,28 +289,18 @@ namespace NVidia_Surround_Assistant
             switch (SurroundToNormal_OnClose)
             {
                 case 0:
-                    logger.Info("Settings: Always switch to normal on application exit.");
+                    MainForm.logger.Info("Settings: Always switch to normal on application exit.");
                     break;
                 case 1:
-                    logger.Info("Settings: Ask switch to normal on application exit.");
+                    MainForm.logger.Info("Settings: Ask switch to normal on application exit.");
                     break;
                 case 2:
-                    logger.Info("Settings: Never switch to normal on application exit.");
+                    MainForm.logger.Info("Settings: Never switch to normal on application exit.");
                     break;
                 default:
-                    logger.Info("Settings: Unknown selection for switch to normal on application exit.");
+                    MainForm.logger.Info("Settings: Unknown selection for switch to normal on application exit.");
                     break;
             }
-        }
-
-        private void pictureBoxSaveConfig_Click(object sender, EventArgs e)
-        {
-            MainForm.surroundManager.SM_SaveCurrentSetupToFile();
-        }
-
-        private void pictureBoxLoadConfig_Click(object sender, EventArgs e)
-        {
-            MainForm.surroundManager.SM_ApplySetupFromFile();
         }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e)
@@ -317,19 +309,18 @@ namespace NVidia_Surround_Assistant
             {
                 if(MessageBox.Show("Would you like to save your changed settings?", "Unsaved Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    NVidia_Surround_Assistant.Properties.Settings.Default.Save();//todo this is wrong should use click button or created apply function. Currently not updating new settings
+                    SaveSettings();
                 }
             }
         }
 
         private void pictureBoxShowLogs_Yes_Click(object sender, EventArgs e)
         {
-
             pictureBoxShowLogs_Yes.Visible = false;
             pictureBoxShowLogs_No.Visible = true;
             ShowLogs = false;
 
-            logger.Info("Settings: Show logs window.");
+            MainForm.logger.Info("Settings: Show logs window.");
         }
 
         private void pictureBoxShowLogs_No_Click(object sender, EventArgs e)
@@ -338,7 +329,7 @@ namespace NVidia_Surround_Assistant
             pictureBoxShowLogs_No.Visible = false;
             ShowLogs = true;
 
-            logger.Info("Settings: Hide logs window.");
+            MainForm.logger.Info("Settings: Hide logs window.");
         }
 
         /// <summary>
@@ -347,10 +338,6 @@ namespace NVidia_Surround_Assistant
         /// <param name="level">The <see cref="LogLevel" /> to be set.</param>
         private static void SetNlogLogLevel(LogLevel level)
         {
-            // Uncomment these to enable NLog logging. NLog exceptions are swallowed by default.
-            ////NLog.Common.InternalLogger.LogFile = @"C:\Temp\nlog.debug.log";
-            ////NLog.Common.InternalLogger.LogLevel = LogLevel.Debug;
-
             if (level == LogLevel.Off)
             {
                 LogManager.DisableLogging();

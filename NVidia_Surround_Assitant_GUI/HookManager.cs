@@ -39,8 +39,6 @@ namespace NVidia_Surround_Assistant
         IntPtr hWnd;
 
         private AutoResetEvent _newMsgEvent = new AutoResetEvent(false);
-        //Logger
-        Logger logger = LogManager.GetLogger("nvsaLogger");
         
         List<RegisteredWindowInfo> registeredWindows;
         
@@ -67,12 +65,12 @@ namespace NVidia_Surround_Assistant
                 {
                     //This is the CBT create window register from the HookDLL 
                     registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HCBT_CREATEWND));
-                    logger.Info("CBT Hook installed successfully");
+                    MainForm.logger.Info("CBT Hook installed successfully");
                 }
                 else
                 {
                     MessageBox.Show("Could not load HookDLL.dll. Application can not function without it.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    logger.Fatal("Could not load HookDLL.dll.");
+                    MainForm.logger.Fatal("Could not load HookDLL.dll.");
                 }
 
                 //install the Shell hook
@@ -83,13 +81,13 @@ namespace NVidia_Surround_Assistant
                     //This is the SHELL create window register from the HookDLL 
                     registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HSHELL_WINDOWCREATED));                    
 
-                    logger.Info("Shell Hook installed successfully");
+                    MainForm.logger.Info("Shell Hook installed successfully");
                 }
             }
             catch (DllNotFoundException ex)
             {
                 MessageBox.Show("Could not load HookDLL.dll. Application can not function without it.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Fatal("Hook DLL not found. {0}", ex.Message);
+                MainForm.logger.Fatal("Hook DLL not found. {0}", ex.Message);
             }
             finally
             {

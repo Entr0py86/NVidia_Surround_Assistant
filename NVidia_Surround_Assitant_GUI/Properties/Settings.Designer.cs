@@ -37,18 +37,6 @@ namespace NVidia_Surround_Assistant.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SurroundSetupFileName {
-            get {
-                return ((string)(this["SurroundSetupFileName"]));
-            }
-            set {
-                this["SurroundSetupFileName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool StartMinimized {
             get {
@@ -116,18 +104,6 @@ namespace NVidia_Surround_Assistant.Properties {
             }
             set {
                 this["StartOnStartup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultSetupFileName {
-            get {
-                return ((string)(this["DefaultSetupFileName"]));
-            }
-            set {
-                this["DefaultSetupFileName"] = value;
             }
         }
         

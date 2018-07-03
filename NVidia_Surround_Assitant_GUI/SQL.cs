@@ -11,11 +11,11 @@ namespace NVidia_Surround_Assistant
 {
     public class SQL
     {
-        Logger logger = LogManager.GetLogger("nvsaLogger");
         //SQL
         SQLiteConnection m_dbConnection = null;
         SQLiteCommand command;
 
+        #region Public: Connection Management
         public bool SQL_OpenConnection(string SQLiteDbName)
         {
             try
@@ -31,6 +31,7 @@ namespace NVidia_Surround_Assistant
                     m_dbConnection = new SQLiteConnection($"Data Source={SQLiteDbName};Version=3;");
                     m_dbConnection.Open();
                     SQL_ExecuteNonQuery("CREATE TABLE ApplicationList (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, enabled BOOLEAN, DisplayName STRING (256), fullPath STRING (260) UNIQUE, image BLOB (20971520), normalGrid STRING (260), surroundGrid STRING (260))");//20mb file
+                    SQL_ExecuteNonQuery("CREATE TABLE SurroundConfigs ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Name TEXT UNIQUE, ConfigFile BLOB )");
                 }
                 else
                 {
@@ -40,16 +41,16 @@ namespace NVidia_Surround_Assistant
             }
             catch (SQLiteException ex)
             {
-                logger.Debug("SQLite: SQL Open: {0}", ex.Message);
+                MainForm.logger.Debug("SQLite: SQL Open: {0}", ex.Message);
             }
             catch (System.DllNotFoundException ex)
             {
                 MessageBox.Show("Could not open SQL database.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Fatal("DLL not Found: SQL Open: {0}", ex.Message);
+                MainForm.logger.Fatal("DLL not Found: SQL Open: {0}", ex.Message);
             }
             catch (BadImageFormatException ex)
             {
-                logger.Fatal("Wrong DLL Architecture: SQL Open: {0}", ex.Message);
+                MainForm.logger.Fatal("Wrong DLL Architecture: SQL Open: {0}", ex.Message);
             }
 
             if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Open)
@@ -69,7 +70,7 @@ namespace NVidia_Surround_Assistant
             }
             catch (SQLiteException ex)
             {
-                logger.Debug("SQL: Close: {0}", ex.Message);
+                MainForm.logger.Debug("SQL: Close: {0}", ex.Message);
             }
 
             if (m_dbConnection != null && m_dbConnection.State == ConnectionState.Closed)
@@ -77,7 +78,9 @@ namespace NVidia_Surround_Assistant
             else
                 return false;
         }
-        
+        #endregion
+
+        #region Public: ApplicationInfo Table
         public List<ApplicationInfo> GetApplicationList()
         {
             List<ApplicationInfo> applicationInfos = new List<ApplicationInfo>();
@@ -99,13 +102,13 @@ namespace NVidia_Surround_Assistant
                                 FullPath = (string)reader["fullPath"],
                                 ProcessName = Path.GetFileNameWithoutExtension((string)reader["fullPath"]),
                                 Image = new Bitmap(ByteToImage((byte[])reader["image"])),
-                                NormalGrid = (string)reader["normalGrid"],
-                                SurroundGrid = (string)reader["surroundGrid"],
+                                NormalGrid = (int)reader.GetInt32(reader.GetOrdinal("normalGrid")),
+                                SurroundGrid = (int)reader.GetInt32(reader.GetOrdinal("surroundGrid")),
                             });
                         }
                         catch (System.InvalidCastException ex)
                         {
-                            logger.Debug("Invalid Cast: {0}", ex.Message);
+                            MainForm.logger.Debug("Invalid Cast: {0}", ex.Message);
                         }
                     }
                 }
@@ -124,11 +127,20 @@ namespace NVidia_Surround_Assistant
                     if (reader.VisibleFieldCount > 0)
                     {
                         reader.Read();
-                        return (int)reader.GetInt32(reader.GetOrdinal("id"));                            
+                        return (int)reader.GetInt32(reader.GetOrdinal("id"));
                     }
                 }
             }
             return -1;
+        }
+
+        public bool UpdateApplication(ApplicationInfo editApp)
+        {
+            SQLiteParameter[] parameters = { new SQLiteParameter("@id", editApp.Id), new SQLiteParameter("@enabled", editApp.Enabled), new SQLiteParameter("@DisplayName", editApp.DisplayName), new SQLiteParameter("@fullPath", editApp.FullPath), new SQLiteParameter("@image", ImageToByte(editApp.Image)), new SQLiteParameter("@normalGrid", editApp.NormalGrid), new SQLiteParameter("@surroundGrid", editApp.SurroundGrid) };
+            if (SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled, DisplayName = @DisplayName, fullPath = @fullPath, image = @image, normalGrid = @normalGrid, surroundGrid = @surroundGrid WHERE id = @id", parameters) > 0)
+                return true;
+            else
+                return false;
         }
 
         public bool DeleteApplication(int appId)
@@ -155,7 +167,7 @@ namespace NVidia_Surround_Assistant
 
         public bool DisableApplication(int appId)
         {
-            SQLiteParameter[] parameters = { new SQLiteParameter("@Enabled", false), new SQLiteParameter("@id", appId) };           
+            SQLiteParameter[] parameters = { new SQLiteParameter("@Enabled", false), new SQLiteParameter("@id", appId) };
 
             if (SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled WHERE id = @id", parameters) > 0)
             {
@@ -163,16 +175,203 @@ namespace NVidia_Surround_Assistant
             }
             return false;
         }
+        #endregion
 
-        public bool UpdateApplication(ApplicationInfo editApp)
+        #region Public: SurroundConfig Table
+        public List<SurroundConfig> GetSurroundConfigList()
         {
-            SQLiteParameter[] parameters = { new SQLiteParameter("@id", editApp.Id), new SQLiteParameter("@enabled", editApp.Enabled), new SQLiteParameter("@DisplayName", editApp.DisplayName), new SQLiteParameter("@fullPath", editApp.FullPath), new SQLiteParameter("@image", ImageToByte(editApp.Image)), new SQLiteParameter("@normalGrid", editApp.NormalGrid), new SQLiteParameter("@surroundGrid", editApp.SurroundGrid) };
-            if (SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled, DisplayName = @DisplayName, fullPath = @fullPath, image = @image, normalGrid = @normalGrid, surroundGrid = @surroundGrid WHERE id = @id", parameters) > 0)
+            List<SurroundConfig> surroundConfigs = new List<SurroundConfig>();
+
+            SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM SurroundConfigs");
+            if (reader != null)
+            {
+                if (reader.VisibleFieldCount > 0)
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            surroundConfigs.Add(new SurroundConfig
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("id")),
+                                Name = (string)reader["Name"],
+                                Config = (byte[])reader["ConfigFile"],
+                            });
+                        }
+                        catch (System.InvalidCastException ex)
+                        {
+                            MainForm.logger.Debug("Invalid Cast: {0}", ex.Message);
+                        }
+                    }
+                }
+            }
+            return surroundConfigs;
+        }
+
+        public bool SetSurroundConfig(SurroundConfig newConfig)
+        {
+            bool result = true;
+
+            if (!SurroundConfigExists(newConfig.Name))
+            {
+                AddSurroundConfig(newConfig);
+            }
+            else
+            {
+                UpdateSurroundConfig(newConfig);
+            }
+            return result;
+        }
+
+        public SurroundConfig GetSurroundConfig(string configName)
+        {
+            SurroundConfig resultConfig = null;
+
+            if(SurroundConfigExists(configName))
+            {
+                SQLiteDataReader reader = SQL_ExecuteQuery(String.Format("SELECT * FROM SurroundConfigs WHERE Name = \"{0}\"", configName));
+                if (reader != null)
+                {
+                    resultConfig = ReadSurroundConfig(reader);
+                }
+            }
+
+            return resultConfig;
+        }
+
+        public SurroundConfig GetSurroundConfig(int configId)
+        {
+            SurroundConfig resultConfig = null;
+
+            if (SurroundConfigExists(configId))
+            {
+                SQLiteDataReader reader = SQL_ExecuteQuery(String.Format("SELECT * FROM SurroundConfigs WHERE id = \"{0}\"", configId));
+                if (reader != null)
+                {
+                    resultConfig = ReadSurroundConfig(reader);
+                }
+            }
+
+            return resultConfig;
+        }
+
+        public bool DeleteSurroundConfig(SurroundConfig config)
+        {
+            SQLiteParameter[] parameters = { new SQLiteParameter("@id", config.Id) };
+
+            if (SQL_ExecuteNonQuery("DELETE FROM SurroundConfigs WHERE id = @id", parameters) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool DeleteSurroundConfig(string configName)
+        {
+            SQLiteParameter[] parameters = { new SQLiteParameter("@name", configName) };
+
+            if (SQL_ExecuteNonQuery("DELETE FROM SurroundConfigs WHERE Name = @name", parameters) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool DeleteSurroundConfig(int configId)
+        {
+            SQLiteParameter[] parameters = { new SQLiteParameter("@id", configId) };
+
+            if (SQL_ExecuteNonQuery("DELETE FROM SurroundConfigs WHERE id = @id", parameters) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool SurroundConfigExists(string configName)
+        {
+            bool result = false;
+
+            SQLiteDataReader reader = SQL_ExecuteQuery(String.Format("SELECT * FROM SurroundConfigs WHERE Name = \"{0}\"", configName));
+            if (reader != null)
+            {
+                if (ReadSurroundConfig(reader) != null)
+                    result = true;
+            }
+            return result;
+        }
+
+        public bool SurroundConfigExists(int configId)
+        {
+            bool result = false;
+
+            SQLiteDataReader reader = SQL_ExecuteQuery(String.Format("SELECT * FROM SurroundConfigs WHERE id = \"{0}\"", configId));
+            if (reader != null)
+            {
+                if (ReadSurroundConfig(reader) != null)
+                    result = true;
+            }
+            return result;
+        }
+
+        private int AddSurroundConfig(SurroundConfig newConfig)
+        {
+            SQLiteParameter[] parameters = { new SQLiteParameter("@name", newConfig.Name), new SQLiteParameter("@config", newConfig.Config) };
+
+            if (SQL_ExecuteNonQuery("INSERT INTO SurroundConfigs (Name, ConfigFile) values (@name, @config)", parameters) > 0)
+            {
+                SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM SurroundConfigs WHERE Name = \"@name\"", parameters);
+                if (reader != null)
+                {
+                    if (reader.VisibleFieldCount > 0)
+                    {
+                        reader.Read();
+                        return (int)reader.GetInt32(reader.GetOrdinal("id"));
+                    }
+                }
+            }
+
+            return -1;
+        }
+
+        private bool UpdateSurroundConfig(SurroundConfig editConfig)
+        {
+            SQLiteParameter[] parameters = { new SQLiteParameter("@id", editConfig.Id), new SQLiteParameter("@name", editConfig.Name), new SQLiteParameter("@config", editConfig.Config) };
+
+            if (SQL_ExecuteNonQuery("UPDATE SurroundConfigs SET Name = @name, ConfigFile = @config WHERE id = @id", parameters) > 0)
                 return true;
             else
                 return false;
-        }
 
+        }      
+
+        private SurroundConfig ReadSurroundConfig(SQLiteDataReader reader)
+        {
+            SurroundConfig surroundConfig = null;
+            if (reader.VisibleFieldCount > 0 && reader.StepCount > 0)
+            {
+                while (reader.Read())
+                {
+                    try
+                    {
+                        surroundConfig = new SurroundConfig
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("id")),
+                            Name = (string)reader["Name"],
+                            Config = (byte[])reader["ConfigFile"],
+                        };
+                    }
+                    catch (System.InvalidCastException ex)
+                    {
+                        MainForm.logger.Debug("Invalid Cast: {0}", ex.Message);
+                    }
+                }
+            }
+            return surroundConfig;
+        }
+        #endregion
+
+        #region Private: Query Functions
         private int SQL_ExecuteNonQuery(string sqlCommand)
         {
             int result = 0;
@@ -186,7 +385,7 @@ namespace NVidia_Surround_Assistant
             }
             catch (SQLiteException ex)
             {
-                logger.Debug("SQL: Execute No Query: {0}", ex.Message);
+                MainForm.logger.Debug("SQL: Execute No Query: {0}", ex.Message);
                 result = -1;
             }
             return result;
@@ -206,7 +405,7 @@ namespace NVidia_Surround_Assistant
             }
             catch (SQLiteException ex)
             {
-                logger.Debug("SQL: Execute No Query: {0}", ex.Message);
+                MainForm.logger.Debug("SQL: Execute No Query: {0}", ex.Message);
                 result = -1;
             }
             return result;
@@ -225,7 +424,7 @@ namespace NVidia_Surround_Assistant
             }
             catch (SQLiteException ex)
             {
-                logger.Debug("SQL: Execute: {0}", ex.Message);
+                MainForm.logger.Debug("SQL: Execute: {0}", ex.Message);
             }
             return reader;
         }
@@ -244,10 +443,10 @@ namespace NVidia_Surround_Assistant
             }
             catch (SQLiteException ex)
             {
-                logger.Debug("SQL: Execute: {0}", ex.Message);
+                MainForm.logger.Debug("SQL: Execute: {0}", ex.Message);
             }
             return reader;
-        }
+        }       
 
         private static byte[] ImageToByte(Image img)
         {
@@ -273,5 +472,6 @@ namespace NVidia_Surround_Assistant
             }
             return null;
         }
+        #endregion
     }
 }

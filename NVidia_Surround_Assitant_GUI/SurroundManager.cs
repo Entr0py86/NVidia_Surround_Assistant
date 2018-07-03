@@ -4,34 +4,88 @@ using Display_Manager;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace NVidia_Surround_Assistant
 {    
     public class SurroundManager
     {
         public bool surroundSetupLoaded = false;
-        Surround_Manager mySurround = new Surround_Manager();
-        //Logger
-        Logger logger = LogManager.GetLogger("nvsaLogger");
-
-        // saveSurroundFileDialog         
-        SaveFileDialog saveSurroundFileDialog = new SaveFileDialog();        
+        Surround_Manager mySurround = new Surround_Manager();        
         
-        // openFileDialog
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-
         public SurroundManager()
-        {
-            saveSurroundFileDialog.Filter = "Surround Setup files (*.nvsa)|*.nvsa|All files (*.*)|*.*";
-            openFileDialog.Filter = "Surround Setup files (*.nvsa)|*.nvsa|Executable (*.exe)|*.exe|All files (*.*)|*.*";
-
-            surroundSetupLoaded = SM_ReadDefaultSurroundConfig();
+        {        
         }
 
         ~SurroundManager()
         {
             //free all surround resources
             mySurround.Dispose();
+        }
+
+        private bool SM_DoInitialSetup()
+        {
+            bool skipSurround = false;
+            bool skipDefault = false;
+
+            //Save current display setup for re-application later
+            SM_SaveCurrentSetup();
+            SM_SaveWindowPositions();
+
+            //Check if surround setup file already exists
+            if (MainForm.sqlInterface.SurroundConfigExists("Default Surround"))
+            {
+                if (MessageBox.Show("Default Surround Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    MainForm.sqlInterface.DeleteSurroundConfig("Default Surround");
+                else
+                    skipSurround = true;
+            }
+
+            //Check if surround setup file already exists
+            if (MainForm.sqlInterface.SurroundConfigExists("Default"))
+            {
+                if (MessageBox.Show("Default Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    MainForm.sqlInterface.DeleteSurroundConfig("Default");
+                else
+                    skipDefault = true;
+            }
+
+            if (!skipDefault)
+            {
+                if (MessageBox.Show("Save current display setup as default?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    if (SM_IsSurroundActive())
+                    {
+                        MessageBox.Show("NVidia Surround mode currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(keyboard shortcuts) now.\n\nWhen display is setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    //Save memory to file
+                    SM_SaveDefaultSetup();
+                }
+                else
+                {
+                    MessageBox.Show("Default setup not saved. Certain functionality will not work until application is restarted");
+                    return false;
+                }
+            }
+
+            if (!skipSurround)
+            {
+                if (MessageBox.Show("Save current display setup as surround setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    //Save memory to file
+                    SM_SaveDefaultSurroundSetup();                    
+                }
+                else
+                {
+                    MessageBox.Show("Default surround setup not saved.\nPlease re-run setup for proper operation of application.");
+                    return false;
+                }
+            }
+            //Apply saved config. Display manager will not switch if there is no difference to grid setup
+            SM_ApplySetupFromMemory(false);
+            SM_ApplyWindowPositions();           
+           
+            return true;
         }
 
         public bool SM_ReadDefaultSurroundConfig()
@@ -41,14 +95,25 @@ namespace NVidia_Surround_Assistant
             {
                 if (!mySurround.apiLoaded)
                     mySurround.Initialize();
-                mySurround.LoadSetup(NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName, true);
-                mySurround.LoadSetup(NVidia_Surround_Assistant.Properties.Settings.Default.DefaultSetupFileName, false);
+
+                SurroundConfig defaultConfig = MainForm.sqlInterface.GetSurroundConfig("Default");
+                SurroundConfig defaultSurroundConfig = MainForm.sqlInterface.GetSurroundConfig("Default Surround");
+
+                if(defaultConfig == null || defaultSurroundConfig == null)
+                {
+                    SM_DoInitialSetup();
+                    defaultConfig = MainForm.sqlInterface.GetSurroundConfig("Default");
+                    defaultSurroundConfig = MainForm.sqlInterface.GetSurroundConfig("Default Surround");
+                }
+                mySurround.LoadSetup(false, defaultConfig.Config);
+                mySurround.LoadSetup(true, defaultSurroundConfig.Config);
                 result = true;
             }
             catch (DisplayManager_Exception ex)
             {
-                logger.Debug("DM: {0}", ex.Message);
+                MainForm.logger.Debug("DM: {0}", ex.Message);
             }
+            surroundSetupLoaded = result;
             return result;
         }
 
@@ -66,14 +131,14 @@ namespace NVidia_Surround_Assistant
 
                 mySurround.ApplySetup(Surround);
                 if (!Surround && NVidia_Surround_Assistant.Properties.Settings.Default.SaveWindowPositions)
-                    DelayAction(500, new Action(() => { SM_ApplyWindowPositions(); }));
+                    SM_ApplyWindowPositions();
 
                 result = true;
             }
             catch (DisplayManager_Exception ex)
             {
                 MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
-                logger.Debug("DM: {0}", ex.Message);
+                MainForm.logger.Debug("DM: {0}", ex.Message);
             }
             return result;
         }
@@ -91,34 +156,7 @@ namespace NVidia_Surround_Assistant
             timer.Start();
         }
 
-        public bool SM_ApplySetupFromFile()
-        {
-            bool result = false;
-            string setupFile;
-            openFileDialog.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\cfg";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                openFileDialog.FilterIndex = 1;
-                setupFile = openFileDialog.FileName;
-                try
-                {
-                    if (!mySurround.apiLoaded)
-                        mySurround.Initialize();
-                    if (NVidia_Surround_Assistant.Properties.Settings.Default.SaveWindowPositions)
-                        SM_SaveWindowPositions();
-                    mySurround.ApplySetup(setupFile);
-                    result = true;
-                }
-                catch (DisplayManager_Exception ex)
-                {
-                    MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
-                    logger.Debug("DM: {0}", ex.Message);                    
-                }
-            }
-            return result;
-        }
-
-        public bool SM_ApplySetupFromFile(string setupFile)
+        public bool SM_ApplySetup(int setupId)
         {
             bool result = false;                       
             
@@ -128,13 +166,21 @@ namespace NVidia_Surround_Assistant
                     mySurround.Initialize();
                 if (NVidia_Surround_Assistant.Properties.Settings.Default.SaveWindowPositions)
                     SM_SaveWindowPositions();
-                mySurround.ApplySetup(setupFile);
-                result = true;
+                SurroundConfig config = MainForm.sqlInterface.GetSurroundConfig(setupId);
+                if (config != null)
+                {
+                    mySurround.ApplySetup(config.Config);
+                    result = true;
+                }
+                else
+                {
+                    MainForm.logger.Info("DM: Application with id {0}, not in list", setupId);                    
+                }
             }
             catch (DisplayManager_Exception ex)
             {
                 MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
-                logger.Debug("DM: {0}", ex.Message);
+                MainForm.logger.Debug("DM: {0}", ex.Message);
             }
             
             return result;
@@ -151,63 +197,79 @@ namespace NVidia_Surround_Assistant
                 if (mySurround.IsSurroundActive())
                 {
                     mySurround.SaveSetupToMemory(true);
-                    logger.Info("DM: Saving Surround to memory successful");
+                    MainForm.logger.Info("DM: Saving Surround to memory successful");
                 }
                 else
                 {
                     mySurround.SaveSetupToMemory(false);
-                    logger.Info("DM: Saving Non-Surround to memory successful");
+                    MainForm.logger.Info("DM: Saving Non-Surround to memory successful");
                 }
                 result = true;
             }
             catch (DisplayManager_Exception ex)
             {
                 MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
-                logger.Debug("DM: Saving to memory Error: {0}", ex.Message);                
+                MainForm.logger.Debug("DM: Saving to memory Error: {0}", ex.Message);                
             }
             return result;
         }
 
-        //Save current setup to File
-        public bool SM_SaveCurrentSetup(string filePath)
+        //Save current setup to db
+        public bool SM_SaveCurrentSetup(string configName)
         {
             bool result = false;
+            SurroundConfig surroundConfig = new SurroundConfig();
             try
             {
                 if (!mySurround.apiLoaded)
                     mySurround.Initialize();
-                mySurround.SaveSetupToFile(filePath);
-                logger.Info("DM: Saving to file successful");
-                result = true;
+                surroundConfig.Name = configName;
+                surroundConfig.Config = mySurround.SaveSetup();
+                if (surroundConfig.Config != null)
+                {
+                    MainForm.sqlInterface.SetSurroundConfig(surroundConfig);
+                    MainForm.logger.Info("DM: Saving to file successful");
+                    result = true;
+                }
             }
             catch (DisplayManager_Exception ex)
             {
                 MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Debug("DM: Saving to file Error: {0}", ex.Message);
+                MainForm.logger.Debug("DM: Saving to file Error: {0}", ex.Message);
             }
             return result;
         }
 
-        //Save current setup to file
-        public bool SM_SaveCurrentSetupToFile()
+        //Save current setup to db
+        public bool SM_SaveDefaultSetup()
         {
             bool result = false;
-            saveSurroundFileDialog.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\cfg";
-            if (saveSurroundFileDialog.ShowDialog() == DialogResult.OK)
+            SurroundConfig surroundConfig = new SurroundConfig();
+            try
             {
-                try
-                {
-                    if (!mySurround.apiLoaded)
-                        mySurround.Initialize();
-                    mySurround.SaveSetupToFile(saveSurroundFileDialog.FileName);
-                    logger.Info("DM: Saving to file successful");
-                    result = true;
-                }
-                catch (DisplayManager_Exception ex)
-                {
-                    MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    logger.Debug("DM: Saving to file Error: {0}", ex.Message);
-                }
+                result = SM_SaveCurrentSetup("Default");
+            }
+            catch (DisplayManager_Exception ex)
+            {
+                MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MainForm.logger.Debug("DM: Saving to file Error: {0}", ex.Message);
+            }
+            return result;
+        }
+
+        //Save current setup to db
+        public bool SM_SaveDefaultSurroundSetup()
+        {
+            bool result = false;
+            SurroundConfig surroundConfig = new SurroundConfig();
+            try
+            {
+                result = SM_SaveCurrentSetup("Default Surround");
+            }
+            catch (DisplayManager_Exception ex)
+            {
+                MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MainForm.logger.Debug("DM: Saving to file Error: {0}", ex.Message);
             }
             return result;
         }
@@ -223,12 +285,12 @@ namespace NVidia_Surround_Assistant
                 mySurround.SaveWindowPositions();
                 mySurround.MinimizeAllWindows();
                 Thread.Sleep(100);
-                logger.Info("DM: Window Positions saved successfully");
+                MainForm.logger.Info("DM: Window Positions saved successfully");
                 result = true;
             }
             catch (DisplayManager_Exception ex)
             {
-                logger.Debug("DM: Window Positions saved Error: {0}", ex.Message);
+                MainForm.logger.Debug("DM: Window Positions saved Error: {0}", ex.Message);
             }
             return result;
         }
@@ -241,14 +303,14 @@ namespace NVidia_Surround_Assistant
             {
                 if (!mySurround.apiLoaded)
                     mySurround.Initialize();
-                mySurround.MinimizeAllWindows();//TODO This must be moved to before witching back to nomral mode
+                mySurround.MinimizeAllWindows();
                 mySurround.ApplyWindowPositions();
-                logger.Info("DM: Window Positions applied successfully");
+                MainForm.logger.Info("DM: Window Positions applied successfully");
                 result = true;
             }
             catch (DisplayManager_Exception ex)
             {
-                logger.Debug("DM: Window Positions apply Error: {0}", ex.Message);                
+                MainForm.logger.Debug("DM: Window Positions apply Error: {0}", ex.Message);                
             }
             return result;
         }
@@ -265,24 +327,26 @@ namespace NVidia_Surround_Assistant
             catch (DisplayManager_Exception ex)
             {
                 MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Debug("DM: IsSurroundActive Error: {0}", ex.Message);               
+                MainForm.logger.Debug("DM: IsSurroundActive Error: {0}", ex.Message);               
             }
             return result;
         }
 
-        public bool SM_IsSurroundActive(String filePath)
+        public bool SM_IsSurroundActive(int configID)
         {
             bool result = false;
             try
             {
                 if (!mySurround.apiLoaded)
                     mySurround.Initialize();
-                result = mySurround.IsSurroundActive(filePath);
+                SurroundConfig config = MainForm.sqlInterface.GetSurroundConfig(configID);
+                if(config != null)
+                    result = mySurround.IsSurroundActive(config.Config);                
             }
             catch (DisplayManager_Exception ex)
             {
                 MessageBox.Show("Display Manger Error: " + ex.Message + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.Debug("DM: IsSurroundActive Error: {0}", ex.Message);                
+                MainForm.logger.Debug("DM: IsSurroundActive Error: {0}", ex.Message);                
             }
             return result;
         }

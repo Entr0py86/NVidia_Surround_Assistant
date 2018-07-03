@@ -5,9 +5,6 @@
     <Setting Name="SQLiteDbName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SurroundSetupFileName" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="StartMinimized" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -25,9 +22,6 @@
     </Setting>
     <Setting Name="StartOnStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="DefaultSetupFileName" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ShowLogs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

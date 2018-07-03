@@ -365,6 +365,7 @@
             this.Controls.Add(this.comboBoxGameList);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.labelWait);
+            this.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "EditApplicationSettings";
             this.Text = "Edit Application";

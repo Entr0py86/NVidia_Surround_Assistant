@@ -9,14 +9,10 @@ using NLog;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
-//TODO change boxes to same color as rest
 namespace NVidia_Surround_Assistant
 {
     public partial class EditApplicationSettings : Form
     {
-        //Logger
-        Logger logger = LogManager.GetLogger("nvsaLogger");
-
         //gameList created from game database API
         List<ApplicationInfo> gameList_UserChoice = new List<ApplicationInfo>();
         
@@ -53,10 +49,8 @@ namespace NVidia_Surround_Assistant
             if (!autoSearchNewApp)
             {
                 pictureBoxDisabled.Visible = !AppInfo.Enabled;
-                pictureBoxEnabled.Visible = AppInfo.Enabled;     
+                pictureBoxEnabled.Visible = AppInfo.Enabled;
             }
-
-            comboBoxSurroundSetup.SelectedIndex = comboBoxSurroundSetup.Items.IndexOf("Default Surround Grid");
 
             //Setup Rest client for IGDB
             igdbClient.SetAuthHeader("user-key", "ac7be2d5cce384506dfc786fdabec51c");
@@ -197,8 +191,8 @@ namespace NVidia_Surround_Assistant
             }
             catch (Exception ex)
             {
-                if(logger != null)
-                    logger.Debug("Edit Application: {0} | URI: {1}", ex.Message, uri);
+                if(MainForm.logger != null)
+                    MainForm.logger.Debug("Edit Application: {0} | URI: {1}", ex.Message, uri);
             }
             return null;
         }
@@ -217,8 +211,8 @@ namespace NVidia_Surround_Assistant
                 {
                     foreach (IgdbAPI.Game game in gameList)
                     {
-                        if (logger != null)
-                            logger.Info("Game found: {0}", game.name);
+                        if (MainForm.logger != null)
+                            MainForm.logger.Info("Game found: {0}", game.name);
                         appInfo = new ApplicationInfo
                         {
                             DisplayName = game.name,
@@ -242,7 +236,7 @@ namespace NVidia_Surround_Assistant
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
-                logger.Info("Application Settings: {0}", ex.Message);
+                MainForm.logger.Info("Application Settings: {0}", ex.Message);
             }
         }
 
@@ -367,7 +361,7 @@ namespace NVidia_Surround_Assistant
                 catch(OutOfMemoryException ex)
                 {
                     MessageBox.Show("Image size to large");
-                    logger.Info("Edit Application: {0}", ex.Message);
+                    MainForm.logger.Info("Edit Application: {0}", ex.Message);
                 }
             }
         }
@@ -404,9 +398,9 @@ namespace NVidia_Surround_Assistant
             AppInfo.DisplayName = textBoxDisplayName.Text;
             AppInfo.FullPath = textBoxAppPath.Text;
             AppInfo.ProcessName = Path.GetFileNameWithoutExtension(textBoxAppPath.Text);
-            AppInfo.NormalGrid = "Default Grid.nvsa";
+            AppInfo.NormalGrid = 1;
             //AppInfo.NormalGrid = comboBoxNormalSetup.GetItemText(comboBoxNormalSetup.SelectedItem) + ".nvsa";
-            AppInfo.SurroundGrid = comboBoxSurroundSetup.GetItemText(comboBoxSurroundSetup.SelectedItem) + ".nvsa";
+            AppInfo.SurroundGrid = (int)comboBoxSurroundSetup.SelectedValue;
 
             this.DialogResult = DialogResult.OK;
             Close();
@@ -420,24 +414,32 @@ namespace NVidia_Surround_Assistant
 
         private void PopulateGridComboBoxes()
         {
-            foreach(String file in Directory.EnumerateFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\cfg", "*.nvsa"))
+            if (comboBoxSurroundSetup.DataSource != null)
             {
-                string nvsaFile = Path.GetFileNameWithoutExtension(file);
+                comboBoxSurroundSetup.DataSource = null;
+                comboBoxSurroundSetup.Items.Clear();
+            }
+            comboBoxSurroundSetup.ValueMember = "id";
+            comboBoxSurroundSetup.DisplayMember = "Name";
+            comboBoxSurroundSetup.DataSource = MainForm.sqlInterface.GetSurroundConfigList();            
 
-                comboBoxNormalSetup.Items.Add(nvsaFile);
-                comboBoxSurroundSetup.Items.Add(nvsaFile);
+            //if (comboBoxNormalSetup.DataSource != null)
+            //{
+            //    comboBoxNormalSetup.DataSource = null;
+            //    comboBoxNormalSetup.Items.Clear();
+            //}
+            //comboBoxNormalSetup.DataSource = MainForm.sqlInterface.GetSurroundConfigList();
+            //comboBoxNormalSetup.ValueMember = "id";
+            //comboBoxNormalSetup.DisplayMember = "Name";
 
-                if(!autoSearchNewApp)
-                {
-                    if(AppInfo.NormalGrid.Contains(nvsaFile))
-                    {
-                        comboBoxNormalSetup.SelectedIndex = comboBoxNormalSetup.Items.Count - 1;
-                    }
-                    if (AppInfo.SurroundGrid.Contains(nvsaFile))
-                    {
-                        comboBoxSurroundSetup.SelectedIndex = comboBoxSurroundSetup.Items.Count - 1;
-                    }
-                }
+            if (!autoSearchNewApp)
+            {
+                //comboBoxNormalSetup.SelectedIndex = AppInfo.NormalGrid;             
+                comboBoxSurroundSetup.SelectedIndex = AppInfo.SurroundGrid;             
+            }
+            else
+            {
+                comboBoxSurroundSetup.SelectedIndex = comboBoxSurroundSetup.FindStringExact("Default Surround");
             }
         }
 

@@ -7,30 +7,30 @@
 #define MIN_ALL        419
 #define MIN_ALL_UNDO   416
 
-typedef enum _NVAPI_FileType : unsigned int
+typedef enum _NVAPI_DataType : unsigned int
 {
 	pathInfo,
 	gridTopo,
 	combined,
-}NVAPI_FileType;
+}NVAPI_DataType;
 
-typedef struct _DisplayManager_FileHeader
+typedef struct _DisplayManager_Header
 {
-	NVAPI_FileType	fileType;
+	NVAPI_DataType	fileType;
 	unsigned int	size;
-}DisplayManager_FileHeader;
+}DisplayManager_Header;
 
-typedef struct _DisplayManager_File_PathInfo
+typedef struct _DisplayManager_PathInfo
 {
-	DisplayManager_FileHeader header;
+	DisplayManager_Header header;
 	unsigned int pathCount;
-}DisplayManager_File_PathInfo;
+}DisplayManager_PathInfo;
 
-typedef struct _DisplayManager_File_GridTopo
+typedef struct _DisplayManager_GridTopo
 {
-	DisplayManager_FileHeader header;
+	DisplayManager_Header header;
 	unsigned int gridCount;
-}DisplayManager_File_GridTopo;
+}DisplayManager_GridTopo;
 
 typedef struct _WindowPos
 {

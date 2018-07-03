@@ -1,5 +1,5 @@
 ﻿#define CLR
-#define DEBUG_NO_SURROUND_SWITCH
+//#define DEBUG_NO_SURROUND_SWITCH
 
 using System;
 using System.Collections.Generic;
@@ -20,10 +20,6 @@ using NLog.Windows.Forms;
 using System.Diagnostics;
 using NLog.Config;
 using NLog.Targets;
-
-/*  TODO List:
- * Add surround profiles that can be applied on application basis
- */
 
 namespace NVidia_Surround_Assistant
 {
@@ -75,6 +71,11 @@ namespace NVidia_Surround_Assistant
 
         bool quitApplication = false;
 
+        //SQL Instance
+        static public SQL sqlInterface = new SQL();        
+        //Logger
+        static public Logger logger = LogManager.GetLogger("nvsaLogger");
+        //Surround Manager Instance
         static public SurroundManager surroundManager = new SurroundManager();
 
         string binDir;
@@ -89,14 +90,9 @@ namespace NVidia_Surround_Assistant
         //List off all applications
         List<ApplicationInfo> applicationList = new List<ApplicationInfo>();
         //Mutex to lock ProcessCreatedWindow while busy
-        Mutex newProcessMutex = new Mutex();
-        //Logger
-        Logger logger;
+        Mutex newProcessMutex = new Mutex();                
 
-        //SQL
-        SQL sqlInterface = new SQL();
-
-        //PRocess creation detectors
+        //Process creation detectors
         HookManager hookManager;
         ManagementEventWatcher processStartEvent;
         ManagementEventWatcher processStopEvent;
@@ -122,17 +118,22 @@ namespace NVidia_Surround_Assistant
             InitializeComponent();
 
             //Setup process stopped timer. 
-            processStopTimer.Interval = 2000;//2seconds
+            processStopTimer.Interval = 5000;//5seconds
             processStopTimer.AutoReset = false;
             processStopTimer.Elapsed += processStopTimer_OnTimedEvent;
 
             binDir = Path.GetDirectoryName(Application.ExecutablePath);
+
+            ToolStripManager.Renderer = new NvsaRenderer();
+
+            //contextMenuStripLoadSurroundConfig.Renderer = new NvsaRenderer();
+            //contextMenuStripSaveSurroundConfig.Renderer = new NvsaRenderer();
+            //contextMenuStrip_SystemTray.Renderer = new NvsaRenderer();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoggerSetup();
-            logger = LogManager.GetLogger("nvsaLogger");
             logger.Debug("Application Started {0}", Application.ExecutablePath);
 
             //Check the operating system and the application being run
@@ -171,11 +172,13 @@ namespace NVidia_Surround_Assistant
                 Directory.CreateDirectory(binDir + "\\logs");
             logger.Debug("Directories created/checked");
 
-            //run setup if file does not exist
-            if (!File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName) || !File.Exists(NVidia_Surround_Assistant.Properties.Settings.Default.DefaultSetupFileName) || !surroundManager.surroundSetupLoaded)
-                SaveSetupFiles();
+            
+            //Open SQL connection to db
+            sqlInterface.SQL_OpenConnection(binDir + "\\cfg\\nvsa_db.sqlite");
+            //Load defaults config's
+            surroundManager.SM_ReadDefaultSurroundConfig();            
 
-            //Initialize application
+            //Initialize application            
             hookManager = new HookManager(hWnd, ref registeredWindows);
             Initialize();
 
@@ -270,87 +273,16 @@ namespace NVidia_Surround_Assistant
             if (!processCreatedCatcher.IsBusy)
             {
                 processCreatedCatcher.RunWorkerAsync();
-            }
-            //Open SQL connection to db
-            sqlInterface.SQL_OpenConnection(binDir + "\\cfg\\nvsa_db.sqlite");
+            }            
 
             //Load all applications into list
             LoadApplicationList();
+            populateContextMenuStripLoadSurroundConfig();
+            populateContextMenuStripLoadApp();
 
             CreateProcessWatchers();
         }
-
-        public bool SaveSetupFiles()
-        {
-            string SurroundSetupFileName = binDir + "\\cfg\\Default Surround Grid.nvsa";
-            string SetupFileName = binDir + "\\cfg\\Default Grid.nvsa";
-            bool skipSurround = false;
-            bool skipDefault = false;
-
-            //Save current display setup for re-application later
-            surroundManager.SM_SaveCurrentSetup();
-            surroundManager.SM_SaveWindowPositions();
-
-            //Check if surround setup file already exists
-            if (File.Exists(SurroundSetupFileName))
-            {
-                if (MessageBox.Show("Default Surround Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    File.Delete(SurroundSetupFileName);
-                else
-                    skipSurround = true;
-            }
-
-            //Check if surround setup file already exists
-            if (File.Exists(SetupFileName))
-            {
-                if (MessageBox.Show("Default Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    File.Delete(SetupFileName);
-                else
-                    skipDefault = true;
-            }
-
-            if (!skipDefault)
-            {
-                if (MessageBox.Show("Save current display setup as default?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                {
-                    if (surroundManager.SM_IsSurroundActive())
-                    {
-                        MessageBox.Show("NVidia Surround mode currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(keyboard shortcuts) now.\n\nWhen display is setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    //Save memory to file
-                    surroundManager.SM_SaveCurrentSetup(SetupFileName);
-                }
-                else
-                {
-                    MessageBox.Show("Default setup not saved. Certain functionality will not work until application is restarted");
-                    return false;
-                }
-            }
-
-            if (!skipSurround)
-            {
-                if (MessageBox.Show("Save current display setup as surround setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                {
-                    //Save memory to file
-                    surroundManager.SM_SaveCurrentSetup(SurroundSetupFileName);
-                }
-                else
-                {
-                    MessageBox.Show("Default surround setup not saved.\nPlease re-run setup for proper operation of application.");
-                    return false;
-                }
-            }
-            //Apply saved config. Display manager will not switch if there is no difference to grid setup
-            surroundManager.SM_ApplySetupFromMemory(false);
-            surroundManager.SM_ApplyWindowPositions();
-
-            NVidia_Surround_Assistant.Properties.Settings.Default.SurroundSetupFileName = SurroundSetupFileName;
-            NVidia_Surround_Assistant.Properties.Settings.Default.DefaultSetupFileName = SetupFileName;
-
-            surroundManager.SM_ReadDefaultSurroundConfig();
-            return true;
-        }
-
+        
         void LoadApplicationList()
         {
             applicationList = sqlInterface.GetApplicationList();
@@ -420,7 +352,7 @@ namespace NVidia_Surround_Assistant
 
         void RegisterApplication(ApplicationInfo App)
         {
-            Thumb newThumb = new Thumb(App, logger);
+            Thumb newThumb = new Thumb(App);
             newThumb.removeApplication += DeleteApplicationFromList;
             newThumb.editApplication += EditApplication;
             newThumb.silentEditApplication += SilentEditApplication;
@@ -438,11 +370,11 @@ namespace NVidia_Surround_Assistant
             thumbGridView.AddThumb(newThumb);
         }
 
-        ApplicationInfo GetApplicationFromList(String processFullPath)
+        ApplicationInfo GetApplicationFromList(String processName)
         {
             foreach (ApplicationInfo app in applicationList)
             {
-                if (app.FullPath.Equals(processFullPath))
+                if (app.ProcessName.Equals(processName))
                     return app;
             }
             return null;
@@ -472,6 +404,11 @@ namespace NVidia_Surround_Assistant
                 logger.Info("Edit Application: {0} edited", AppThumb.DisplayName);
             else
                 logger.Error("Edit Application: {0} edited", AppThumb.DisplayName);
+        }
+
+        void StartApplication(ApplicationInfo startApp)
+        {
+
         }
 
         public static void DelayAction(int millisecond, Action action)
@@ -540,6 +477,7 @@ namespace NVidia_Surround_Assistant
 
                 if (processList.Length > 0)
                 {
+                    logger.Debug("App From list detected by WMI: {0}", process.processName);
                     process.procID = (IntPtr)processList[0].Id;
                     process.processFullPath = processList[0].MainModule.FileName;
                     ProcessCreatedWindow(process);
@@ -558,9 +496,12 @@ namespace NVidia_Surround_Assistant
 
             if (applicationDetectList.Contains(process.processName))
             {
-                StoppedProcessList.Enqueue(process);
-                if (!processStopTimer.Enabled)
-                    processStopTimer.Start();
+                if (GetApplicationFromList(process.processName).Enabled)
+                {
+                    StoppedProcessList.Enqueue(process);
+                    if (!processStopTimer.Enabled)
+                        processStopTimer.Start();
+                }
             }
         }
 
@@ -587,7 +528,7 @@ namespace NVidia_Surround_Assistant
         private void processCreatedCatcher_DoWork(object sender, DoWorkEventArgs e)
         {
             HookMessageInfo message;
-            logger.Debug("App Paused: {0}", GetLastError().ToString());
+            logger.Debug("Hook message process thread running");
             BackgroundWorker thisWorker = sender as BackgroundWorker;
             while (!thisWorker.CancellationPending)
             {
@@ -620,6 +561,7 @@ namespace NVidia_Surround_Assistant
                 logger.Trace("Hook captured: {0} Hook Type: {1}", process.processName, msg.regWndInfo.type.ToString());
                 if (applicationDetectList.Contains(process.processName))
                 {
+                    logger.Debug("App From list detected by Hook: {0}", process.processName);
                     ProcessCreatedWindow(process);
                 }
             }
@@ -637,16 +579,15 @@ namespace NVidia_Surround_Assistant
             try
             {
                 newProcessMutex.WaitOne();
-                logger.Debug("App From list detected: {0}", process.processName);
                 //if the message id does not match then process
                 if ((index = runningApplicationsList.FindIndex(r => r.processName == process.processName)) == -1)
                 {
-                    app = GetApplicationFromList(process.processFullPath);
+                    app = GetApplicationFromList(process.processName);
 #if !DEBUG_NO_SURROUND_SWITCH
                     if (app != null && app.Enabled)
                     {
                         logger.Debug("loading surround from file: {0}", app.SurroundGrid);
-                        if (!surroundManager.SM_IsSurroundActive(binDir + "\\cfg\\" + app.SurroundGrid))
+                        if (!surroundManager.SM_IsSurroundActive(app.SurroundGrid))
                         {
                             //Pause detected application until surround has been activated. If no error then switch will be done without pause. Might cause issues to driver
                             if (DebugActiveProcess(process.procID) != 0)
@@ -654,7 +595,7 @@ namespace NVidia_Surround_Assistant
                                 logger.Debug("App Pause Error: {0}", GetLastError().ToString());
                                 //Save current display setup for re-application later
                                 surroundManager.SM_SaveCurrentSetup();
-                                if (!surroundManager.SM_ApplySetupFromFile(binDir + "\\cfg\\" + app.SurroundGrid))
+                                if (!surroundManager.SM_ApplySetup(app.SurroundGrid))
                                 {
                                     if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
                                     {
@@ -911,6 +852,67 @@ namespace NVidia_Surround_Assistant
             }
         }
 
+        private void populateContextMenuStripLoadSurroundConfig()
+        {
+            ToolStripMenuItem toolStripButton;            
+
+            contextMenuStripLoadSurroundConfig.AutoSize = false;
+            contextMenuStripLoadSurroundConfig.SuspendLayout();
+            if (contextMenuStripLoadSurroundConfig.Items.Count > 0)
+                contextMenuStripLoadSurroundConfig.Items.Clear();
+
+            foreach (SurroundConfig surroundConfig in sqlInterface.GetSurroundConfigList())
+            {
+                toolStripButton = new ToolStripMenuItem(surroundConfig.Name, null, contextMenuStripLoadSurroundConfig_Click);
+                toolStripButton.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+                toolStripButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+                toolStripButton.Tag = surroundConfig;                     
+                contextMenuStripLoadSurroundConfig.Items.Add(toolStripButton);
+            }
+            contextMenuStripLoadSurroundConfig.ResumeLayout();
+            contextMenuStripLoadSurroundConfig.AutoSize = true;           
+        }
+
+        private void populateContextMenuStripLoadApp()
+        {
+            ToolStripMenuItem toolStripButton;
+
+            contextMenuStripLoadApp.AutoSize = false;
+            contextMenuStripLoadApp.SuspendLayout();
+            if (contextMenuStripLoadApp.Items.Count > 0)
+                contextMenuStripLoadApp.Items.Clear();
+
+            foreach (ApplicationInfo app in sqlInterface.GetApplicationList())
+            {
+                toolStripButton = new ToolStripMenuItem(app.DisplayName, null, contextMenuStripLoadSurroundConfig_Click);
+                toolStripButton.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+                toolStripButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+                toolStripButton.Tag = app;
+                contextMenuStripLoadApp.Items.Add(toolStripButton);
+            }
+            contextMenuStripLoadApp.ResumeLayout();
+            contextMenuStripLoadApp.AutoSize = true;
+        }        
+
+        #region GUI Tweaks
+        private class NvsaRenderer : ToolStripProfessionalRenderer
+        {
+            protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs myMenu)
+            {
+                if (!myMenu.Item.Selected)
+                    base.OnRenderMenuItemBackground(myMenu);
+                else
+                {
+                    Rectangle menuRectangle = new Rectangle(Point.Empty, myMenu.Item.Size);
+                    //Fill Color
+                    myMenu.Graphics.FillRectangle(Brushes.DarkGreen, menuRectangle);
+                    // Border Color
+                    myMenu.Graphics.DrawRectangle(Pens.Lime, 1, 0, menuRectangle.Width - 2, menuRectangle.Height - 1);
+                }
+            }
+        }
+        #endregion
+
         #region controls
         private void PictureBoxAddGame_Click(object sender, EventArgs e)
         {
@@ -945,16 +947,6 @@ namespace NVidia_Surround_Assistant
         private void toolStripMenuItem_AddApp_Click(object sender, EventArgs e)
         {
             PictureBoxAddGame_Click(null, null);
-        }
-
-        private void toolStripMenuItem_LoadSurroundFile_Click(object sender, EventArgs e)
-        {
-            surroundManager.SM_ApplySetupFromFile();
-        }
-
-        private void toolStripMenuItem_SaveSurroundFile_Click(object sender, EventArgs e)
-        {
-            surroundManager.SM_SaveCurrentSetupToFile();
         }
 
         private void toolStripMenuItem_Quit_Click(object sender, EventArgs e)
@@ -1012,12 +1004,52 @@ namespace NVidia_Surround_Assistant
 
         private void pictureBoxSaveConfig_Click(object sender, EventArgs e)
         {
-            surroundManager.SM_SaveCurrentSetupToFile();
+            contextMenuStripSaveSurroundConfig.Show(Cursor.Position);
         }
 
         private void pictureBoxLoadConfig_Click(object sender, EventArgs e)
         {
-            surroundManager.SM_ApplySetupFromFile();
+            contextMenuStripLoadSurroundConfig.Show(Cursor.Position);
+        }
+
+        private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            surroundManager.SM_SaveDefaultSetup();
+        }
+
+        private void saveAsDefaultSurroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            surroundManager.SM_SaveDefaultSurroundSetup();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SurroundConfigSaveAsPopup popup = new SurroundConfigSaveAsPopup();
+
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                surroundManager.SM_SaveCurrentSetup(popup.surroundConfigName);
+            }
+        }
+
+        private void contextMenuStripLoadSurroundConfig_Click(object sender, EventArgs e)
+        {
+            if(sender is ToolStripMenuItem)
+            {
+                ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+                if (toolStripMenuItem.Tag != null)
+                    surroundManager.SM_ApplySetup((toolStripMenuItem.Tag as SurroundConfig).Id);
+            }
+        }
+
+        private void contextMenuStripLoadApp_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem)
+            {
+                ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+                if (toolStripMenuItem.Tag != null)
+                    StartApplication(toolStripMenuItem.Tag as ApplicationInfo);
+            }
         }
 
         private void pictureBoxClose_Click(object sender, EventArgs e)
@@ -1059,6 +1091,9 @@ namespace NVidia_Surround_Assistant
         {
             UpdateTextBoxLogAndThumbGrid();
         }
+
         #endregion
+
+        
     }
 }

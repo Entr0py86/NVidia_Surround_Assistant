@@ -138,6 +138,12 @@
     </Compile>
     <Compile Include="SQL.cs" />
     <Compile Include="SurroundManager.cs" />
+    <Compile Include="SurroundConfigSaveAsPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SurroundConfigSaveAsPopup.Designer.cs">
+      <DependentUpon>SurroundConfigSaveAsPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThumbGridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -175,6 +181,9 @@
     <None Include="Resources\edit 25x25.png" />
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SurroundConfigSaveAsPopup.resx">
+      <DependentUpon>SurroundConfigSaveAsPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThumbGridView.resx">
       <DependentUpon>ThumbGridView.cs</DependentUpon>
@@ -349,12 +358,6 @@
     <None Include="Resources\document 50x50.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Display_Manager\Display_Manger.vcxproj">
-      <Project>{0d349a5b-ee1f-402b-8ebf-d6ad04fec851}</Project>
-      <Name>Display_Manger</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\delete filled red 25x25.png" />
   </ItemGroup>
   <ItemGroup>
@@ -365,6 +368,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\help 50x50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Display_Manager\Display_Manger.vcxproj">
+      <Project>{0d349a5b-ee1f-402b-8ebf-d6ad04fec851}</Project>
+      <Name>Display_Manger</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

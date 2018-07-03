@@ -10,9 +10,6 @@ namespace NVidia_Surround_Assistant
 {
     public partial class ThumbGridView : UserControl
     {
-        //Logger
-        Logger logger = LogManager.GetLogger("nvsaLogger");
-
         public int x_spacing { get; private set; }
         public int y_spacing { get; private set; }
 
@@ -24,7 +21,7 @@ namespace NVidia_Surround_Assistant
 
         public ThumbGridView()
         {
-            Thumb tempThumb = new Thumb(null, null);
+            Thumb tempThumb = new Thumb(null);
 
             InitializeComponent();
 
