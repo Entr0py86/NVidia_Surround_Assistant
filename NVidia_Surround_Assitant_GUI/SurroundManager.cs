@@ -64,6 +64,7 @@ namespace NVidia_Surround_Assistant
                 else
                 {
                     MessageBox.Show("Default setup not saved. Certain functionality will not work until application is restarted");
+                    MainForm.logger.Debug("DM: Default setup not saved. Certain functionality will not work until application is restarted");
                     return false;
                 }
             }
@@ -90,7 +91,6 @@ namespace NVidia_Surround_Assistant
 
         public bool SM_ReadDefaultSurroundConfig()
         {
-            bool result = false;
             try
             {
                 if (!mySurround.apiLoaded)
@@ -101,20 +101,24 @@ namespace NVidia_Surround_Assistant
 
                 if(defaultConfig == null || defaultSurroundConfig == null)
                 {
-                    SM_DoInitialSetup();
+                    if (!SM_DoInitialSetup())
+                    {
+                        surroundSetupLoaded = false;
+                        return surroundSetupLoaded;
+                    }
                     defaultConfig = MainForm.sqlInterface.GetSurroundConfig("Default");
                     defaultSurroundConfig = MainForm.sqlInterface.GetSurroundConfig("Default Surround");
+                    
                 }
                 mySurround.LoadSetup(false, defaultConfig.Config);
                 mySurround.LoadSetup(true, defaultSurroundConfig.Config);
-                result = true;
+                surroundSetupLoaded = true;
             }
             catch (DisplayManager_Exception ex)
             {
                 MainForm.logger.Debug("DM: {0}", ex.Message);
             }
-            surroundSetupLoaded = result;
-            return result;
+            return surroundSetupLoaded;
         }
 
         public bool SM_ApplySetupFromMemory(bool Surround)

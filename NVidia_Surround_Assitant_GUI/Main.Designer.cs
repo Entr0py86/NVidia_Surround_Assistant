@@ -36,6 +36,8 @@
             this.systemTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_SystemTray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_AddApp = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_LoadApp = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripLoadApp = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_ToggelSurround = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_LoadSurroundFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,9 +58,8 @@
             this.pictureBoxLogs = new System.Windows.Forms.PictureBox();
             this.pictureBoxSettings = new System.Windows.Forms.PictureBox();
             this.pictureBoxAddGame = new System.Windows.Forms.PictureBox();
+            this.pictureBoxAbout = new System.Windows.Forms.PictureBox();
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
-            this.toolStripMenuItem_LoadApp = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripLoadApp = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip_SystemTray.SuspendLayout();
             this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
@@ -68,6 +69,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).BeginInit();
             this.SuspendLayout();
             // 
             // processCreatedCatcher
@@ -120,6 +122,22 @@
             this.toolStripMenuItem_AddApp.Text = "Add Application";
             this.toolStripMenuItem_AddApp.Click += new System.EventHandler(this.toolStripMenuItem_AddApp_Click);
             // 
+            // toolStripMenuItem_LoadApp
+            // 
+            this.toolStripMenuItem_LoadApp.DropDown = this.contextMenuStripLoadApp;
+            this.toolStripMenuItem_LoadApp.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.toolStripMenuItem_LoadApp.Name = "toolStripMenuItem_LoadApp";
+            this.toolStripMenuItem_LoadApp.Size = new System.Drawing.Size(186, 22);
+            this.toolStripMenuItem_LoadApp.Text = "Start Application";
+            // 
+            // contextMenuStripLoadApp
+            // 
+            this.contextMenuStripLoadApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.contextMenuStripLoadApp.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripLoadApp.OwnerItem = this.toolStripMenuItem_LoadApp;
+            this.contextMenuStripLoadApp.ShowImageMargin = false;
+            this.contextMenuStripLoadApp.Size = new System.Drawing.Size(36, 4);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -145,6 +163,7 @@
             // 
             this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripLoadSurroundConfig.OwnerItem = this.toolStripMenuItem_LoadSurroundFile;
             this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
             this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
             // 
@@ -228,7 +247,7 @@
             this.pictureBoxSwitchSurround.Size = new System.Drawing.Size(50, 50);
             this.pictureBoxSwitchSurround.TabIndex = 76;
             this.pictureBoxSwitchSurround.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxSwitchSurround, "Switch Surround Mode");
+            this.toolTip1.SetToolTip(this.pictureBoxSwitchSurround, "Toggle Surround Mode");
             this.pictureBoxSwitchSurround.Click += new System.EventHandler(this.pictureBoxSwitchSurround_Click);
             // 
             // pictureBoxClose
@@ -303,6 +322,17 @@
             this.toolTip1.SetToolTip(this.pictureBoxAddGame, "Add Application");
             this.pictureBoxAddGame.Click += new System.EventHandler(this.PictureBoxAddGame_Click);
             // 
+            // pictureBoxAbout
+            // 
+            this.pictureBoxAbout.Image = global::NVidia_Surround_Assistant.Properties.Resources.information_50x50;
+            this.pictureBoxAbout.Location = new System.Drawing.Point(348, 12);
+            this.pictureBoxAbout.Name = "pictureBoxAbout";
+            this.pictureBoxAbout.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxAbout.TabIndex = 77;
+            this.pictureBoxAbout.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxAbout, "About");
+            this.pictureBoxAbout.Click += new System.EventHandler(this.pictureBoxAbout_Click);
+            // 
             // thumbGridView
             // 
             this.thumbGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -316,27 +346,13 @@
             this.thumbGridView.Size = new System.Drawing.Size(1056, 417);
             this.thumbGridView.TabIndex = 5;
             // 
-            // toolStripMenuItem_LoadApp
-            // 
-            this.toolStripMenuItem_LoadApp.DropDown = this.contextMenuStripLoadApp;
-            this.toolStripMenuItem_LoadApp.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.toolStripMenuItem_LoadApp.Name = "toolStripMenuItem_LoadApp";
-            this.toolStripMenuItem_LoadApp.Size = new System.Drawing.Size(186, 22);
-            this.toolStripMenuItem_LoadApp.Text = "Start Application";
-            // 
-            // contextMenuStripLoadApp
-            // 
-            this.contextMenuStripLoadApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.contextMenuStripLoadApp.Name = "contextMenuStripLoadSurroundConfig";
-            this.contextMenuStripLoadApp.ShowImageMargin = false;
-            this.contextMenuStripLoadApp.Size = new System.Drawing.Size(156, 26);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1084, 687);
+            this.Controls.Add(this.pictureBoxAbout);
             this.Controls.Add(this.pictureBoxSwitchSurround);
             this.Controls.Add(this.pictureBoxClose);
             this.Controls.Add(this.pictureBoxLoadConfig);
@@ -365,6 +381,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -399,6 +416,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadSurroundConfig;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_LoadApp;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadApp;
+        private System.Windows.Forms.PictureBox pictureBoxAbout;
     }
 }
 

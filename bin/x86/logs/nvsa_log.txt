@@ -22,3 +22,4 @@
 [DEBUG] 2018-07-02 21:44:13.5302 : Application Started C:\Users\Wallace\source\repos\NVidia_Surround_Assitant\bin\x86\NVidia Surround Assistant.exe
 [DEBUG] 2018-07-02 21:44:28.4528 : Application Started C:\Users\Wallace\source\repos\NVidia_Surround_Assitant\bin\x86\NVidia Surround Assistant.exe
 [DEBUG] 2018-07-03 18:33:26.0052 : Application Started C:\Users\Wallace\source\repos\NVidia_Surround_Assitant\bin\x86\NVidia Surround Assistant.exe
+[DEBUG] 2018-07-07 11:29:57.0032 : Application Started C:\Users\Wallace\source\repos\NVidia_Surround_Assitant\bin\x86\NVidia Surround Assistant.exe

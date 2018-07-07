@@ -69,6 +69,11 @@ namespace NVidia_Surround_Assistant
                     pictureBoxGameBoxCover.Image = Appinfo.Image;
                 else
                     pictureBoxGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.delete_50x50;
+
+                pictureBoxNotPauseOnDetect.Visible = !Appinfo.PauseOnDetect;
+                pictureBoxPauseOnDetect.Visible = Appinfo.PauseOnDetect;
+
+                numericUpDownSwitchbackTimeout.Value = Appinfo.SwitchbackTimeout;
             }
         }
 
@@ -84,6 +89,8 @@ namespace NVidia_Surround_Assistant
             label3.Visible = waitDisabled;
             label4.Visible = waitDisabled;
             label5.Visible = waitDisabled;
+            label8.Visible = waitDisabled;
+            label9.Visible = waitDisabled;
 
             pictureBoxDeleteImage.Visible = waitDisabled;
             pictureBoxEditImage.Visible = waitDisabled;
@@ -91,10 +98,12 @@ namespace NVidia_Surround_Assistant
             pictureBoxEnabled.Visible = waitDisabled && AppInfo.Enabled;
             pictureBoxGameBoxCover.Visible = waitDisabled;
             pictureBoxChangeFileLocation.Visible = waitDisabled;
-            //comboBoxNormalSetup.Visible = waitDisabled;
+            pictureBoxNotPauseOnDetect.Visible = waitDisabled;
+            pictureBoxPauseOnDetect.Visible = waitDisabled;
             comboBoxSurroundSetup.Visible = waitDisabled;
 
             textBoxAppPath.Visible = waitDisabled;
+            numericUpDownSwitchbackTimeout.Visible = waitDisabled;
             textBoxDisplayName.Visible = waitDisabled;
 
             if (waitDisabled)
@@ -380,15 +389,29 @@ namespace NVidia_Surround_Assistant
         private void pictureBoxDisabled_Click(object sender, EventArgs e)
         {
             AppInfo.Enabled = true;
-            pictureBoxDisabled.Visible = false;
-            pictureBoxEnabled.Visible = true;
+            pictureBoxDisabled.Visible = !AppInfo.Enabled;
+            pictureBoxEnabled.Visible = AppInfo.Enabled;
         }
 
         private void pictureBoxEnabled_Click(object sender, EventArgs e)
         {
             AppInfo.Enabled = false;
-            pictureBoxDisabled.Visible = true;
-            pictureBoxEnabled.Visible = false;
+            pictureBoxDisabled.Visible = !AppInfo.Enabled;
+            pictureBoxEnabled.Visible = AppInfo.Enabled;
+        }
+
+        private void pictureBoxNotPauseOnDetect_Click(object sender, EventArgs e)
+        {
+            AppInfo.PauseOnDetect = true;
+            pictureBoxNotPauseOnDetect.Visible = !AppInfo.PauseOnDetect;
+            pictureBoxPauseOnDetect.Visible = AppInfo.PauseOnDetect;
+        }
+
+        private void pictureBoxPauseOnDetect_Click(object sender, EventArgs e)
+        {
+            AppInfo.PauseOnDetect = false;
+            pictureBoxNotPauseOnDetect.Visible = !AppInfo.PauseOnDetect;
+            pictureBoxPauseOnDetect.Visible = AppInfo.PauseOnDetect;
         }
 
         private void pictureBoxApply_Click(object sender, EventArgs e)
@@ -398,8 +421,8 @@ namespace NVidia_Surround_Assistant
             AppInfo.DisplayName = textBoxDisplayName.Text;
             AppInfo.FullPath = textBoxAppPath.Text;
             AppInfo.ProcessName = Path.GetFileNameWithoutExtension(textBoxAppPath.Text);
-            AppInfo.NormalGrid = 1;
-            //AppInfo.NormalGrid = comboBoxNormalSetup.GetItemText(comboBoxNormalSetup.SelectedItem) + ".nvsa";
+            AppInfo.SwitchbackTimeout = (int)numericUpDownSwitchbackTimeout.Value;
+
             AppInfo.SurroundGrid = (int)comboBoxSurroundSetup.SelectedValue;
 
             this.DialogResult = DialogResult.OK;
@@ -421,20 +444,10 @@ namespace NVidia_Surround_Assistant
             }
             comboBoxSurroundSetup.ValueMember = "id";
             comboBoxSurroundSetup.DisplayMember = "Name";
-            comboBoxSurroundSetup.DataSource = MainForm.sqlInterface.GetSurroundConfigList();            
-
-            //if (comboBoxNormalSetup.DataSource != null)
-            //{
-            //    comboBoxNormalSetup.DataSource = null;
-            //    comboBoxNormalSetup.Items.Clear();
-            //}
-            //comboBoxNormalSetup.DataSource = MainForm.sqlInterface.GetSurroundConfigList();
-            //comboBoxNormalSetup.ValueMember = "id";
-            //comboBoxNormalSetup.DisplayMember = "Name";
+            comboBoxSurroundSetup.DataSource = MainForm.sqlInterface.GetSurroundConfigList();
 
             if (!autoSearchNewApp)
             {
-                //comboBoxNormalSetup.SelectedIndex = AppInfo.NormalGrid;             
                 comboBoxSurroundSetup.SelectedIndex = AppInfo.SurroundGrid;             
             }
             else
@@ -447,6 +460,6 @@ namespace NVidia_Surround_Assistant
         {
             if (e.KeyCode == Keys.Enter)
                 pictureBoxSearch_Click(null, null);
-        }
+        }        
     }
 }

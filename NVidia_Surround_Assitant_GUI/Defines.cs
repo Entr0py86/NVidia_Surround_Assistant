@@ -144,8 +144,9 @@ namespace NVidia_Surround_Assistant
         public string FullPath { get; set; }
         public string ProcessName { get; set; }
         public Bitmap Image { get; set; }
-        public int NormalGrid { get; set; }
         public int SurroundGrid { get; set; }
+        public bool PauseOnDetect { get; set; }
+        public int SwitchbackTimeout { get; set; }
 
         public ApplicationInfo()
         {

@@ -129,6 +129,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBoxNVSA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBoxNVSA.Designer.cs">
+      <DependentUpon>AboutBoxNVSA.cs</DependentUpon>
+    </Compile>
     <Compile Include="HookManager.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
@@ -137,13 +143,13 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="SQL.cs" />
-    <Compile Include="SurroundManager.cs" />
     <Compile Include="SurroundConfigSaveAsPopup.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SurroundConfigSaveAsPopup.Designer.cs">
       <DependentUpon>SurroundConfigSaveAsPopup.cs</DependentUpon>
     </Compile>
+    <Compile Include="SurroundManager.cs" />
     <Compile Include="ThumbGridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -179,6 +185,9 @@
     <None Include="Resources\success green 25x25.png" />
     <None Include="Resources\success 25x25 .png" />
     <None Include="Resources\edit 25x25.png" />
+    <EmbeddedResource Include="AboutBoxNVSA.resx">
+      <DependentUpon>AboutBoxNVSA.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
@@ -374,6 +383,9 @@
       <Project>{0d349a5b-ee1f-402b-8ebf-d6ad04fec851}</Project>
       <Name>Display_Manger</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information 50x50.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
