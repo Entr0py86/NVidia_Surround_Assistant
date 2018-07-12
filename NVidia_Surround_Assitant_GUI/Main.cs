@@ -112,11 +112,22 @@ namespace NVidia_Surround_Assistant
         int y_spacing_logBox = 0;
 
         int textBoxLogs_PixelShift = 0;
+        int mainForm_minSizeWithLogBox = 726;
+
+        static public Color hoverButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+        static public Color normalControlColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+
 
         //Form that receives all messages and adds them to the queue
         public MainForm()
         {
             InitializeComponent();
+
+            foreach (Control control in this.Controls)
+            {
+                control.BackColor = normalControlColor;
+                control.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            }
 
             Text += String.Format("Version {0}", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             //Setup process stopped timer. 
@@ -125,12 +136,8 @@ namespace NVidia_Surround_Assistant
             processStopTimer.Elapsed += processStopTimer_OnTimedEvent;
 
             binDir = Path.GetDirectoryName(Application.ExecutablePath);
-
+            //Set the renderer to the one created.
             ToolStripManager.Renderer = new NvsaRenderer();
-
-            //contextMenuStripLoadSurroundConfig.Renderer = new NvsaRenderer();
-            //contextMenuStripSaveSurroundConfig.Renderer = new NvsaRenderer();
-            //contextMenuStrip_SystemTray.Renderer = new NvsaRenderer();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -333,21 +340,22 @@ namespace NVidia_Surround_Assistant
             //Check if application already in list
             if (applicationDetectList.Count > 0 && applicationDetectList.Contains(newApp.ProcessName))
             {
-                MessageBox.Show("Application already in list and will not be added.", "Add Application Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
+                EditApplication(GetApplicationFromList(newApp.ProcessName));
             }
-
-            if (editWindow.ShowDialog() == DialogResult.OK)
+            else
             {
-                newApp = editWindow.AppInfo;
-                newApp.Id = sqlInterface.AddApplication(newApp);
-                if (newApp.Id >= 0)
+                if (editWindow.ShowDialog() == DialogResult.OK)
                 {
-                    RegisterApplication(newApp);
-                }
-                else
-                {
-                    MessageBox.Show("Error adding application to database", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    newApp = editWindow.AppInfo;
+                    newApp.Id = sqlInterface.AddApplication(newApp);
+                    if (newApp.Id >= 0)
+                    {
+                        RegisterApplication(newApp);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error adding application to database", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -355,6 +363,7 @@ namespace NVidia_Surround_Assistant
         void RegisterApplication(ApplicationInfo App)
         {
             Thumb newThumb = new Thumb(App);
+            newThumb.launchApplication += LaunchApplication;
             newThumb.removeApplication += DeleteApplicationFromList;
             newThumb.editApplication += EditApplication;
             newThumb.silentEditApplication += SilentEditApplication;
@@ -396,6 +405,20 @@ namespace NVidia_Surround_Assistant
             }
         }
 
+        void EditApplication(ApplicationInfo AppInfo)
+        {
+            EditApplicationSettings editWindow = new EditApplicationSettings(AppInfo, false);
+
+            if (editWindow.ShowDialog() == DialogResult.OK)
+            {
+                AppInfo = editWindow.AppInfo;
+                if (sqlInterface.UpdateApplication(editWindow.AppInfo))
+                    logger.Info("Edit Application: {0} edited", AppInfo.DisplayName);
+                else
+                    logger.Error("Edit Application: {0} edited", AppInfo.DisplayName);
+            }
+        }
+
         void SilentEditApplication(Thumb AppThumb)
         {
             if (AppThumb.AppEnabled)
@@ -408,49 +431,42 @@ namespace NVidia_Surround_Assistant
                 logger.Error("Edit Application: {0} edited", AppThumb.DisplayName);
         }
 
-        void StartApplication(ApplicationInfo startApp)
+        void LaunchApplication(ApplicationInfo launchApp)
         {
             ProcessInfo process = new ProcessInfo();
             Process startProcess = new Process();
 
-            logger.Info("Manual Application Launch: {0}", startApp.DisplayName);
-            if (!surroundManager.SM_IsSurroundActive(startApp.SurroundGrid))
+            logger.Info("Manual Application Launch: {0}", launchApp.DisplayName);
+            if (launchApp.Enabled)
             {
-                //Save current display setup for re-application later
-                surroundManager.SM_SaveCurrentSetup();
-                if (!surroundManager.SM_ApplySetup(startApp.SurroundGrid))
+                if (!surroundManager.SM_IsSurroundActive(launchApp.SurroundGrid))
                 {
-                    if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
+                    //Save current display setup for re-application later
+                    surroundManager.SM_SaveCurrentSetup();
+                    if (!surroundManager.SM_ApplySetup(launchApp.SurroundGrid))
                     {
-                        return;
+                        if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
+                        {
+                            return;
+                        }
                     }
                 }
             }
             //Populate options to start the application
-            startProcess.StartInfo.FileName = startApp.FullPath;
+            startProcess.StartInfo.FileName = launchApp.FullPath;
             //Start process
             startProcess.Start();
             //populate required info for list
-            process.processExeName = Path.GetFileName(startApp.FullPath);
+            process.processExeName = Path.GetFileName(launchApp.FullPath);
             process.processName = Path.GetFileNameWithoutExtension(process.processExeName);
             process.procID = (IntPtr)startProcess.Id;
-            process.processFullPath = startApp.FullPath;
-            //Add To running application list
-            runningApplicationsList.Add(process);
-        }
-
-        public static void DelayAction(int millisecond, Action action)
-        {
-            var timer = new System.Windows.Forms.Timer();
-            timer.Tick += delegate
-
+            process.processFullPath = launchApp.FullPath;
+            //Don't add to list if app is not enabled
+            if (launchApp.Enabled)
             {
-                action.Invoke();
-                timer.Stop();
-            };
-
-            timer.Interval = millisecond;
-            timer.Start();
+                //Add To running application list
+                runningApplicationsList.Add(process);
+            }
         }
 
         void SwitchToNormalMode(Settings_AskSwitch ask)
@@ -527,13 +543,15 @@ namespace NVidia_Surround_Assistant
             if (applicationDetectList.Contains(process.processName))
             {
                 applicationInfo = GetApplicationFromList(process.processName);
-                if (applicationInfo.Enabled)
-                {
-                    StoppedProcessList.Enqueue(process);
-                    processStopTimer.Interval = applicationInfo.SwitchbackTimeout * 1000;//Make seconds into ms
-                    if (!processStopTimer.Enabled)
-                        processStopTimer.Start();
-                }
+                
+                StoppedProcessList.Enqueue(process);
+                logger.Debug("WMI Process stopped: {0}; Switch in {1} sec", process.processExeName, applicationInfo.SwitchbackTimeout);
+                processStopTimer.Interval = applicationInfo.SwitchbackTimeout * 1000;//Make seconds into ms
+                timerZombieCheck.Interval = applicationInfo.SwitchbackTimeout * 1000 * 2;//Make seconds into ms
+                timerZombieCheck.Start();
+                if (!processStopTimer.Enabled)
+                    processStopTimer.Start();
+                
             }
         }
 
@@ -598,7 +616,7 @@ namespace NVidia_Surround_Assistant
             {
                 GetWindowHandleInfo(msg.WParam, ref process);
                 logger.Trace("Hook captured: {0} Hook Type: {1}", process.processName, msg.regWndInfo.type.ToString());
-                if (applicationDetectList.Contains(process.processName))
+                if (applicationDetectList.Contains(process.processName) && (int)process.procID != 0)
                 {
                     logger.Debug("App From list detected by Hook: {0}", process.processName);
                     ProcessCreatedWindow(process);
@@ -676,6 +694,7 @@ namespace NVidia_Surround_Assistant
                             {
                                 logger.Info("Application Detected and Surround Applied: {0}", process.processName);
                                 //Add To running application list
+                                logger.Debug("Adding Detected application to list: {0}, {1}", process.processName, process.procID);
                                 runningApplicationsList.Add(process);
 
                                 if (app.PauseOnDetect)
@@ -691,24 +710,32 @@ namespace NVidia_Surround_Assistant
 
                     }
                     else
-                    {
-                        logger.Error("App not in list: {0}", process.processName);
+                    {                
+                        if(app == null)
+                            logger.Trace("App not in list: {0}", process.processName);
                     }
 #else
-                    logger.Info("Application Detected and Surround Applied: {0}, {1}", process.processName, process.procID);
-                    runningApplicationsList.Add(process);
-
-                    if (DebugActiveProcessStop(process.procID) == 0)
+                    if (app != null && app.Enabled)
                     {
-                        logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
+                        logger.Info("Application Detected and Surround Applied: {0}, {1}", process.processName, process.procID);
+                        runningApplicationsList.Add(process);
+
+                        if (DebugActiveProcessStop(process.procID) == 0)
+                        {
+                            logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
+                        }
                     }
 #endif
                 }
                 else
                 {
                     logger.Info("Application Detected but already in list: {0}, {1}", process.processName, process.procID);
-                    //Add To running application list
-                    runningApplicationsList.Add(process);
+                    //Add To running application list only if different process id
+                    if ((index = runningApplicationsList.FindIndex(r => r.procID == process.procID)) == -1)
+                    {
+                        logger.Debug("Adding Detected application to list: {0}, {1}", process.processName, process.procID);
+                        runningApplicationsList.Add(process);
+                    }
                 }
             }
             finally
@@ -884,11 +911,17 @@ namespace NVidia_Surround_Assistant
                 thumbGridView.SetAutoScroll(false);
                 if (textBoxLogs.Visible == true)
                 {
-                    this.Size = new Size(this.Width, this.Height + textBoxLogs_PixelShift);
+                    if((Height + textBoxLogs_PixelShift) < mainForm_minSizeWithLogBox)
+                        this.Size = new Size(this.Width, mainForm_minSizeWithLogBox);
+                    else
+                        this.Size = new Size(this.Width, this.Height + textBoxLogs_PixelShift);
                 }
                 else
                 {
-                    this.Size = new Size(this.Width, this.Height - textBoxLogs_PixelShift);
+                    if((Height - textBoxLogs_PixelShift) > mainForm_minSizeWithLogBox)
+                        this.Size = new Size(this.Width, this.Height - textBoxLogs_PixelShift);
+                    else
+                        this.Size = new Size(this.Width, mainForm_minSizeWithLogBox - textBoxLogs_PixelShift);
                 }
                 thumbGridView.SetAutoScroll(true);
                 thumbGridView.ResetScrollBar(0);
@@ -908,7 +941,7 @@ namespace NVidia_Surround_Assistant
             {
                 toolStripButton = new ToolStripMenuItem(surroundConfig.Name, null, contextMenuStripLoadSurroundConfig_Click);
                 toolStripButton.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-                toolStripButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+                toolStripButton.BackColor = normalControlColor;
                 toolStripButton.Tag = surroundConfig;
                 contextMenuStripLoadSurroundConfig.Items.Add(toolStripButton);
             }
@@ -929,7 +962,7 @@ namespace NVidia_Surround_Assistant
             {
                 toolStripButton = new ToolStripMenuItem(app.DisplayName, null, contextMenuStripLoadApp_Click);
                 toolStripButton.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-                toolStripButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+                toolStripButton.BackColor = normalControlColor;
                 toolStripButton.Tag = app;
                 contextMenuStripLoadApp.Items.Add(toolStripButton);
             }
@@ -965,13 +998,13 @@ namespace NVidia_Surround_Assistant
             openFileDialog.FilterIndex = 2;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                newApp.DisplayName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                newApp.Enabled = true;
+                newApp.DisplayName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);                
                 newApp.FullPath = Path.GetFullPath(openFileDialog.FileName);
-                newApp.ProcessName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                newApp.Id = 0;
+                newApp.ProcessName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);                
 
                 AddNewApplication(newApp);
+                if (MessageBox.Show(String.Format("Would you like to launch {0}?", newApp.ProcessName), "Launch Application", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    LaunchApplication(newApp);
             }
         }
 
@@ -1091,7 +1124,7 @@ namespace NVidia_Surround_Assistant
             {
                 ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
                 if (toolStripMenuItem.Tag != null)
-                    StartApplication(toolStripMenuItem.Tag as ApplicationInfo);
+                    LaunchApplication(toolStripMenuItem.Tag as ApplicationInfo);
             }
         }
 
@@ -1139,6 +1172,25 @@ namespace NVidia_Surround_Assistant
         {
             AboutBoxNVSA about = new AboutBoxNVSA();
             about.Show();
+        }
+
+        private void timerZombieCheck_Tick(object sender, EventArgs e)
+        {
+            logger.Debug("Running Zombie process check");
+            CheckRunningListForZombies();
+            timerZombieCheck.Stop();
+        }        
+
+        private void pictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            pictureBox.BackColor = hoverButtonColor;
+        }
+
+        private void pictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            pictureBox.BackColor = normalControlColor;
         }
         #endregion
     }

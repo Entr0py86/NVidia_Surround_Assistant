@@ -63,9 +63,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add_50x50 {
+        internal static System.Drawing.Bitmap add_24x24 {
             get {
-                object obj = ResourceManager.GetObject("add_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("add_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap close_50x50 {
+        internal static System.Drawing.Bitmap close_48x48 {
             get {
-                object obj = ResourceManager.GetObject("close_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("close_48x48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete_25x25 {
+        internal static System.Drawing.Bitmap close24x24 {
             get {
-                object obj = ResourceManager.GetObject("delete_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("close24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete_50x50 {
+        internal static System.Drawing.Bitmap delete_16x16 {
             get {
-                object obj = ResourceManager.GetObject("delete_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("delete_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete_filled_red_25x25 {
+        internal static System.Drawing.Bitmap delete_24x24 {
             get {
-                object obj = ResourceManager.GetObject("delete_filled_red_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("delete_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap document_50x50 {
+        internal static System.Drawing.Bitmap delete_48x48 {
             get {
-                object obj = ResourceManager.GetObject("document_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("delete_48x48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap edit_25x25 {
+        internal static System.Drawing.Bitmap delete_filled_red_24x24 {
             get {
-                object obj = ResourceManager.GetObject("edit_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("delete_filled_red_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap folder_25x25 {
+        internal static System.Drawing.Bitmap document_24x24 {
             get {
-                object obj = ResourceManager.GetObject("folder_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("document_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap folder_50x50 {
+        internal static System.Drawing.Bitmap download_16x16 {
             get {
-                object obj = ResourceManager.GetObject("folder_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("download_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap help_50x50 {
+        internal static System.Drawing.Bitmap download_24x24 {
             get {
-                object obj = ResourceManager.GetObject("help_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("download_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap information_50x50 {
+        internal static System.Drawing.Bitmap edit_16x16 {
             get {
-                object obj = ResourceManager.GetObject("information_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("edit_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap maximize_25x25 {
+        internal static System.Drawing.Bitmap edit_24x24 {
             get {
-                object obj = ResourceManager.GetObject("maximize_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("edit_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap minus_25x25 {
+        internal static System.Drawing.Bitmap folder_24x24 {
             get {
-                object obj = ResourceManager.GetObject("minus_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("folder_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap save_25x25 {
+        internal static System.Drawing.Bitmap help_24x24 {
             get {
-                object obj = ResourceManager.GetObject("save_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("help_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap save_50x50 {
+        internal static System.Drawing.Bitmap information_24x24 {
             get {
-                object obj = ResourceManager.GetObject("save_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("information_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +213,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap search_grey_25x25 {
+        internal static System.Drawing.Bitmap save_24x24 {
             get {
-                object obj = ResourceManager.GetObject("search_grey_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("save_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +223,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap settings_50x50 {
+        internal static System.Drawing.Bitmap search_24x24 {
             get {
-                object obj = ResourceManager.GetObject("settings_50x50", resourceCulture);
+                object obj = ResourceManager.GetObject("search_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,9 +233,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap success_25x25 {
+        internal static System.Drawing.Bitmap settings_24x24 {
             get {
-                object obj = ResourceManager.GetObject("success_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("settings_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,9 +243,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap success_green_25x25 {
+        internal static System.Drawing.Bitmap success_24x24 {
             get {
-                object obj = ResourceManager.GetObject("success_green_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("success_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -253,9 +253,9 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap success_red_25x25 {
+        internal static System.Drawing.Bitmap success_green_24x24 {
             get {
-                object obj = ResourceManager.GetObject("success_red_25x25", resourceCulture);
+                object obj = ResourceManager.GetObject("success_green_24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

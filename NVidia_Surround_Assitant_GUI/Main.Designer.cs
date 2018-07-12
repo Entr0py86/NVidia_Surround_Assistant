@@ -53,23 +53,16 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pictureBoxSwitchSurround = new System.Windows.Forms.PictureBox();
             this.pictureBoxClose = new System.Windows.Forms.PictureBox();
-            this.pictureBoxLoadConfig = new System.Windows.Forms.PictureBox();
-            this.pictureBoxSaveConfig = new System.Windows.Forms.PictureBox();
-            this.pictureBoxLogs = new System.Windows.Forms.PictureBox();
             this.pictureBoxSettings = new System.Windows.Forms.PictureBox();
             this.pictureBoxAddGame = new System.Windows.Forms.PictureBox();
-            this.pictureBoxAbout = new System.Windows.Forms.PictureBox();
+            this.timerZombieCheck = new System.Windows.Forms.Timer(this.components);
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
             this.contextMenuStrip_SystemTray.SuspendLayout();
             this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).BeginInit();
             this.SuspendLayout();
             // 
             // processCreatedCatcher
@@ -99,7 +92,7 @@
             // 
             // contextMenuStrip_SystemTray
             // 
-            this.contextMenuStrip_SystemTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.contextMenuStrip_SystemTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.contextMenuStrip_SystemTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_AddApp,
             this.toolStripMenuItem_LoadApp,
@@ -132,7 +125,7 @@
             // 
             // contextMenuStripLoadApp
             // 
-            this.contextMenuStripLoadApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.contextMenuStripLoadApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.contextMenuStripLoadApp.Name = "contextMenuStripLoadSurroundConfig";
             this.contextMenuStripLoadApp.OwnerItem = this.toolStripMenuItem_LoadApp;
             this.contextMenuStripLoadApp.ShowImageMargin = false;
@@ -161,7 +154,7 @@
             // 
             // contextMenuStripLoadSurroundConfig
             // 
-            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
             this.contextMenuStripLoadSurroundConfig.OwnerItem = this.toolStripMenuItem_LoadSurroundFile;
             this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
@@ -177,7 +170,7 @@
             // 
             // contextMenuStripSaveSurroundConfig
             // 
-            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveAsDefaultToolStripMenuItem,
             this.saveAsDefaultSurroundToolStripMenuItem,
@@ -228,11 +221,11 @@
             // 
             this.textBoxLogs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBoxLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBoxLogs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxLogs.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.textBoxLogs.Location = new System.Drawing.Point(12, 541);
+            this.textBoxLogs.Location = new System.Drawing.Point(12, 476);
             this.textBoxLogs.Name = "textBoxLogs";
             this.textBoxLogs.Size = new System.Drawing.Size(1056, 141);
             this.textBoxLogs.TabIndex = 46;
@@ -241,123 +234,91 @@
             // 
             // pictureBoxSwitchSurround
             // 
-            this.pictureBoxSwitchSurround.Image = global::NVidia_Surround_Assistant.Properties.Resources.help_50x50;
-            this.pictureBoxSwitchSurround.Location = new System.Drawing.Point(180, 12);
+            this.pictureBoxSwitchSurround.Image = global::NVidia_Surround_Assistant.Properties.Resources.help_24x24;
+            this.pictureBoxSwitchSurround.Location = new System.Drawing.Point(48, 12);
             this.pictureBoxSwitchSurround.Name = "pictureBoxSwitchSurround";
-            this.pictureBoxSwitchSurround.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxSwitchSurround.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxSwitchSurround.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxSwitchSurround.TabIndex = 76;
             this.pictureBoxSwitchSurround.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBoxSwitchSurround, "Toggle Surround Mode");
             this.pictureBoxSwitchSurround.Click += new System.EventHandler(this.pictureBoxSwitchSurround_Click);
+            this.pictureBoxSwitchSurround.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxSwitchSurround.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
             // pictureBoxClose
             // 
             this.pictureBoxClose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.close_50x50;
-            this.pictureBoxClose.Location = new System.Drawing.Point(1022, 12);
-            this.pictureBoxClose.MaximumSize = new System.Drawing.Size(50, 50);
-            this.pictureBoxClose.MinimumSize = new System.Drawing.Size(50, 50);
+            this.pictureBoxClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.close24x24;
+            this.pictureBoxClose.Location = new System.Drawing.Point(1042, 12);
+            this.pictureBoxClose.MaximumSize = new System.Drawing.Size(30, 30);
+            this.pictureBoxClose.MinimumSize = new System.Drawing.Size(30, 30);
             this.pictureBoxClose.Name = "pictureBoxClose";
-            this.pictureBoxClose.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxClose.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxClose.TabIndex = 75;
             this.pictureBoxClose.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBoxClose, "Exit");
             this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
-            // 
-            // pictureBoxLoadConfig
-            // 
-            this.pictureBoxLoadConfig.ContextMenuStrip = this.contextMenuStripLoadSurroundConfig;
-            this.pictureBoxLoadConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.folder_50x50;
-            this.pictureBoxLoadConfig.Location = new System.Drawing.Point(68, 12);
-            this.pictureBoxLoadConfig.Name = "pictureBoxLoadConfig";
-            this.pictureBoxLoadConfig.Size = new System.Drawing.Size(50, 50);
-            this.pictureBoxLoadConfig.TabIndex = 74;
-            this.pictureBoxLoadConfig.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxLoadConfig, "Load Display Setup");
-            this.pictureBoxLoadConfig.Click += new System.EventHandler(this.pictureBoxLoadConfig_Click);
-            // 
-            // pictureBoxSaveConfig
-            // 
-            this.pictureBoxSaveConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.save_50x50;
-            this.pictureBoxSaveConfig.Location = new System.Drawing.Point(12, 12);
-            this.pictureBoxSaveConfig.Name = "pictureBoxSaveConfig";
-            this.pictureBoxSaveConfig.Size = new System.Drawing.Size(50, 50);
-            this.pictureBoxSaveConfig.TabIndex = 73;
-            this.pictureBoxSaveConfig.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxSaveConfig, "Save Display Setup");
-            this.pictureBoxSaveConfig.Click += new System.EventHandler(this.pictureBoxSaveConfig_Click);
-            // 
-            // pictureBoxLogs
-            // 
-            this.pictureBoxLogs.Image = global::NVidia_Surround_Assistant.Properties.Resources.document_50x50;
-            this.pictureBoxLogs.Location = new System.Drawing.Point(292, 12);
-            this.pictureBoxLogs.Name = "pictureBoxLogs";
-            this.pictureBoxLogs.Size = new System.Drawing.Size(50, 50);
-            this.pictureBoxLogs.TabIndex = 47;
-            this.pictureBoxLogs.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxLogs, "Show Log");
-            this.pictureBoxLogs.Click += new System.EventHandler(this.pictureBoxLogs_Click);
+            this.pictureBoxClose.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxClose.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
             // pictureBoxSettings
             // 
-            this.pictureBoxSettings.Image = global::NVidia_Surround_Assistant.Properties.Resources.settings_50x50;
-            this.pictureBoxSettings.Location = new System.Drawing.Point(236, 12);
+            this.pictureBoxSettings.Image = global::NVidia_Surround_Assistant.Properties.Resources.settings_24x24;
+            this.pictureBoxSettings.Location = new System.Drawing.Point(84, 12);
             this.pictureBoxSettings.Name = "pictureBoxSettings";
-            this.pictureBoxSettings.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxSettings.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxSettings.TabIndex = 1;
             this.pictureBoxSettings.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBoxSettings, "Settings");
             this.pictureBoxSettings.Click += new System.EventHandler(this.pictureBoxSettings_Click);
+            this.pictureBoxSettings.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxSettings.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
             // pictureBoxAddGame
             // 
-            this.pictureBoxAddGame.Image = global::NVidia_Surround_Assistant.Properties.Resources.add_50x50;
-            this.pictureBoxAddGame.Location = new System.Drawing.Point(124, 12);
+            this.pictureBoxAddGame.Image = global::NVidia_Surround_Assistant.Properties.Resources.add_24x24;
+            this.pictureBoxAddGame.Location = new System.Drawing.Point(12, 12);
             this.pictureBoxAddGame.Name = "pictureBoxAddGame";
-            this.pictureBoxAddGame.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxAddGame.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxAddGame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxAddGame.TabIndex = 0;
             this.pictureBoxAddGame.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBoxAddGame, "Add Application");
             this.pictureBoxAddGame.Click += new System.EventHandler(this.PictureBoxAddGame_Click);
+            this.pictureBoxAddGame.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxAddGame.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
-            // pictureBoxAbout
+            // timerZombieCheck
             // 
-            this.pictureBoxAbout.Image = global::NVidia_Surround_Assistant.Properties.Resources.information_50x50;
-            this.pictureBoxAbout.Location = new System.Drawing.Point(348, 12);
-            this.pictureBoxAbout.Name = "pictureBoxAbout";
-            this.pictureBoxAbout.Size = new System.Drawing.Size(50, 50);
-            this.pictureBoxAbout.TabIndex = 77;
-            this.pictureBoxAbout.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxAbout, "About");
-            this.pictureBoxAbout.Click += new System.EventHandler(this.pictureBoxAbout_Click);
+            this.timerZombieCheck.Interval = 5000;
+            this.timerZombieCheck.Tick += new System.EventHandler(this.timerZombieCheck_Tick);
             // 
             // thumbGridView
             // 
             this.thumbGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.thumbGridView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.thumbGridView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.thumbGridView.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.thumbGridView.Location = new System.Drawing.Point(12, 105);
+            this.thumbGridView.Location = new System.Drawing.Point(12, 48);
             this.thumbGridView.MinimumSize = new System.Drawing.Size(260, 414);
             this.thumbGridView.Name = "thumbGridView";
-            this.thumbGridView.Size = new System.Drawing.Size(1056, 417);
+            this.thumbGridView.Size = new System.Drawing.Size(1056, 414);
             this.thumbGridView.TabIndex = 5;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1084, 687);
-            this.Controls.Add(this.pictureBoxAbout);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.ClientSize = new System.Drawing.Size(1084, 629);
             this.Controls.Add(this.pictureBoxSwitchSurround);
             this.Controls.Add(this.pictureBoxClose);
-            this.Controls.Add(this.pictureBoxLoadConfig);
-            this.Controls.Add(this.pictureBoxSaveConfig);
-            this.Controls.Add(this.pictureBoxLogs);
             this.Controls.Add(this.textBoxLogs);
             this.Controls.Add(this.thumbGridView);
             this.Controls.Add(this.pictureBoxSettings);
@@ -365,6 +326,7 @@
             this.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NVidia Surround Assistant";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
@@ -376,12 +338,8 @@
             this.contextMenuStripSaveSurroundConfig.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -403,10 +361,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_ToggelSurround;
         private System.Windows.Forms.RichTextBox textBoxLogs;
-        private System.Windows.Forms.PictureBox pictureBoxLogs;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.PictureBox pictureBoxLoadConfig;
-        private System.Windows.Forms.PictureBox pictureBoxSaveConfig;
         private System.Windows.Forms.PictureBox pictureBoxClose;
         private System.Windows.Forms.PictureBox pictureBoxSwitchSurround;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripSaveSurroundConfig;
@@ -416,7 +371,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadSurroundConfig;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_LoadApp;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadApp;
-        private System.Windows.Forms.PictureBox pictureBoxAbout;
+        private System.Windows.Forms.Timer timerZombieCheck;
     }
 }
 

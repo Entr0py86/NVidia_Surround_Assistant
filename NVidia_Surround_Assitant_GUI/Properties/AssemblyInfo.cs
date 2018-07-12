@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NVidia Surround Assistant")]
-[assembly: AssemblyDescription("The NVidia surround assistant(NVSA) is there to assit with NVidia's surround mode. NVSA is designed to detect an application start, check wehther the application is in the defined list and then switch to the surround configuration of choice.")]
+[assembly: AssemblyDescription("The NVidia surround assistant(NVSA) is there to assit with NVidia's surround mode. NVSA is designed to detect an application start, check whether the application is in the defined list and then switch to the surround configuration of choice.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NVidia Surround Assistant")]

@@ -400,5 +400,17 @@ namespace NVidia_Surround_Assistant
             LogManager.Configuration.Reload();
 
         }
+
+        private void pictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            pictureBox.BackColor = MainForm.hoverButtonColor;
+        }
+
+        private void pictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            pictureBox.BackColor = MainForm.normalControlColor;
+        }
     }
 }

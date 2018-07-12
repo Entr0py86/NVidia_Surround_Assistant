@@ -29,7 +29,8 @@ namespace NVidia_Surround_Assistant
 
         //New app flag
         bool autoSearchNewApp;
-        
+        bool settingsNotSaved = false;
+
         public EditApplicationSettings(ApplicationInfo Appinfo, bool AutoSearchNewApp)
         {
             InitializeComponent();
@@ -68,12 +69,13 @@ namespace NVidia_Surround_Assistant
                 if (Appinfo.Image != null)
                     pictureBoxGameBoxCover.Image = Appinfo.Image;
                 else
-                    pictureBoxGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.delete_50x50;
+                    pictureBoxGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.delete_48x48;
 
                 pictureBoxNotPauseOnDetect.Visible = !Appinfo.PauseOnDetect;
                 pictureBoxPauseOnDetect.Visible = Appinfo.PauseOnDetect;
 
                 numericUpDownSwitchbackTimeout.Value = Appinfo.SwitchbackTimeout;
+                settingsNotSaved = false;
             }
         }
 
@@ -98,8 +100,8 @@ namespace NVidia_Surround_Assistant
             pictureBoxEnabled.Visible = waitDisabled && AppInfo.Enabled;
             pictureBoxGameBoxCover.Visible = waitDisabled;
             pictureBoxChangeFileLocation.Visible = waitDisabled;
-            pictureBoxNotPauseOnDetect.Visible = waitDisabled;
-            pictureBoxPauseOnDetect.Visible = waitDisabled;
+            pictureBoxNotPauseOnDetect.Visible = waitDisabled && !AppInfo.PauseOnDetect;
+            pictureBoxPauseOnDetect.Visible = waitDisabled && AppInfo.PauseOnDetect;
             comboBoxSurroundSetup.Visible = waitDisabled;
 
             textBoxAppPath.Visible = waitDisabled;
@@ -108,18 +110,18 @@ namespace NVidia_Surround_Assistant
 
             if (waitDisabled)
             {                
-                pictureBoxApply.Image = NVidia_Surround_Assistant.Properties.Resources.success_green_25x25;
-                pictureBoxApply.Location = new Point(88, 310);
-                pictureBoxCancel.Location = new Point(163, 310);
+                pictureBoxApply.Image = NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
+                pictureBoxApply.Location = new Point(pictureBoxApply.Left, 310);
+                pictureBoxCancel.Location = new Point(pictureBoxCancel.Left, 310);
 
                 Width = pictureBoxGameBoxCover.Right + spacing;
                 Height = pictureBoxGameBoxCover.Bottom + y_spacing;
             }
             else
             {               
-                pictureBoxApply.Image = NVidia_Surround_Assistant.Properties.Resources.success_25x25;
-                pictureBoxApply.Location = new Point(88, labelWait.Bottom + spacing);
-                pictureBoxCancel.Location = new Point(163, labelWait.Bottom + spacing);
+                pictureBoxApply.Image = NVidia_Surround_Assistant.Properties.Resources.success_24x24;
+                pictureBoxApply.Location = new Point(pictureBoxApply.Left, labelWait.Bottom + spacing);
+                pictureBoxCancel.Location = new Point(pictureBoxCancel.Left, labelWait.Bottom + spacing);
 
                 Width = pictureBoxSearch.Right + spacing;
                 Height = pictureBoxCancel.Bottom + y_spacing;
@@ -143,7 +145,9 @@ namespace NVidia_Surround_Assistant
             comboBoxGameList.SelectedIndexChanged -= comboBoxGameList_SelectedIndexChanged;
             comboBoxGameList.DataSource = gameList_UserChoice;
             comboBoxGameList.DisplayMember = "DisplayName";            
-            comboBoxGameList.SelectedIndexChanged += comboBoxGameList_SelectedIndexChanged;            
+            comboBoxGameList.SelectedIndexChanged += comboBoxGameList_SelectedIndexChanged;
+            comboBoxGameList.Visible = true;
+            labelGameList.Visible = true;
             comboBoxGameList.ResumeLayout();
             if (comboBoxGameList.Items.Count > 0)
             {
@@ -334,6 +338,7 @@ namespace NVidia_Surround_Assistant
         private void comboBoxGameList_SelectedIndexChanged(object sender, EventArgs e)
         {            
             UpdateDisplay((ApplicationInfo)comboBoxGameList.SelectedItem);
+            settingsNotSaved = true;
         }
 
         private void pictureBoxEditImage_Click(object sender, EventArgs e)
@@ -366,6 +371,7 @@ namespace NVidia_Surround_Assistant
                         pictureBoxGameBoxCover.Image = newImage;
                     else
                         MessageBox.Show("Image is to large for database. Limit is 20MB.", "Image Size Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    settingsNotSaved = true;
                 }
                 catch(OutOfMemoryException ex)
                 {
@@ -383,7 +389,7 @@ namespace NVidia_Surround_Assistant
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 textBoxAppPath.Text = openFileDialog1.FileName;                
-            }
+            }            
         }
 
         private void pictureBoxDisabled_Click(object sender, EventArgs e)
@@ -460,6 +466,37 @@ namespace NVidia_Surround_Assistant
         {
             if (e.KeyCode == Keys.Enter)
                 pictureBoxSearch_Click(null, null);
-        }        
+        }
+
+        private void textBoxDisplayName_TextChanged(object sender, EventArgs e)
+        {
+            settingsNotSaved = true;
+        }
+
+        private void textBoxAppPath_TextChanged(object sender, EventArgs e)
+        {
+            settingsNotSaved = true;
+        }
+
+        private void comboBoxSurroundSetup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            settingsNotSaved = true;
+        }
+
+        private void numericUpDownSwitchbackTimeout_ValueChanged(object sender, EventArgs e)
+        {
+            settingsNotSaved = true;
+        }
+
+        private void EditApplicationSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult == DialogResult.Cancel && settingsNotSaved)
+            {
+                if (MessageBox.Show("Would you like to save your changed settings?", "Unsaved Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DialogResult = DialogResult.OK;
+                }
+            }
+        }
     }
 }

@@ -387,5 +387,71 @@
   <ItemGroup>
     <None Include="Resources\information 50x50.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download 25x25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add 25x25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\help 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete filled red 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\success green 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\success 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete 48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close 48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download 24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete 16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download 16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit 16x16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

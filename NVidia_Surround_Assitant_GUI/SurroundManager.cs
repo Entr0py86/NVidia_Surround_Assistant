@@ -32,6 +32,8 @@ namespace NVidia_Surround_Assistant
             SM_SaveCurrentSetup();
             SM_SaveWindowPositions();
 
+            //TODO move db intialize to setuyp not first run
+
             //Check if surround setup file already exists
             if (MainForm.sqlInterface.SurroundConfigExists("Default Surround"))
             {
@@ -56,7 +58,7 @@ namespace NVidia_Surround_Assistant
                 {
                     if (SM_IsSurroundActive())
                     {
-                        MessageBox.Show("NVidia Surround mode currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(keyboard shortcuts) now.\n\nWhen display is setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("NVidia Surround mode currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(or keyboard shortcuts) now.\n\nWhen display is setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     //Save memory to file
                     SM_SaveDefaultSetup();

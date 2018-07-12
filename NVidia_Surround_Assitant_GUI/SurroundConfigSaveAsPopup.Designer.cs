@@ -45,7 +45,7 @@
             // 
             // textBoxSurroundConfigName
             // 
-            this.textBoxSurroundConfigName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBoxSurroundConfigName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBoxSurroundConfigName.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.textBoxSurroundConfigName.Location = new System.Drawing.Point(16, 30);
             this.textBoxSurroundConfigName.Name = "textBoxSurroundConfigName";
@@ -65,7 +65,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.buttonCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.buttonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonCancel.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.buttonCancel.Location = new System.Drawing.Point(108, 56);
@@ -80,7 +80,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.ClientSize = new System.Drawing.Size(213, 94);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);

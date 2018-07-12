@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 
 namespace NVidia_Surround_Assistant
 {
+    public delegate void DelegateLaunchApplication(ApplicationInfo AppInfo);
     public delegate void DelegateEditApplication(Thumb AppInfo);
     public delegate void DelegateEnableApplication(Thumb AppInfo);
     public delegate void DelegateDisableApplication(Thumb AppInfo);
@@ -13,6 +14,7 @@ namespace NVidia_Surround_Assistant
 
     public partial class Thumb : UserControl
     {
+        public DelegateLaunchApplication launchApplication;
         public DelegateEditApplication editApplication;
         public DelegateEditApplication silentEditApplication;
         public DelegateRemoveApplication removeApplication;        
@@ -102,12 +104,12 @@ namespace NVidia_Surround_Assistant
                 //else
                 {
                     pbGameBoxCover.Image = MergeImages(appInfo.Image,
-                        (appInfo.Enabled ? NVidia_Surround_Assistant.Properties.Resources.success_green_25x25
-                        : NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_25x25));
+                        (appInfo.Enabled ? NVidia_Surround_Assistant.Properties.Resources.success_green_24x24
+                        : NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24));
                 }
             }
             else
-                pbGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.close_50x50;
+                pbGameBoxCover.Image = NVidia_Surround_Assistant.Properties.Resources.close_48x48;
 
             lbGameName.Text = appInfo.DisplayName;
         }
@@ -196,6 +198,26 @@ namespace NVidia_Surround_Assistant
                 mousePos.Y -= 5;
                 toolTip.Show(toolMsg, this, mousePos, 1000);
             }
+        }
+
+        private void pictureBoxLaunchApplication_Click(object sender, EventArgs e)
+        {
+            if(launchApplication != null)
+            {
+                launchApplication(ApplicationInfo);
+            }
+        }
+
+        private void pictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            pictureBox.BackColor = MainForm.hoverButtonColor;
+        }
+
+        private void pictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            pictureBox.BackColor = System.Drawing.SystemColors.WindowFrame;
         }
     }
 }

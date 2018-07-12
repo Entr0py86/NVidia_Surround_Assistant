@@ -17,8 +17,6 @@ namespace NVidia_Surround_Assistant
         int numOfRows;
         ControlCollection myControls = null;
 
-        bool redoLayout = true;
-
         public ThumbGridView()
         {
             Thumb tempThumb = new Thumb(null);
@@ -27,7 +25,7 @@ namespace NVidia_Surround_Assistant
 
             x_spacing = tempThumb.Width;
             y_spacing = tempThumb.Height;
-            
+
             myControls = panelApplicationListView.Controls;
         }
 
@@ -42,32 +40,28 @@ namespace NVidia_Surround_Assistant
                 panelApplicationListView.AutoScroll = false;
                 panelApplicationListView.AutoScrollPosition = Point.Empty;
 
-                if (redoLayout)
+                SortThumbs();
+
+                numOfColumns = (int)Math.Floor((decimal)panelApplicationListView.Width / x_spacing);
+                numOfRows = (int)Math.Ceiling((double)panelApplicationListView.Controls.Count / numOfColumns);
+
+                for (int row = 0; (row < numOfRows) && (panelApplicationListView.Controls.Count != controlIndex); row++)
                 {
-                    SortThumbs();
-
-                    numOfColumns = (int)Math.Floor((decimal)panelApplicationListView.Width / x_spacing);
-                    numOfRows = (int)Math.Ceiling((double)panelApplicationListView.Controls.Count / numOfColumns);
-
-                    for (int row = 0; (row < numOfRows) && (panelApplicationListView.Controls.Count != controlIndex); row++)
+                    if (row != 0)
                     {
-                        if (row != 0)
-                        {
-                            controlLocation.X = 0;
-                            controlLocation.Y += y_spacing;
-                        }
-                        for (int column = 0; (column < numOfColumns) && (panelApplicationListView.Controls.Count != controlIndex); column++)
-                        {
-                            if (column != 0)
-                                controlLocation.X += x_spacing;
-                            panelApplicationListView.Controls[controlIndex].Location = controlLocation;
-                            controlIndex++;
-                        }
+                        controlLocation.X = 0;
+                        controlLocation.Y += y_spacing;
                     }
-                    redoLayout = false;
+                    for (int column = 0; (column < numOfColumns) && (panelApplicationListView.Controls.Count != controlIndex); column++)
+                    {
+                        if (column != 0)
+                            controlLocation.X += x_spacing;
+                        panelApplicationListView.Controls[controlIndex].Location = controlLocation;
+                        controlIndex++;
+                    }
                 }
-                panelApplicationListView.AutoScroll = true;                
-                panelApplicationListView.ResumeLayout();                                
+                panelApplicationListView.AutoScroll = true;
+                panelApplicationListView.ResumeLayout();
             }
         }
 
@@ -87,13 +81,13 @@ namespace NVidia_Surround_Assistant
         public void AddThumb(Thumb newThumb)
         {
             myControls.Add(newThumb);
-            redoLayout = true;
+            UpdateGridView();
         }
 
         public void RemoveThumb(Thumb newThumb)
         {
             myControls.RemoveAt(myControls.GetChildIndex(newThumb));
-            redoLayout = true;
+            UpdateGridView();
         }
 
         public void SetAutoScroll(bool enabled)
@@ -115,9 +109,8 @@ namespace NVidia_Surround_Assistant
         }
 
         private void panelApplicationListView_Resize(object sender, EventArgs e)
-        {            
+        {
             panelApplicationListView.Resize -= panelApplicationListView_Resize;
-            redoLayout = true;
             UpdateGridView();
             panelApplicationListView.Resize += panelApplicationListView_Resize;
         }

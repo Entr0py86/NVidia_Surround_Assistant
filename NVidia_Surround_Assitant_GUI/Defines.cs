@@ -151,6 +151,9 @@ namespace NVidia_Surround_Assistant
         public ApplicationInfo()
         {
             Image = null;
+            Id = 0;
+            Enabled = true;
+            PauseOnDetect = true;
         }
     };
 

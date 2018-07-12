@@ -88,7 +88,7 @@ namespace NVidia_Surround_Assistant
         {
             List<ApplicationInfo> applicationInfos = new List<ApplicationInfo>();
 
-            SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM ApplicationList");
+            SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM ApplicationList ORDER BY DisplayName");
             if (reader != null)
             {
                 if (reader.VisibleFieldCount > 0)
