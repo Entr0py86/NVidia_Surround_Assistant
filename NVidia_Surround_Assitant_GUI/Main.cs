@@ -213,7 +213,28 @@ namespace NVidia_Surround_Assistant
             {
                 //Stop event manager
                 if (processStartEvent != null)
-                    processStartEvent.Stop();
+                {
+                    try
+                    {
+                        processStartEvent.Stop();
+                    }
+                    catch (System.Runtime.InteropServices.COMException ex)
+                    {
+                        logger.Debug("processStartEvent stop failed: {0}", ex.Message);
+                    }
+                }
+
+                if (processStopEvent != null)
+                {
+                    try
+                    {
+                        processStopEvent.Stop();
+                    }
+                    catch (System.Runtime.InteropServices.COMException ex)
+                    {
+                        logger.Debug("processStopEvent stop failed: {0}", ex.Message);
+                    }
+                }
                 //Switch back to normal mode depending on settings
                 SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnClose);
             }
@@ -285,8 +306,7 @@ namespace NVidia_Surround_Assistant
             }
 
             //Load all applications into list
-            LoadApplicationList();
-            populateContextMenuStripLoadSurroundConfig();
+            LoadApplicationList();            
             populateContextMenuStripLoadApp();
 
             CreateProcessWatchers();
@@ -457,10 +477,8 @@ namespace NVidia_Surround_Assistant
             //Start process
             startProcess.Start();
             //populate required info for list
-            process.processExeName = Path.GetFileName(launchApp.FullPath);
-            process.processName = Path.GetFileNameWithoutExtension(process.processExeName);
+            process.processName = Path.GetFileNameWithoutExtension(launchApp.FullPath);
             process.procID = (IntPtr)startProcess.Id;
-            process.processFullPath = launchApp.FullPath;
             //Don't add to list if app is not enabled
             if (launchApp.Enabled)
             {
@@ -509,24 +527,15 @@ namespace NVidia_Surround_Assistant
         //Event is fired when a new process is created
         void processStartEvent_EventArrived(object sender, EventArrivedEventArgs e)
         {
-            ProcessInfo process = new ProcessInfo();
-            Process[] processList;
+            ProcessInfo process = new ProcessInfo();            
 
-            process.processExeName = e.NewEvent.Properties["ProcessName"].Value as string;
-            process.processName = Path.GetFileNameWithoutExtension(process.processExeName);
-            logger.Trace("WMI Process started: {0} ", process.processExeName);
+            process.procID = new IntPtr(Convert.ToInt64(e.NewEvent.Properties["ProcessID"].Value));
+            process.processName = Path.GetFileNameWithoutExtension(e.NewEvent.Properties["ProcessName"].Value as string);
+            logger.Trace("WMI Process started: {0} ", process.processName);
 
             if (applicationDetectList.Contains(process.processName))
-            {
-                processList = Process.GetProcessesByName(process.processName);
-
-                if (processList.Length > 0)
-                {
-                    logger.Debug("App From list detected by WMI: {0}", process.processName);
-                    process.procID = (IntPtr)processList[0].Id;
-                    process.processFullPath = processList[0].MainModule.FileName;
-                    ProcessCreatedWindow(process);
-                }
+            {                    
+              ProcessCreatedWindow(process);             
             }
         }
 
@@ -535,23 +544,24 @@ namespace NVidia_Surround_Assistant
             ProcessInfo process = new ProcessInfo();
             ApplicationInfo applicationInfo;
 
-            process.processExeName = e.NewEvent.Properties["ProcessName"].Value as string;
+            string processName = e.NewEvent.Properties["ProcessName"].Value as string;
             process.procID = new IntPtr(Convert.ToInt64(e.NewEvent.Properties["ProcessID"].Value));
-            process.processName = Path.GetFileNameWithoutExtension(process.processExeName);
-            logger.Trace("WMI Process stopped: {0} ", process.processExeName);
+            process.processName = Path.GetFileNameWithoutExtension(processName);
+            logger.Trace("WMI Process stopped: {0} ", process.processName);
 
             if (applicationDetectList.Contains(process.processName))
             {
                 applicationInfo = GetApplicationFromList(process.processName);
                 
                 StoppedProcessList.Enqueue(process);
-                logger.Debug("WMI Process stopped: {0}; Switch in {1} sec", process.processExeName, applicationInfo.SwitchbackTimeout);
-                processStopTimer.Interval = applicationInfo.SwitchbackTimeout * 1000;//Make seconds into ms
-                timerZombieCheck.Interval = applicationInfo.SwitchbackTimeout * 1000 * 2;//Make seconds into ms
-                timerZombieCheck.Start();
+                logger.Debug("WMI Process stopped: {0}; Switch in {1} sec", process.processName, applicationInfo.SwitchbackTimeout);
                 if (!processStopTimer.Enabled)
+                {
+                    processStopTimer.Interval = applicationInfo.SwitchbackTimeout * 1000;//Make seconds into ms
+                    timerZombieCheck.Interval = applicationInfo.SwitchbackTimeout * 1000 * 2;//Make seconds into ms
+                    timerZombieCheck.Start();
                     processStopTimer.Start();
-                
+                }
             }
         }
 
@@ -571,9 +581,7 @@ namespace NVidia_Surround_Assistant
                 process.handleID = OpenProcess(procFlags, false, process.procID);
                 GetModuleFileNameEx(process.handleID, IntPtr.Zero, strBuilder, 1024);
                 CloseHandle(process.handleID);
-                process.processFullPath = strBuilder.ToString();
-                process.processExeName = Path.GetFileName(process.processFullPath);
-                process.processName = Path.GetFileNameWithoutExtension(process.processExeName);
+                process.processName = Path.GetFileNameWithoutExtension(strBuilder.ToString());
 
             }
             catch (ArgumentException)
@@ -659,12 +667,15 @@ namespace NVidia_Surround_Assistant
                             surroundManager.SM_SaveCurrentSetup();
                             if (!surroundManager.SM_ApplySetup(app.SurroundGrid))
                             {
-                                if (MessageBox.Show("Surround enable failed!\nWould you like to continue starting your application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.No)
+                                if (MessageBox.Show("Surround enable failed!\nWould you like to kill the application?", "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000) == DialogResult.Yes)
                                 {
-                                    if (DebugActiveProcessStop(process.procID) == 0)
+                                    if (app.PauseOnDetect)
                                     {
-                                        logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
-                                        Thread.Sleep(100);
+                                        if (DebugActiveProcessStop(process.procID) == 0)
+                                        {
+                                            logger.Debug("App Un-Paused: {0}", GetLastError().ToString());
+                                            Thread.Sleep(100);
+                                        }
                                     }
 
                                     try
@@ -735,6 +746,14 @@ namespace NVidia_Surround_Assistant
                     {
                         logger.Debug("Adding Detected application to list: {0}, {1}", process.processName, process.procID);
                         runningApplicationsList.Add(process);
+                    }
+                    else
+                    {
+                        if (processStopTimer.Enabled)
+                        {
+                            logger.Debug("Stopping processStopTimer: {0}, {1}", process.processName, process.procID);
+                            processStopTimer.Stop();
+                        }
                     }
                 }
             }
@@ -926,28 +945,7 @@ namespace NVidia_Surround_Assistant
                 thumbGridView.SetAutoScroll(true);
                 thumbGridView.ResetScrollBar(0);
             }
-        }
-
-        private void populateContextMenuStripLoadSurroundConfig()
-        {
-            ToolStripMenuItem toolStripButton;
-
-            contextMenuStripLoadSurroundConfig.AutoSize = false;
-            contextMenuStripLoadSurroundConfig.SuspendLayout();
-            if (contextMenuStripLoadSurroundConfig.Items.Count > 0)
-                contextMenuStripLoadSurroundConfig.Items.Clear();
-
-            foreach (SurroundConfig surroundConfig in sqlInterface.GetSurroundConfigList())
-            {
-                toolStripButton = new ToolStripMenuItem(surroundConfig.Name, null, contextMenuStripLoadSurroundConfig_Click);
-                toolStripButton.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-                toolStripButton.BackColor = normalControlColor;
-                toolStripButton.Tag = surroundConfig;
-                contextMenuStripLoadSurroundConfig.Items.Add(toolStripButton);
-            }
-            contextMenuStripLoadSurroundConfig.ResumeLayout();
-            contextMenuStripLoadSurroundConfig.AutoSize = true;
-        }
+        }        
 
         private void populateContextMenuStripLoadApp()
         {
@@ -1076,17 +1074,7 @@ namespace NVidia_Surround_Assistant
             {
                 textBoxLogs.Visible = true;
             }
-        }
-
-        private void pictureBoxSaveConfig_Click(object sender, EventArgs e)
-        {
-            contextMenuStripSaveSurroundConfig.Show(Cursor.Position);
-        }
-
-        private void pictureBoxLoadConfig_Click(object sender, EventArgs e)
-        {
-            contextMenuStripLoadSurroundConfig.Show(Cursor.Position);
-        }
+        }        
 
         private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1106,17 +1094,7 @@ namespace NVidia_Surround_Assistant
             {
                 surroundManager.SM_SaveCurrentSetup(popup.surroundConfigName);
             }
-        }
-
-        private void contextMenuStripLoadSurroundConfig_Click(object sender, EventArgs e)
-        {
-            if (sender is ToolStripMenuItem)
-            {
-                ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
-                if (toolStripMenuItem.Tag != null)
-                    surroundManager.SM_ApplySetup((toolStripMenuItem.Tag as SurroundConfig).Id);
-            }
-        }
+        }        
 
         private void contextMenuStripLoadApp_Click(object sender, EventArgs e)
         {

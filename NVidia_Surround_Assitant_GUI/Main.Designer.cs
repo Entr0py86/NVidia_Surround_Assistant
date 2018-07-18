@@ -41,12 +41,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_ToggelSurround = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_LoadSurroundFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripLoadSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_SaveSurroundFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripSaveSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsDefaultSurroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxLogs = new System.Windows.Forms.RichTextBox();
@@ -58,7 +53,6 @@
             this.timerZombieCheck = new System.Windows.Forms.Timer(this.components);
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
             this.contextMenuStrip_SystemTray.SuspendLayout();
-            this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).BeginInit();
@@ -146,63 +140,17 @@
             // 
             // toolStripMenuItem_LoadSurroundFile
             // 
-            this.toolStripMenuItem_LoadSurroundFile.DropDown = this.contextMenuStripLoadSurroundConfig;
             this.toolStripMenuItem_LoadSurroundFile.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolStripMenuItem_LoadSurroundFile.Name = "toolStripMenuItem_LoadSurroundFile";
             this.toolStripMenuItem_LoadSurroundFile.Size = new System.Drawing.Size(186, 22);
             this.toolStripMenuItem_LoadSurroundFile.Text = "Apply Surround File";
             // 
-            // contextMenuStripLoadSurroundConfig
-            // 
-            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
-            this.contextMenuStripLoadSurroundConfig.OwnerItem = this.toolStripMenuItem_LoadSurroundFile;
-            this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
-            // 
             // toolStripMenuItem_SaveSurroundFile
             // 
-            this.toolStripMenuItem_SaveSurroundFile.DropDown = this.contextMenuStripSaveSurroundConfig;
             this.toolStripMenuItem_SaveSurroundFile.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolStripMenuItem_SaveSurroundFile.Name = "toolStripMenuItem_SaveSurroundFile";
             this.toolStripMenuItem_SaveSurroundFile.Size = new System.Drawing.Size(186, 22);
             this.toolStripMenuItem_SaveSurroundFile.Text = "Save Surround File";
-            // 
-            // contextMenuStripSaveSurroundConfig
-            // 
-            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveAsDefaultToolStripMenuItem,
-            this.saveAsDefaultSurroundToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
-            this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
-            this.contextMenuStripSaveSurroundConfig.OwnerItem = this.toolStripMenuItem_SaveSurroundFile;
-            this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
-            // 
-            // saveAsDefaultToolStripMenuItem
-            // 
-            this.saveAsDefaultToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
-            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveAsDefaultToolStripMenuItem.Text = "Save as Default";
-            this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
-            // 
-            // saveAsDefaultSurroundToolStripMenuItem
-            // 
-            this.saveAsDefaultSurroundToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.saveAsDefaultSurroundToolStripMenuItem.Name = "saveAsDefaultSurroundToolStripMenuItem";
-            this.saveAsDefaultSurroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveAsDefaultSurroundToolStripMenuItem.Text = "Save as Surround Default";
-            this.saveAsDefaultSurroundToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultSurroundToolStripMenuItem_Click);
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -335,7 +283,6 @@
             this.Layout += new System.Windows.Forms.LayoutEventHandler(this.MainForm_Layout);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.contextMenuStrip_SystemTray.ResumeLayout(false);
-            this.contextMenuStripSaveSurroundConfig.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).EndInit();
@@ -364,11 +311,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.PictureBox pictureBoxClose;
         private System.Windows.Forms.PictureBox pictureBoxSwitchSurround;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripSaveSurroundConfig;
-        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultSurroundToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadSurroundConfig;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_LoadApp;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadApp;
         private System.Windows.Forms.Timer timerZombieCheck;

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
+using MyStuff;
 
 namespace NVidia_Surround_Assistant
 {    
@@ -23,7 +24,7 @@ namespace NVidia_Surround_Assistant
             mySurround.Dispose();
         }
 
-        private bool SM_DoInitialSetup()
+        public bool SM_DoInitialSetup()
         {
             bool skipSurround = false;
             bool skipDefault = false;
@@ -32,12 +33,16 @@ namespace NVidia_Surround_Assistant
             SM_SaveCurrentSetup();
             SM_SaveWindowPositions();
 
-            //TODO move db intialize to setuyp not first run
-
+            MyMessageBox.Show("The setup will ask to save two surround display configurations.\n" +
+                "    \u2022 The default configuration stores the monitor setup that is used when NVidia surround is disabled.\n" +
+                "    \u2022 The default surround configuration stores the monitor setup that is used when NVidia surround is enabled.\n" +
+                "    \u2022 Each application can have it's own custom surround configuration. The default surround configuration will automatically be selected when adding a new application to the detect list.\n" +
+                "    \u2022 The custom configurations can be added after setup under settings.", "Setup");
+            
             //Check if surround setup file already exists
             if (MainForm.sqlInterface.SurroundConfigExists("Default Surround"))
             {
-                if (MessageBox.Show("Default Surround Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("Default Surround Setup detected. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     MainForm.sqlInterface.DeleteSurroundConfig("Default Surround");
                 else
                     skipSurround = true;
@@ -46,7 +51,7 @@ namespace NVidia_Surround_Assistant
             //Check if surround setup file already exists
             if (MainForm.sqlInterface.SurroundConfigExists("Default"))
             {
-                if (MessageBox.Show("Default Setup file detected. Delete it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("Default Setup detected. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     MainForm.sqlInterface.DeleteSurroundConfig("Default");
                 else
                     skipDefault = true;
@@ -54,11 +59,11 @@ namespace NVidia_Surround_Assistant
 
             if (!skipDefault)
             {
-                if (MessageBox.Show("Save current display setup as default?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("The Default Configuration will be used as your non-surround configuration.\nWould you like to save the current display configuration as your default non-surround configuration?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     if (SM_IsSurroundActive())
                     {
-                        MessageBox.Show("NVidia Surround mode currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(or keyboard shortcuts) now.\n\nWhen display is setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("NVidia Surround mode currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(or keyboard shortcuts) now.\n\nWhen the displays are setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     //Save memory to file
                     SM_SaveDefaultSetup();
@@ -72,7 +77,7 @@ namespace NVidia_Surround_Assistant
             }
 
             if (!skipSurround)
-            {
+            {//TODO
                 if (MessageBox.Show("Save current display setup as surround setup?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     //Save memory to file

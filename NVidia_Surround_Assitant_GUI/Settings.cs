@@ -24,7 +24,9 @@ namespace NVidia_Surround_Assistant
 
         public Settings()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            populateContextMenuStripLoadSurroundConfig();
 
             if (StartMinimized)
             {
@@ -411,6 +413,57 @@ namespace NVidia_Surround_Assistant
         {
             PictureBox pictureBox = sender as PictureBox;
             pictureBox.BackColor = MainForm.normalControlColor;
+        }
+
+        private void pictureBoxSaveConfig_Click(object sender, EventArgs e)
+        {
+            contextMenuStripSaveSurroundConfig.Show(Cursor.Position);
+        }
+
+        private void pictureBoxLoadConfig_Click(object sender, EventArgs e)
+        {
+            contextMenuStripLoadSurroundConfig.Show(Cursor.Position);
+        }
+
+        private void pictureBoxSetup_Click(object sender, EventArgs e)
+        {
+            MainForm.surroundManager.SM_DoInitialSetup();
+        }
+
+        private void populateContextMenuStripLoadSurroundConfig()
+        {
+            ToolStripMenuItem toolStripButton;
+
+            contextMenuStripLoadSurroundConfig.AutoSize = false;
+            contextMenuStripLoadSurroundConfig.SuspendLayout();
+            if (contextMenuStripLoadSurroundConfig.Items.Count > 0)
+                contextMenuStripLoadSurroundConfig.Items.Clear();
+
+            foreach (SurroundConfig surroundConfig in MainForm.sqlInterface.GetSurroundConfigList())
+            {
+                toolStripButton = new ToolStripMenuItem(surroundConfig.Name, null, contextMenuStripLoadSurroundConfig_Click);
+                toolStripButton.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+                toolStripButton.BackColor = MainForm.normalControlColor;
+                toolStripButton.Tag = surroundConfig;
+                contextMenuStripLoadSurroundConfig.Items.Add(toolStripButton);
+            }
+            contextMenuStripLoadSurroundConfig.ResumeLayout();
+            contextMenuStripLoadSurroundConfig.AutoSize = true;
+        }
+
+        private void contextMenuStripLoadSurroundConfig_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem)
+            {
+                ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+                if (toolStripMenuItem.Tag != null)
+                    MainForm.surroundManager.SM_ApplySetup((toolStripMenuItem.Tag as SurroundConfig).Id);
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

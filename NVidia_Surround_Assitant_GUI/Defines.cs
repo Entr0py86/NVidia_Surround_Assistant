@@ -124,9 +124,7 @@ namespace NVidia_Surround_Assistant
         public IntPtr       hWnd;        
         public IntPtr       procID;
         public IntPtr       handleID;
-        public String       processName;
-        public String       processExeName;        
-        public String       processFullPath;
+        public String       processName;        
     };
 
     public class HookMessageInfo
