@@ -52,6 +52,7 @@
             this.pictureBoxAddGame = new System.Windows.Forms.PictureBox();
             this.timerZombieCheck = new System.Windows.Forms.Timer(this.components);
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
+            this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip_SystemTray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
@@ -259,12 +260,23 @@
             this.thumbGridView.Size = new System.Drawing.Size(1056, 414);
             this.thumbGridView.TabIndex = 5;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(559, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 77;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.ClientSize = new System.Drawing.Size(1084, 629);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBoxSwitchSurround);
             this.Controls.Add(this.pictureBoxClose);
             this.Controls.Add(this.textBoxLogs);
@@ -314,6 +326,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_LoadApp;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadApp;
         private System.Windows.Forms.Timer timerZombieCheck;
+        private System.Windows.Forms.Button button1;
     }
 }
 

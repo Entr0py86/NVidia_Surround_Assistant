@@ -86,13 +86,15 @@ namespace NVidia_Surround_Assistant
             //set the timer to the correct state
             timerWait.Enabled = !waitDisabled;
 
+            labelHttpFoundApp.Visible = !waitDisabled;
+
             //Hide rest of the controls
             label2.Visible = waitDisabled;
             label3.Visible = waitDisabled;
             label4.Visible = waitDisabled;
             label5.Visible = waitDisabled;
             label8.Visible = waitDisabled;
-            label9.Visible = waitDisabled;
+            label9.Visible = waitDisabled;            
 
             pictureBoxDeleteImage.Visible = waitDisabled;
             pictureBoxEditImage.Visible = waitDisabled;
@@ -217,7 +219,9 @@ namespace NVidia_Surround_Assistant
             try
             {
                 Task<List<IgdbAPI.Game>> getGameList = igdbClient.SearchGamesAsync(textBoxGameSearch.Text);
-                List<IgdbAPI.Game> gameList = await getGameList;
+
+                labelHttpFoundApp.Text = "Getting Application Information";
+                List <IgdbAPI.Game> gameList = await getGameList;
                 ApplicationInfo appInfo;
 
                 if (gameList != null)
@@ -230,7 +234,7 @@ namespace NVidia_Surround_Assistant
                         {
                             DisplayName = game.name,
                         };
-
+                        labelHttpFoundApp.Text = String.Format("Getting Image for: {0}", game.name);
                         if (game.cover != null)
                         {
                             try

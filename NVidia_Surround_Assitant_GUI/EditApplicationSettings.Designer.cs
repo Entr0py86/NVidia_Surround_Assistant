@@ -59,6 +59,7 @@
             this.pictureBoxGameBoxCover = new System.Windows.Forms.PictureBox();
             this.pictureBoxSearch = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.labelHttpFoundApp = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSwitchbackTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNotPauseOnDetect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPauseOnDetect)).BeginInit();
@@ -394,12 +395,26 @@
             this.pictureBoxSearch.TabStop = false;
             this.pictureBoxSearch.Click += new System.EventHandler(this.pictureBoxSearch_Click);
             // 
+            // labelHttpFoundApp
+            // 
+            this.labelHttpFoundApp.AutoEllipsis = true;
+            this.labelHttpFoundApp.AutoSize = true;
+            this.labelHttpFoundApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHttpFoundApp.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.labelHttpFoundApp.Location = new System.Drawing.Point(88, 77);
+            this.labelHttpFoundApp.MaximumSize = new System.Drawing.Size(222, 15);
+            this.labelHttpFoundApp.Name = "labelHttpFoundApp";
+            this.labelHttpFoundApp.Size = new System.Drawing.Size(222, 15);
+            this.labelHttpFoundApp.TabIndex = 65;
+            this.labelHttpFoundApp.Text = "Applicationdfss Enabled:dxsfasfsffsfsffdf";
+            // 
             // EditApplicationSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.ClientSize = new System.Drawing.Size(629, 382);
+            this.Controls.Add(this.labelHttpFoundApp);
             this.Controls.Add(this.numericUpDownSwitchbackTimeout);
             this.Controls.Add(this.pictureBoxNotPauseOnDetect);
             this.Controls.Add(this.pictureBoxPauseOnDetect);
@@ -482,5 +497,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDownSwitchbackTimeout;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label labelHttpFoundApp;
     }
 }

@@ -118,7 +118,7 @@ namespace NVidia_Surround_Assistant
         public HookType type;
     };
 
-    public struct ProcessInfo
+    public class ProcessInfo
     {
         public Process      process;
         public IntPtr       hWnd;        
