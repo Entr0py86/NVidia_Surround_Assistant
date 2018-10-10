@@ -23,6 +23,10 @@ namespace NVidia_Surround_Assistant
                 if (m_dbConnection != null && m_dbConnection.State != ConnectionState.Closed)
                     m_dbConnection.Close();
 
+                if(!Directory.Exists(Path.GetDirectoryName(SQLiteDbName)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(SQLiteDbName));
+                }
                 if (!File.Exists(SQLiteDbName))
                 {
                     NVidia_Surround_Assistant.Properties.Settings.Default.SQLiteDbName = SQLiteDbName;
@@ -33,7 +37,7 @@ namespace NVidia_Surround_Assistant
 
                     SQL_ExecuteNonQuery("CREATE TABLE ApplicationList ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, enabled BOOLEAN DEFAULT true," +
                         "DisplayName STRING(256), fullPath STRING(260) UNIQUE, image BLOB(20971520), surroundGrid INTEGER DEFAULT 0," +
-                        "pauseOnDetect BOOLEAN DEFAULT true, switchbackTimeout INTEGER DEFAULT 5)");//20mb file
+                        "pauseOnDetect BOOLEAN DEFAULT true, switchbackTimeout INTEGER DEFAULT 3, waitStartTimeout	INTEGER DEFAULT 3)");//20mb file
                     SQL_ExecuteNonQuery("CREATE TABLE SurroundConfigs ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Name TEXT UNIQUE, ConfigFile BLOB )");
                 }
                 else
@@ -108,6 +112,8 @@ namespace NVidia_Surround_Assistant
                                 SurroundGrid = reader.GetInt32(reader.GetOrdinal("surroundGrid")),
                                 PauseOnDetect = (bool)reader["pauseOnDetect"],
                                 SwitchbackTimeout = reader.GetInt32(reader.GetOrdinal("switchbackTimeout")),
+                                StartTimeout = reader.GetInt32(reader.GetOrdinal("waitStartTimeout")),
+                                
                             });
                         }
                         catch (System.InvalidCastException ex)
@@ -124,8 +130,8 @@ namespace NVidia_Surround_Assistant
         {
             SQLiteParameter[] parameters = { new SQLiteParameter("@enabled", newApp.Enabled), new SQLiteParameter("@DisplayName", newApp.DisplayName), new SQLiteParameter("@fullPath", newApp.FullPath),
                 new SQLiteParameter("@image", ImageToByte(newApp.Image)), new SQLiteParameter("@surroundGrid", newApp.SurroundGrid),
-                new SQLiteParameter("@pauseOnDetect", newApp.PauseOnDetect), new SQLiteParameter("@switchbackTimeout", newApp.SwitchbackTimeout) };
-            if (SQL_ExecuteNonQuery("INSERT INTO ApplicationList (enabled,  DisplayName, fullPath, image, surroundGrid, pauseOnDetect, switchbackTimeout) values (@enabled, @DisplayName, @fullPath, @image, @surroundGrid, @pauseOnDetect, @switchbackTimeout)", parameters) > 0)
+                new SQLiteParameter("@pauseOnDetect", newApp.PauseOnDetect), new SQLiteParameter("@switchbackTimeout", newApp.SwitchbackTimeout), new SQLiteParameter("@waitStartTimeout", newApp.StartTimeout) };
+            if (SQL_ExecuteNonQuery("INSERT INTO ApplicationList (enabled,  DisplayName, fullPath, image, surroundGrid, pauseOnDetect, switchbackTimeout, waitStartTimeout) values (@enabled, @DisplayName, @fullPath, @image, @surroundGrid, @pauseOnDetect, @switchbackTimeout, @waitStartTimeout)", parameters) > 0)
             {
                 SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM ApplicationList WHERE DisplayName = @DisplayName", parameters);
                 if (reader != null)
@@ -144,9 +150,9 @@ namespace NVidia_Surround_Assistant
         {
             SQLiteParameter[] parameters = { new SQLiteParameter("@id", editApp.Id), new SQLiteParameter("@enabled", editApp.Enabled), new SQLiteParameter("@DisplayName", editApp.DisplayName), new SQLiteParameter("@fullPath", editApp.FullPath),
                 new SQLiteParameter("@image", ImageToByte(editApp.Image)), new SQLiteParameter("@surroundGrid", editApp.SurroundGrid),
-                new SQLiteParameter("@pauseOnDetect", editApp.PauseOnDetect), new SQLiteParameter("@switchbackTimeout", editApp.SwitchbackTimeout) };
+                new SQLiteParameter("@pauseOnDetect", editApp.PauseOnDetect), new SQLiteParameter("@switchbackTimeout", editApp.SwitchbackTimeout), new SQLiteParameter("@waitStartTimeout", editApp.StartTimeout) };
         
-            if (SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled, DisplayName = @DisplayName, fullPath = @fullPath, image = @image, surroundGrid = @surroundGrid, pauseOnDetect = @pauseOnDetect, switchbackTimeout = @switchbackTimeout WHERE id = @id", parameters) > 0)
+            if (SQL_ExecuteNonQuery("UPDATE ApplicationList SET enabled = @Enabled, DisplayName = @DisplayName, fullPath = @fullPath, image = @image, surroundGrid = @surroundGrid, pauseOnDetect = @pauseOnDetect, switchbackTimeout = @switchbackTimeout, waitStartTimeout = @waitStartTimeout WHERE id = @id", parameters) > 0)
                 return true;
             else
                 return false;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Microsoft.Win32.TaskScheduler;
+using MyStuff;
 using NLog;
 using NLog.Config;
 
@@ -10,7 +11,7 @@ namespace NVidia_Surround_Assistant
     {
         //Load all settings to local class
         LoggingConfiguration loggingConfiguration = new LoggingConfiguration();
-        
+
         bool StartOnStartup = NVidia_Surround_Assistant.Properties.Settings.Default.StartOnStartup;
         bool StartMinimized = NVidia_Surround_Assistant.Properties.Settings.Default.StartMinimized;
         bool CloseToTray = NVidia_Surround_Assistant.Properties.Settings.Default.CloseToTray;
@@ -87,8 +88,8 @@ namespace NVidia_Surround_Assistant
             comboBoxSurroundToNormal_OnClose.SelectedIndex = SurroundToNormal_OnClose;
             comboBoxSurroundToNormal_OnExit.SelectedIndex = SurroundToNormal_OnExit;
             comboBoxLogLevel.SelectedIndex = configLogLevel;
-        }       
-        
+        }
+
         void CreateTask()
         {
             string fileName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
@@ -99,10 +100,12 @@ namespace NVidia_Surround_Assistant
                 TaskDefinition td = ts.NewTask();
                 td.RegistrationInfo.Description = "Start NVidia Surround Assistant at Login with admin privileges";
                 td.Principal.RunLevel = TaskRunLevel.Highest;
-                
+
                 // Create a trigger that will fire the task at this time every other day
-                td.Triggers.Add(new LogonTrigger { Delay = new TimeSpan(0),
-                                                   UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+                td.Triggers.Add(new LogonTrigger
+                {
+                    Delay = new TimeSpan(0),
+                    UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name
                 });
 
                 // Create an action that will launch Notepad whenever the trigger fires
@@ -127,7 +130,7 @@ namespace NVidia_Surround_Assistant
                     NVidia_Surround_Assistant.Properties.Settings.Default.Save();
                 }
             }
-            catch(System.IO.FileNotFoundException)
+            catch (System.IO.FileNotFoundException)
             {
 
             }
@@ -141,7 +144,7 @@ namespace NVidia_Surround_Assistant
                     LogManager.Configuration.LoggingRules[i].DisableLoggingForLevel(logLevel);
                 else
                     LogManager.Configuration.LoggingRules[i].EnableLoggingForLevel(logLevel);
-            }            
+            }
         }
 
         private void SaveSettings()
@@ -253,7 +256,7 @@ namespace NVidia_Surround_Assistant
             CreateTask();
 
             MainForm.logger.Info("Settings: Start manually.");
-        }        
+        }
 
         private void comboBoxSurroundToNormal_OnClose_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -263,21 +266,21 @@ namespace NVidia_Surround_Assistant
                 settingsNotSaved = true;
             }
 
-            switch(SurroundToNormal_OnClose)
+            switch (SurroundToNormal_OnClose)
             {
-            case 0:
-                MainForm.logger.Info("Settings: Always switch to normal on NVSA exit.");
-                break;
-            case 1:
-                MainForm.logger.Info("Settings: Ask switch to normal on NVSA exit.");
-                break;
-            case 2:
-                MainForm.logger.Info("Settings: Never switch to normal on NVSA exit.");
-                break;
-            default:
-                MainForm.logger.Info("Settings: Unknown selection for switch to normal on NVSA exit.");
-                break;
-            }            
+                case 0:
+                    MainForm.logger.Info("Settings: Always switch to normal on NVSA exit.");
+                    break;
+                case 1:
+                    MainForm.logger.Info("Settings: Ask switch to normal on NVSA exit.");
+                    break;
+                case 2:
+                    MainForm.logger.Info("Settings: Never switch to normal on NVSA exit.");
+                    break;
+                default:
+                    MainForm.logger.Info("Settings: Unknown selection for switch to normal on NVSA exit.");
+                    break;
+            }
         }
 
         private void comboBoxSurroundToNormal_OnExit_SelectedIndexChanged(object sender, EventArgs e)
@@ -307,9 +310,9 @@ namespace NVidia_Surround_Assistant
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(DialogResult == DialogResult.Cancel && settingsNotSaved)
+            if (DialogResult == DialogResult.Cancel && settingsNotSaved)
             {
-                if(MessageBox.Show("Would you like to save your changed settings?", "Unsaved Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Would you like to save your changed settings?", "Unsaved Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     SaveSettings();
                 }
@@ -362,7 +365,7 @@ namespace NVidia_Surround_Assistant
             }
 
             LogManager.ReconfigExistingLoggers();
-        }        
+        }
 
         private void comboBoxLogLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -400,7 +403,6 @@ namespace NVidia_Surround_Assistant
             configLogLevel = comboBoxLogLevel.SelectedIndex;
             UpdateLogRules(logLevel);
             LogManager.Configuration.Reload();
-
         }
 
         private void pictureBox_MouseEnter(object sender, EventArgs e)
@@ -461,9 +463,39 @@ namespace NVidia_Surround_Assistant
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (MainForm.surroundManager.SM_SaveDefaultSetup())
+            {
+                MyMessageBox.Show("Default setup saved succesfully.");
+            }
+        }
 
+        private void saveAsDefaultSurroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MainForm.surroundManager.SM_SaveDefaultSurroundSetup())
+            {
+                MyMessageBox.Show("Default setup saved succesfully.");
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SurroundConfigSaveAsPopup popup = new SurroundConfigSaveAsPopup();
+
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                if (MainForm.surroundManager.SM_SaveCurrentSetup(popup.surroundConfigName))
+                {
+                    MyMessageBox.Show("Default setup saved succesfully.");
+                }
+            }
+        }
+
+        private void pictureBoxAbout_Click(object sender, EventArgs e)
+        {
+            AboutBoxNVSA aboutBoxNVSA = new AboutBoxNVSA();
+            aboutBoxNVSA.Show();
         }
     }
 }

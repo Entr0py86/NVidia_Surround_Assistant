@@ -116,10 +116,10 @@ namespace NVidia_Surround_Assistant
         public HookId id;
         public uint windowRegisterID;
         public HookType type;
-    };
+    };   
 
     public class ProcessInfo
-    {
+    {        
         public Process      process;
         public IntPtr       hWnd;        
         public IntPtr       procID;
@@ -127,12 +127,10 @@ namespace NVidia_Surround_Assistant
         public String       processName;        
     };
 
-    public class HookMessageInfo
+    public class ProcessEvent : ProcessInfo
     {
-        public RegisteredWindowInfo regWndInfo;        
-        public IntPtr               WParam;
-        public IntPtr               LParam;        
-    };
+        public HookType eventType;
+    }
 
     public class ApplicationInfo
     {
@@ -145,6 +143,7 @@ namespace NVidia_Surround_Assistant
         public int SurroundGrid { get; set; }
         public bool PauseOnDetect { get; set; }
         public int SwitchbackTimeout { get; set; }
+        public int StartTimeout { get; set; }
 
         public ApplicationInfo()
         {

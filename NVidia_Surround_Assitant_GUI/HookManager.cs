@@ -64,7 +64,8 @@ namespace NVidia_Surround_Assistant
                 if (hookInstalled)
                 {
                     //This is the CBT create window register from the HookDLL 
-                    registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HCBT_CREATEWND));
+                    registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HCBT_CREATEWND));                    
+                    registeredWindows.Add(CreateWindowRegister(HookType.windowDestroy, SharedDefines.UWM_HCBT_DESTROYWND));
                     MainForm.logger.Info("CBT Hook installed successfully");
                 }
                 else
@@ -79,8 +80,8 @@ namespace NVidia_Surround_Assistant
                 if (hookInstalled)
                 {
                     //This is the SHELL create window register from the HookDLL 
-                    registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HSHELL_WINDOWCREATED));                    
-
+                    registeredWindows.Add(CreateWindowRegister(HookType.windowCreate, SharedDefines.UWM_HSHELL_WINDOWCREATED));
+                    registeredWindows.Add(CreateWindowRegister(HookType.windowDestroy, SharedDefines.UWM_HSHELL_WINDOWDESTROYED));
                     MainForm.logger.Info("Shell Hook installed successfully");
                 }
             }

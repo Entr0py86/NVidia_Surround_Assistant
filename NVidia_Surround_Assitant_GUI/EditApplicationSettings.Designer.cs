@@ -59,6 +59,8 @@
             this.pictureBoxGameBoxCover = new System.Windows.Forms.PictureBox();
             this.pictureBoxSearch = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDownWaitStart = new System.Windows.Forms.NumericUpDown();
             this.labelHttpFoundApp = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSwitchbackTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNotPauseOnDetect)).BeginInit();
@@ -72,6 +74,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDeleteImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameBoxCover)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitStart)).BeginInit();
             this.SuspendLayout();
             // 
             // timerWait
@@ -153,7 +156,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label4.Location = new System.Drawing.Point(22, 135);
+            this.label4.Location = new System.Drawing.Point(22, 111);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(119, 15);
             this.label4.TabIndex = 48;
@@ -165,7 +168,7 @@
             this.textBoxAppPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBoxAppPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxAppPath.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.textBoxAppPath.Location = new System.Drawing.Point(163, 222);
+            this.textBoxAppPath.Location = new System.Drawing.Point(163, 198);
             this.textBoxAppPath.Name = "textBoxAppPath";
             this.textBoxAppPath.Size = new System.Drawing.Size(205, 21);
             this.textBoxAppPath.TabIndex = 47;
@@ -176,7 +179,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label3.Location = new System.Drawing.Point(22, 225);
+            this.label3.Location = new System.Drawing.Point(22, 201);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 15);
             this.label3.TabIndex = 46;
@@ -188,7 +191,7 @@
             this.textBoxDisplayName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBoxDisplayName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxDisplayName.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.textBoxDisplayName.Location = new System.Drawing.Point(163, 195);
+            this.textBoxDisplayName.Location = new System.Drawing.Point(163, 171);
             this.textBoxDisplayName.Name = "textBoxDisplayName";
             this.textBoxDisplayName.Size = new System.Drawing.Size(205, 21);
             this.textBoxDisplayName.TabIndex = 45;
@@ -199,7 +202,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label2.Location = new System.Drawing.Point(22, 198);
+            this.label2.Location = new System.Drawing.Point(22, 174);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 15);
             this.label2.TabIndex = 44;
@@ -215,7 +218,7 @@
             this.comboBoxSurroundSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.comboBoxSurroundSetup.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.comboBoxSurroundSetup.FormattingEnabled = true;
-            this.comboBoxSurroundSetup.Location = new System.Drawing.Point(163, 249);
+            this.comboBoxSurroundSetup.Location = new System.Drawing.Point(163, 225);
             this.comboBoxSurroundSetup.Name = "comboBoxSurroundSetup";
             this.comboBoxSurroundSetup.Size = new System.Drawing.Size(205, 21);
             this.comboBoxSurroundSetup.TabIndex = 58;
@@ -227,7 +230,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.label7.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label7.Location = new System.Drawing.Point(22, 250);
+            this.label7.Location = new System.Drawing.Point(22, 226);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(139, 15);
             this.label7.TabIndex = 57;
@@ -239,7 +242,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label9.Location = new System.Drawing.Point(22, 165);
+            this.label9.Location = new System.Drawing.Point(22, 141);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(161, 15);
             this.label9.TabIndex = 61;
@@ -251,7 +254,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label8.Location = new System.Drawing.Point(22, 279);
+            this.label8.Location = new System.Drawing.Point(22, 255);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(120, 15);
             this.label8.TabIndex = 59;
@@ -262,13 +265,18 @@
             // 
             this.numericUpDownSwitchbackTimeout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.numericUpDownSwitchbackTimeout.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.numericUpDownSwitchbackTimeout.Location = new System.Drawing.Point(163, 279);
+            this.numericUpDownSwitchbackTimeout.Location = new System.Drawing.Point(163, 255);
+            this.numericUpDownSwitchbackTimeout.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
             this.numericUpDownSwitchbackTimeout.Name = "numericUpDownSwitchbackTimeout";
             this.numericUpDownSwitchbackTimeout.Size = new System.Drawing.Size(205, 20);
             this.numericUpDownSwitchbackTimeout.TabIndex = 64;
-            this.toolTip1.SetToolTip(this.numericUpDownSwitchbackTimeout, "Timeout for how long to switch back after process exit");
+            this.toolTip1.SetToolTip(this.numericUpDownSwitchbackTimeout, "Timeout for how long to switch back after process exit. (Max 120 sec = 2 min)");
             this.numericUpDownSwitchbackTimeout.Value = new decimal(new int[] {
-            5,
+            3,
             0,
             0,
             0});
@@ -277,7 +285,7 @@
             // pictureBoxNotPauseOnDetect
             // 
             this.pictureBoxNotPauseOnDetect.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxNotPauseOnDetect.Location = new System.Drawing.Point(260, 165);
+            this.pictureBoxNotPauseOnDetect.Location = new System.Drawing.Point(260, 141);
             this.pictureBoxNotPauseOnDetect.Name = "pictureBoxNotPauseOnDetect";
             this.pictureBoxNotPauseOnDetect.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxNotPauseOnDetect.TabIndex = 63;
@@ -288,7 +296,7 @@
             // pictureBoxPauseOnDetect
             // 
             this.pictureBoxPauseOnDetect.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxPauseOnDetect.Location = new System.Drawing.Point(260, 165);
+            this.pictureBoxPauseOnDetect.Location = new System.Drawing.Point(260, 141);
             this.pictureBoxPauseOnDetect.Name = "pictureBoxPauseOnDetect";
             this.pictureBoxPauseOnDetect.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxPauseOnDetect.TabIndex = 62;
@@ -300,7 +308,7 @@
             // 
             this.pictureBoxChangeFileLocation.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxChangeFileLocation.Image = global::NVidia_Surround_Assistant.Properties.Resources.edit_24x24;
-            this.pictureBoxChangeFileLocation.Location = new System.Drawing.Point(371, 225);
+            this.pictureBoxChangeFileLocation.Location = new System.Drawing.Point(371, 201);
             this.pictureBoxChangeFileLocation.Name = "pictureBoxChangeFileLocation";
             this.pictureBoxChangeFileLocation.Size = new System.Drawing.Size(15, 15);
             this.pictureBoxChangeFileLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -311,7 +319,7 @@
             // pictureBoxCancel
             // 
             this.pictureBoxCancel.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxCancel.Location = new System.Drawing.Point(215, 332);
+            this.pictureBoxCancel.Location = new System.Drawing.Point(211, 331);
             this.pictureBoxCancel.Name = "pictureBoxCancel";
             this.pictureBoxCancel.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxCancel.TabIndex = 53;
@@ -321,7 +329,7 @@
             // pictureBoxApply
             // 
             this.pictureBoxApply.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxApply.Location = new System.Drawing.Point(140, 333);
+            this.pictureBoxApply.Location = new System.Drawing.Point(136, 332);
             this.pictureBoxApply.Name = "pictureBoxApply";
             this.pictureBoxApply.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxApply.TabIndex = 52;
@@ -331,7 +339,7 @@
             // pictureBoxDisabled
             // 
             this.pictureBoxDisabled.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxDisabled.Location = new System.Drawing.Point(260, 135);
+            this.pictureBoxDisabled.Location = new System.Drawing.Point(260, 111);
             this.pictureBoxDisabled.Name = "pictureBoxDisabled";
             this.pictureBoxDisabled.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxDisabled.TabIndex = 51;
@@ -342,7 +350,7 @@
             // pictureBoxEnabled
             // 
             this.pictureBoxEnabled.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxEnabled.Location = new System.Drawing.Point(260, 135);
+            this.pictureBoxEnabled.Location = new System.Drawing.Point(260, 111);
             this.pictureBoxEnabled.Name = "pictureBoxEnabled";
             this.pictureBoxEnabled.Size = new System.Drawing.Size(25, 25);
             this.pictureBoxEnabled.TabIndex = 49;
@@ -395,6 +403,42 @@
             this.pictureBoxSearch.TabStop = false;
             this.pictureBoxSearch.Click += new System.EventHandler(this.pictureBoxSearch_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label1.Location = new System.Drawing.Point(22, 290);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(87, 15);
+            this.label1.TabIndex = 66;
+            this.label1.Text = "Wait after start:";
+            this.toolTip1.SetToolTip(this.label1, "How long to wait after application was detected to start checking for exit. Some " +
+        "applications start and exit multiple instantces before actually launching the ap" +
+        "plication.");
+            // 
+            // numericUpDownWaitStart
+            // 
+            this.numericUpDownWaitStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.numericUpDownWaitStart.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.numericUpDownWaitStart.Location = new System.Drawing.Point(163, 290);
+            this.numericUpDownWaitStart.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitStart.Name = "numericUpDownWaitStart";
+            this.numericUpDownWaitStart.Size = new System.Drawing.Size(205, 20);
+            this.numericUpDownWaitStart.TabIndex = 67;
+            this.toolTip1.SetToolTip(this.numericUpDownWaitStart, "How long to wait after application was detected to start checking for exit. Some " +
+        "applications start and exit multiple instantces before actually launching the ap" +
+        "plication. (Max 600 sec = 10 min)");
+            this.numericUpDownWaitStart.Value = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            // 
             // labelHttpFoundApp
             // 
             this.labelHttpFoundApp.AutoEllipsis = true;
@@ -407,6 +451,7 @@
             this.labelHttpFoundApp.Size = new System.Drawing.Size(222, 15);
             this.labelHttpFoundApp.TabIndex = 65;
             this.labelHttpFoundApp.Text = "Applicationdfss Enabled:dxsfasfsffsfsffdf";
+            this.labelHttpFoundApp.Visible = false;
             // 
             // EditApplicationSettings
             // 
@@ -414,6 +459,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.ClientSize = new System.Drawing.Size(629, 382);
+            this.Controls.Add(this.numericUpDownWaitStart);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelHttpFoundApp);
             this.Controls.Add(this.numericUpDownSwitchbackTimeout);
             this.Controls.Add(this.pictureBoxNotPauseOnDetect);
@@ -461,6 +508,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDeleteImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameBoxCover)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitStart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -498,5 +546,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownSwitchbackTimeout;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label labelHttpFoundApp;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown numericUpDownWaitStart;
     }
 }

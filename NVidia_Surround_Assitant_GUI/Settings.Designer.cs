@@ -35,6 +35,14 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.pictureBoxSetup = new System.Windows.Forms.PictureBox();
+            this.pictureBoxLoadConfig = new System.Windows.Forms.PictureBox();
+            this.pictureBoxSaveConfig = new System.Windows.Forms.PictureBox();
+            this.pictureBoxShowLogs_Yes = new System.Windows.Forms.PictureBox();
+            this.pictureBoxShowLogs_No = new System.Windows.Forms.PictureBox();
+            this.pictureBoxSaveWindowPositions_Yes = new System.Windows.Forms.PictureBox();
+            this.pictureBoxSaveWindowPositions_No = new System.Windows.Forms.PictureBox();
+            this.pictureBoxAbout = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -46,50 +54,42 @@
             this.comboBoxLogLevel = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.contextMenuStripSaveSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsDefaultSurroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripLoadSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.label11 = new System.Windows.Forms.Label();
-            this.pictureBoxSetup = new System.Windows.Forms.PictureBox();
-            this.pictureBoxLoadConfig = new System.Windows.Forms.PictureBox();
-            this.pictureBoxSaveConfig = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartMax = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartOnStartup_No = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartMin = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartOnStartup_Yes = new System.Windows.Forms.PictureBox();
             this.pictureBoxCloseOnClose = new System.Windows.Forms.PictureBox();
             this.pictureBoxCloseToTray = new System.Windows.Forms.PictureBox();
-            this.pictureBoxShowLogs_Yes = new System.Windows.Forms.PictureBox();
-            this.pictureBoxShowLogs_No = new System.Windows.Forms.PictureBox();
-            this.pictureBoxSaveWindowPositions_Yes = new System.Windows.Forms.PictureBox();
-            this.pictureBoxSaveWindowPositions_No = new System.Windows.Forms.PictureBox();
-            this.pictureBoxAbout = new System.Windows.Forms.PictureBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.contextMenuStripSaveSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsDefaultSurroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripLoadSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pictureBoxCancel = new System.Windows.Forms.PictureBox();
             this.pictureBoxApply = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSetup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_Yes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_No)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_Yes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_No)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.contextMenuStripSaveSurroundConfig.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSetup)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartOnStartup_No)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartOnStartup_Yes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseOnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseToTray)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_Yes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_No)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_Yes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_No)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxApply)).BeginInit();
             this.SuspendLayout();
@@ -115,7 +115,6 @@
             this.label1.Size = new System.Drawing.Size(76, 15);
             this.label1.TabIndex = 57;
             this.label1.Text = "Close to tray:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // toolTip1
             // 
@@ -162,6 +161,122 @@
             this.toolTip1.SetToolTip(this.label7, "An attempt will be made to save all window positions before the surround switch a" +
         "nd will be restored after switching back");
             // 
+            // pictureBoxSetup
+            // 
+            this.pictureBoxSetup.Image = global::NVidia_Surround_Assistant.Properties.Resources.settings_24x24;
+            this.pictureBoxSetup.Location = new System.Drawing.Point(220, 91);
+            this.pictureBoxSetup.Name = "pictureBoxSetup";
+            this.pictureBoxSetup.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxSetup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxSetup.TabIndex = 86;
+            this.pictureBoxSetup.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxSetup, "Load Display Setup");
+            this.pictureBoxSetup.Click += new System.EventHandler(this.pictureBoxSetup_Click);
+            this.pictureBoxSetup.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxSetup.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxLoadConfig
+            // 
+            this.pictureBoxLoadConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.folder_24x24;
+            this.pictureBoxLoadConfig.Location = new System.Drawing.Point(220, 55);
+            this.pictureBoxLoadConfig.Name = "pictureBoxLoadConfig";
+            this.pictureBoxLoadConfig.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxLoadConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxLoadConfig.TabIndex = 83;
+            this.pictureBoxLoadConfig.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxLoadConfig, "Load Display Setup");
+            this.pictureBoxLoadConfig.Click += new System.EventHandler(this.pictureBoxLoadConfig_Click);
+            this.pictureBoxLoadConfig.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxLoadConfig.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxSaveConfig
+            // 
+            this.pictureBoxSaveConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.save_24x24;
+            this.pictureBoxSaveConfig.Location = new System.Drawing.Point(220, 19);
+            this.pictureBoxSaveConfig.Name = "pictureBoxSaveConfig";
+            this.pictureBoxSaveConfig.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxSaveConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxSaveConfig.TabIndex = 82;
+            this.pictureBoxSaveConfig.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxSaveConfig, "Save Display Setup");
+            this.pictureBoxSaveConfig.Click += new System.EventHandler(this.pictureBoxSaveConfig_Click);
+            this.pictureBoxSaveConfig.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxSaveConfig.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxShowLogs_Yes
+            // 
+            this.pictureBoxShowLogs_Yes.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
+            this.pictureBoxShowLogs_Yes.Location = new System.Drawing.Point(225, 13);
+            this.pictureBoxShowLogs_Yes.Name = "pictureBoxShowLogs_Yes";
+            this.pictureBoxShowLogs_Yes.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxShowLogs_Yes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxShowLogs_Yes.TabIndex = 83;
+            this.pictureBoxShowLogs_Yes.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxShowLogs_Yes, "An attempt will be made to save all window positions before the surround switch a" +
+        "nd will be restored after switching back");
+            this.pictureBoxShowLogs_Yes.Click += new System.EventHandler(this.pictureBoxShowLogs_Yes_Click);
+            this.pictureBoxShowLogs_Yes.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxShowLogs_Yes.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxShowLogs_No
+            // 
+            this.pictureBoxShowLogs_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
+            this.pictureBoxShowLogs_No.Location = new System.Drawing.Point(225, 13);
+            this.pictureBoxShowLogs_No.Name = "pictureBoxShowLogs_No";
+            this.pictureBoxShowLogs_No.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxShowLogs_No.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxShowLogs_No.TabIndex = 82;
+            this.pictureBoxShowLogs_No.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxShowLogs_No, "An attempt will be made to save all window positions before the surround switch a" +
+        "nd will be restored after switching back");
+            this.pictureBoxShowLogs_No.Click += new System.EventHandler(this.pictureBoxShowLogs_No_Click);
+            this.pictureBoxShowLogs_No.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxShowLogs_No.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxSaveWindowPositions_Yes
+            // 
+            this.pictureBoxSaveWindowPositions_Yes.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
+            this.pictureBoxSaveWindowPositions_Yes.Location = new System.Drawing.Point(225, 151);
+            this.pictureBoxSaveWindowPositions_Yes.Name = "pictureBoxSaveWindowPositions_Yes";
+            this.pictureBoxSaveWindowPositions_Yes.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxSaveWindowPositions_Yes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxSaveWindowPositions_Yes.TabIndex = 70;
+            this.pictureBoxSaveWindowPositions_Yes.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxSaveWindowPositions_Yes, "An attempt will be made to save all window positions before the surround switch a" +
+        "nd will be restored after switching back");
+            this.pictureBoxSaveWindowPositions_Yes.Click += new System.EventHandler(this.pictureBoxSaveWindowPositions_Yes_Click);
+            this.pictureBoxSaveWindowPositions_Yes.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxSaveWindowPositions_Yes.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxSaveWindowPositions_No
+            // 
+            this.pictureBoxSaveWindowPositions_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
+            this.pictureBoxSaveWindowPositions_No.Location = new System.Drawing.Point(225, 151);
+            this.pictureBoxSaveWindowPositions_No.Name = "pictureBoxSaveWindowPositions_No";
+            this.pictureBoxSaveWindowPositions_No.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxSaveWindowPositions_No.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxSaveWindowPositions_No.TabIndex = 69;
+            this.pictureBoxSaveWindowPositions_No.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxSaveWindowPositions_No, "An attempt will be made to save all window positions before the surround switch a" +
+        "nd will be restored after switching back");
+            this.pictureBoxSaveWindowPositions_No.Click += new System.EventHandler(this.pictureBoxSaveWindowPositions_No_Click);
+            this.pictureBoxSaveWindowPositions_No.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxSaveWindowPositions_No.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxAbout
+            // 
+            this.pictureBoxAbout.Image = global::NVidia_Surround_Assistant.Properties.Resources.information_24x24;
+            this.pictureBoxAbout.Location = new System.Drawing.Point(159, 598);
+            this.pictureBoxAbout.Name = "pictureBoxAbout";
+            this.pictureBoxAbout.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxAbout.TabIndex = 82;
+            this.pictureBoxAbout.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxAbout, "About");
+            this.pictureBoxAbout.Click += new System.EventHandler(this.pictureBoxAbout_Click);
+            this.pictureBoxAbout.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxAbout.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -206,6 +321,7 @@
             this.comboBoxSurroundToNormal_OnExit.Name = "comboBoxSurroundToNormal_OnExit";
             this.comboBoxSurroundToNormal_OnExit.Size = new System.Drawing.Size(121, 23);
             this.comboBoxSurroundToNormal_OnExit.TabIndex = 67;
+            this.comboBoxSurroundToNormal_OnExit.SelectedIndexChanged += new System.EventHandler(this.comboBoxSurroundToNormal_OnExit_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -231,6 +347,7 @@
             this.comboBoxSurroundToNormal_OnClose.Name = "comboBoxSurroundToNormal_OnClose";
             this.comboBoxSurroundToNormal_OnClose.Size = new System.Drawing.Size(121, 23);
             this.comboBoxSurroundToNormal_OnClose.TabIndex = 65;
+            this.comboBoxSurroundToNormal_OnClose.SelectedIndexChanged += new System.EventHandler(this.comboBoxSurroundToNormal_OnClose_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -274,6 +391,7 @@
             this.comboBoxLogLevel.Name = "comboBoxLogLevel";
             this.comboBoxLogLevel.Size = new System.Drawing.Size(121, 23);
             this.comboBoxLogLevel.TabIndex = 80;
+            this.comboBoxLogLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLogLevel_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -305,127 +423,6 @@
             this.groupBox3.TabIndex = 85;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "General";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.Controls.Add(this.pictureBoxSetup);
-            this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.label8);
-            this.groupBox4.Controls.Add(this.pictureBoxLoadConfig);
-            this.groupBox4.Controls.Add(this.pictureBoxSaveConfig);
-            this.groupBox4.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox4.Location = new System.Drawing.Point(12, 133);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(318, 152);
-            this.groupBox4.TabIndex = 86;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Surround Configurations";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label8.Location = new System.Drawing.Point(13, 55);
-            this.label8.MaximumSize = new System.Drawing.Size(159, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(92, 30);
-            this.label8.TabIndex = 84;
-            this.label8.Text = "Load Surround Configuration";
-            // 
-            // contextMenuStripSaveSurroundConfig
-            // 
-            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveAsDefaultToolStripMenuItem,
-            this.saveAsDefaultSurroundToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
-            this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
-            this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
-            // 
-            // saveAsDefaultToolStripMenuItem
-            // 
-            this.saveAsDefaultToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
-            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveAsDefaultToolStripMenuItem.Text = "Save as Default";
-            // 
-            // saveAsDefaultSurroundToolStripMenuItem
-            // 
-            this.saveAsDefaultSurroundToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.saveAsDefaultSurroundToolStripMenuItem.Name = "saveAsDefaultSurroundToolStripMenuItem";
-            this.saveAsDefaultSurroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveAsDefaultSurroundToolStripMenuItem.Text = "Save as Surround Default";
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as";
-            // 
-            // contextMenuStripLoadSurroundConfig
-            // 
-            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
-            this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label11.Location = new System.Drawing.Point(13, 99);
-            this.label11.MaximumSize = new System.Drawing.Size(159, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(106, 15);
-            this.label11.TabIndex = 87;
-            this.label11.Text = "Re-do initial setup";
-            // 
-            // pictureBoxSetup
-            // 
-            this.pictureBoxSetup.Image = global::NVidia_Surround_Assistant.Properties.Resources.settings_24x24;
-            this.pictureBoxSetup.Location = new System.Drawing.Point(220, 91);
-            this.pictureBoxSetup.Name = "pictureBoxSetup";
-            this.pictureBoxSetup.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxSetup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxSetup.TabIndex = 86;
-            this.pictureBoxSetup.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxSetup, "Load Display Setup");
-            this.pictureBoxSetup.Click += new System.EventHandler(this.pictureBoxSetup_Click);
-            this.pictureBoxSetup.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxSetup.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            // 
-            // pictureBoxLoadConfig
-            // 
-            this.pictureBoxLoadConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.folder_24x24;
-            this.pictureBoxLoadConfig.Location = new System.Drawing.Point(220, 55);
-            this.pictureBoxLoadConfig.Name = "pictureBoxLoadConfig";
-            this.pictureBoxLoadConfig.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxLoadConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxLoadConfig.TabIndex = 83;
-            this.pictureBoxLoadConfig.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxLoadConfig, "Load Display Setup");
-            this.pictureBoxLoadConfig.Click += new System.EventHandler(this.pictureBoxLoadConfig_Click);
-            this.pictureBoxLoadConfig.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxLoadConfig.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            // 
-            // pictureBoxSaveConfig
-            // 
-            this.pictureBoxSaveConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.save_24x24;
-            this.pictureBoxSaveConfig.Location = new System.Drawing.Point(220, 19);
-            this.pictureBoxSaveConfig.Name = "pictureBoxSaveConfig";
-            this.pictureBoxSaveConfig.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxSaveConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxSaveConfig.TabIndex = 82;
-            this.pictureBoxSaveConfig.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxSaveConfig, "Save Display Setup");
-            this.pictureBoxSaveConfig.Click += new System.EventHandler(this.pictureBoxSaveConfig_Click);
-            this.pictureBoxSaveConfig.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxSaveConfig.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
             // pictureBoxStartMax
             // 
@@ -505,74 +502,87 @@
             this.pictureBoxCloseToTray.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
             this.pictureBoxCloseToTray.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
-            // pictureBoxShowLogs_Yes
+            // groupBox4
             // 
-            this.pictureBoxShowLogs_Yes.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxShowLogs_Yes.Location = new System.Drawing.Point(225, 13);
-            this.pictureBoxShowLogs_Yes.Name = "pictureBoxShowLogs_Yes";
-            this.pictureBoxShowLogs_Yes.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxShowLogs_Yes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxShowLogs_Yes.TabIndex = 83;
-            this.pictureBoxShowLogs_Yes.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxShowLogs_Yes, "An attempt will be made to save all window positions before the surround switch a" +
-        "nd will be restored after switching back");
-            this.pictureBoxShowLogs_Yes.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxShowLogs_Yes.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.pictureBoxSetup);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.pictureBoxLoadConfig);
+            this.groupBox4.Controls.Add(this.pictureBoxSaveConfig);
+            this.groupBox4.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.groupBox4.Location = new System.Drawing.Point(12, 133);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(318, 152);
+            this.groupBox4.TabIndex = 86;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Surround Configurations";
             // 
-            // pictureBoxShowLogs_No
+            // label11
             // 
-            this.pictureBoxShowLogs_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxShowLogs_No.Location = new System.Drawing.Point(225, 13);
-            this.pictureBoxShowLogs_No.Name = "pictureBoxShowLogs_No";
-            this.pictureBoxShowLogs_No.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxShowLogs_No.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxShowLogs_No.TabIndex = 82;
-            this.pictureBoxShowLogs_No.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxShowLogs_No, "An attempt will be made to save all window positions before the surround switch a" +
-        "nd will be restored after switching back");
-            this.pictureBoxShowLogs_No.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxShowLogs_No.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label11.Location = new System.Drawing.Point(13, 99);
+            this.label11.MaximumSize = new System.Drawing.Size(159, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(106, 15);
+            this.label11.TabIndex = 87;
+            this.label11.Text = "Re-do initial setup";
             // 
-            // pictureBoxSaveWindowPositions_Yes
+            // label8
             // 
-            this.pictureBoxSaveWindowPositions_Yes.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxSaveWindowPositions_Yes.Location = new System.Drawing.Point(225, 151);
-            this.pictureBoxSaveWindowPositions_Yes.Name = "pictureBoxSaveWindowPositions_Yes";
-            this.pictureBoxSaveWindowPositions_Yes.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxSaveWindowPositions_Yes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxSaveWindowPositions_Yes.TabIndex = 70;
-            this.pictureBoxSaveWindowPositions_Yes.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxSaveWindowPositions_Yes, "An attempt will be made to save all window positions before the surround switch a" +
-        "nd will be restored after switching back");
-            this.pictureBoxSaveWindowPositions_Yes.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxSaveWindowPositions_Yes.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label8.Location = new System.Drawing.Point(13, 55);
+            this.label8.MaximumSize = new System.Drawing.Size(159, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(92, 30);
+            this.label8.TabIndex = 84;
+            this.label8.Text = "Load Surround Configuration";
             // 
-            // pictureBoxSaveWindowPositions_No
+            // contextMenuStripSaveSurroundConfig
             // 
-            this.pictureBoxSaveWindowPositions_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxSaveWindowPositions_No.Location = new System.Drawing.Point(225, 151);
-            this.pictureBoxSaveWindowPositions_No.Name = "pictureBoxSaveWindowPositions_No";
-            this.pictureBoxSaveWindowPositions_No.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxSaveWindowPositions_No.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxSaveWindowPositions_No.TabIndex = 69;
-            this.pictureBoxSaveWindowPositions_No.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxSaveWindowPositions_No, "An attempt will be made to save all window positions before the surround switch a" +
-        "nd will be restored after switching back");
-            this.pictureBoxSaveWindowPositions_No.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxSaveWindowPositions_No.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveAsDefaultToolStripMenuItem,
+            this.saveAsDefaultSurroundToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
+            this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
+            this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
+            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
             // 
-            // pictureBoxAbout
+            // saveAsDefaultToolStripMenuItem
             // 
-            this.pictureBoxAbout.Image = global::NVidia_Surround_Assistant.Properties.Resources.information_24x24;
-            this.pictureBoxAbout.Location = new System.Drawing.Point(159, 598);
-            this.pictureBoxAbout.Name = "pictureBoxAbout";
-            this.pictureBoxAbout.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxAbout.TabIndex = 82;
-            this.pictureBoxAbout.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBoxAbout, "About");
-            this.pictureBoxAbout.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxAbout.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.saveAsDefaultToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
+            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsDefaultToolStripMenuItem.Text = "Save as Default";
+            this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
+            // 
+            // saveAsDefaultSurroundToolStripMenuItem
+            // 
+            this.saveAsDefaultSurroundToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.saveAsDefaultSurroundToolStripMenuItem.Name = "saveAsDefaultSurroundToolStripMenuItem";
+            this.saveAsDefaultSurroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsDefaultSurroundToolStripMenuItem.Text = "Save as Surround Default";
+            this.saveAsDefaultSurroundToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultSurroundToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultSurroundToolStripMenuItem_Click);
+            // 
+            // contextMenuStripLoadSurroundConfig
+            // 
+            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
+            this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
             // 
             // pictureBoxCancel
             // 
@@ -619,6 +629,14 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Settings_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSetup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_Yes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_No)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_Yes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_No)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -626,23 +644,15 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.contextMenuStripSaveSurroundConfig.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSetup)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartOnStartup_No)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartOnStartup_Yes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseOnClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseToTray)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_Yes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowLogs_No)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_Yes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_No)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.contextMenuStripSaveSurroundConfig.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxApply)).EndInit();
             this.ResumeLayout(false);

@@ -8,6 +8,7 @@ using System.IO;
 using NLog;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using MyStuff;
 
 namespace NVidia_Surround_Assistant
 {
@@ -74,7 +75,11 @@ namespace NVidia_Surround_Assistant
                 pictureBoxNotPauseOnDetect.Visible = !Appinfo.PauseOnDetect;
                 pictureBoxPauseOnDetect.Visible = Appinfo.PauseOnDetect;
 
-                numericUpDownSwitchbackTimeout.Value = Appinfo.SwitchbackTimeout;
+                if (!autoSearchNewApp)
+                {
+                    numericUpDownSwitchbackTimeout.Value = Appinfo.SwitchbackTimeout;
+                    numericUpDownWaitStart.Value = Appinfo.StartTimeout;
+                }
                 settingsNotSaved = false;
             }
         }
@@ -113,8 +118,8 @@ namespace NVidia_Surround_Assistant
             if (waitDisabled)
             {                
                 pictureBoxApply.Image = NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-                pictureBoxApply.Location = new Point(pictureBoxApply.Left, 310);
-                pictureBoxCancel.Location = new Point(pictureBoxCancel.Left, 310);
+                pictureBoxApply.Location = new Point(pictureBoxApply.Left, 332);
+                pictureBoxCancel.Location = new Point(pictureBoxCancel.Left, 332);
 
                 Width = pictureBoxGameBoxCover.Right + spacing;
                 Height = pictureBoxGameBoxCover.Bottom + y_spacing;
@@ -379,7 +384,7 @@ namespace NVidia_Surround_Assistant
                 }
                 catch(OutOfMemoryException ex)
                 {
-                    MessageBox.Show("Image size to large");
+                    MyMessageBox.Show("Image size to large");
                     MainForm.logger.Info("Edit Application: {0}", ex.Message);
                 }
             }
@@ -432,6 +437,7 @@ namespace NVidia_Surround_Assistant
             AppInfo.FullPath = textBoxAppPath.Text;
             AppInfo.ProcessName = Path.GetFileNameWithoutExtension(textBoxAppPath.Text);
             AppInfo.SwitchbackTimeout = (int)numericUpDownSwitchbackTimeout.Value;
+            AppInfo.StartTimeout = (int)numericUpDownWaitStart.Value;
 
             AppInfo.SurroundGrid = (int)comboBoxSurroundSetup.SelectedValue;
 
@@ -504,3 +510,4 @@ namespace NVidia_Surround_Assistant
         }
     }
 }
+

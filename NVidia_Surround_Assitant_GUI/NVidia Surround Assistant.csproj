@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>NVidia_Surround_Assistant</RootNamespace>
     <AssemblyName>NVidia Surround Assistant</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -89,11 +89,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>NVidia_Surround_Assistant.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\multimonitorIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IgdbAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -146,6 +149,12 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="SQL.cs" />
+    <Compile Include="ApplicationClosedWaitTimeout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationClosedWaitTimeout.Designer.cs">
+      <DependentUpon>ApplicationClosedWaitTimeout.cs</DependentUpon>
+    </Compile>
     <Compile Include="SurroundConfigSaveAsPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,19 +189,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Resources\folder 25x25.png" />
-    <None Include="Resources\add 50x50.png" />
-    <None Include="Resources\save 25x25.png" />
-    <None Include="Resources\search grey 25x25.png" />
-    <None Include="Resources\success red 25x25 .png" />
-    <None Include="Resources\success green 25x25.png" />
-    <None Include="Resources\success 25x25 .png" />
-    <None Include="Resources\edit 25x25.png" />
     <EmbeddedResource Include="AboutBoxNVSA.resx">
       <DependentUpon>AboutBoxNVSA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationClosedWaitTimeout.resx">
+      <DependentUpon>ApplicationClosedWaitTimeout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SurroundConfigSaveAsPopup.resx">
       <DependentUpon>SurroundConfigSaveAsPopup.cs</DependentUpon>
@@ -253,148 +257,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\alert.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\back.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\cancel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chat.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\copy.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\cut.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\download.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\event.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\export.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\faq.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fav.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\forward.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\import.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\information.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mail open.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\paste.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\settings.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\success.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\close 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\settings 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\minus 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\maximize 50 x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete 25x25.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\maximize 25x25.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\minus 25x25.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete filled red 25x25.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Display_Manager\Display_Manger.vcxproj">
       <Project>{0d349a5b-ee1f-402b-8ebf-d6ad04fec851}</Project>
       <Name>Display_Manger</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\information 50x50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\download 25x25.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add 25x25.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\add 24x24.png" />
@@ -455,6 +321,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\edit 16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\multimonitorIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

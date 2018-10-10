@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.processCreatedCatcher = new System.ComponentModel.BackgroundWorker();
+            this.processEventWorker = new System.ComponentModel.BackgroundWorker();
             this.saveSurroundFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.systemTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -41,7 +41,12 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_ToggelSurround = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_LoadSurroundFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripLoadSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_SaveSurroundFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripSaveSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsDefaultSurroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxLogs = new System.Windows.Forms.RichTextBox();
@@ -50,22 +55,21 @@
             this.pictureBoxClose = new System.Windows.Forms.PictureBox();
             this.pictureBoxSettings = new System.Windows.Forms.PictureBox();
             this.pictureBoxAddGame = new System.Windows.Forms.PictureBox();
-            this.timerZombieCheck = new System.Windows.Forms.Timer(this.components);
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
-            this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip_SystemTray.SuspendLayout();
+            this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGame)).BeginInit();
             this.SuspendLayout();
             // 
-            // processCreatedCatcher
+            // processEventWorker
             // 
-            this.processCreatedCatcher.WorkerReportsProgress = true;
-            this.processCreatedCatcher.WorkerSupportsCancellation = true;
-            this.processCreatedCatcher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.processCreatedCatcher_DoWork);
-            this.processCreatedCatcher.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.processCreatedCatcher_ProgressChanged);
+            this.processEventWorker.WorkerReportsProgress = true;
+            this.processEventWorker.WorkerSupportsCancellation = true;
+            this.processEventWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.processEventWorker_DoWork);
+            this.processEventWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.processEventWorker_ProgressChanged);
             // 
             // saveSurroundFileDialog
             // 
@@ -141,17 +145,60 @@
             // 
             // toolStripMenuItem_LoadSurroundFile
             // 
+            this.toolStripMenuItem_LoadSurroundFile.DropDown = this.contextMenuStripLoadSurroundConfig;
             this.toolStripMenuItem_LoadSurroundFile.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolStripMenuItem_LoadSurroundFile.Name = "toolStripMenuItem_LoadSurroundFile";
             this.toolStripMenuItem_LoadSurroundFile.Size = new System.Drawing.Size(186, 22);
             this.toolStripMenuItem_LoadSurroundFile.Text = "Apply Surround File";
             // 
+            // contextMenuStripLoadSurroundConfig
+            // 
+            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripLoadSurroundConfig.OwnerItem = this.toolStripMenuItem_LoadSurroundFile;
+            this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
+            this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
+            // 
             // toolStripMenuItem_SaveSurroundFile
             // 
+            this.toolStripMenuItem_SaveSurroundFile.DropDown = this.contextMenuStripSaveSurroundConfig;
             this.toolStripMenuItem_SaveSurroundFile.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolStripMenuItem_SaveSurroundFile.Name = "toolStripMenuItem_SaveSurroundFile";
             this.toolStripMenuItem_SaveSurroundFile.Size = new System.Drawing.Size(186, 22);
             this.toolStripMenuItem_SaveSurroundFile.Text = "Save Surround File";
+            // 
+            // contextMenuStripSaveSurroundConfig
+            // 
+            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveAsDefaultToolStripMenuItem,
+            this.saveAsDefaultSurroundToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
+            this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
+            this.contextMenuStripSaveSurroundConfig.OwnerItem = this.toolStripMenuItem_SaveSurroundFile;
+            this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
+            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
+            // 
+            // saveAsDefaultToolStripMenuItem
+            // 
+            this.saveAsDefaultToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
+            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsDefaultToolStripMenuItem.Text = "Save as Default";
+            // 
+            // saveAsDefaultSurroundToolStripMenuItem
+            // 
+            this.saveAsDefaultSurroundToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.saveAsDefaultSurroundToolStripMenuItem.Name = "saveAsDefaultSurroundToolStripMenuItem";
+            this.saveAsDefaultSurroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsDefaultSurroundToolStripMenuItem.Text = "Save as Surround Default";
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as";
             // 
             // toolStripSeparator1
             // 
@@ -242,11 +289,6 @@
             this.pictureBoxAddGame.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
             this.pictureBoxAddGame.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
-            // timerZombieCheck
-            // 
-            this.timerZombieCheck.Interval = 5000;
-            this.timerZombieCheck.Tick += new System.EventHandler(this.timerZombieCheck_Tick);
-            // 
             // thumbGridView
             // 
             this.thumbGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -260,23 +302,12 @@
             this.thumbGridView.Size = new System.Drawing.Size(1056, 414);
             this.thumbGridView.TabIndex = 5;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(559, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 77;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.ClientSize = new System.Drawing.Size(1084, 629);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBoxSwitchSurround);
             this.Controls.Add(this.pictureBoxClose);
             this.Controls.Add(this.textBoxLogs);
@@ -295,6 +326,7 @@
             this.Layout += new System.Windows.Forms.LayoutEventHandler(this.MainForm_Layout);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.contextMenuStrip_SystemTray.ResumeLayout(false);
+            this.contextMenuStripSaveSurroundConfig.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSettings)).EndInit();
@@ -304,7 +336,7 @@
         }
 
         #endregion
-        private System.ComponentModel.BackgroundWorker processCreatedCatcher;
+        private System.ComponentModel.BackgroundWorker processEventWorker;
         private System.Windows.Forms.SaveFileDialog saveSurroundFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.PictureBox pictureBoxAddGame;
@@ -324,9 +356,12 @@
         private System.Windows.Forms.PictureBox pictureBoxClose;
         private System.Windows.Forms.PictureBox pictureBoxSwitchSurround;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_LoadApp;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadApp;
-        private System.Windows.Forms.Timer timerZombieCheck;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadApp;        
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripSaveSurroundConfig;
+        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultSurroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadSurroundConfig;
     }
 }
 
