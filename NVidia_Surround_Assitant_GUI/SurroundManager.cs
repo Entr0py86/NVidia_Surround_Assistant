@@ -15,6 +15,7 @@ namespace NVidia_Surround_Assistant
     public class SurroundManager
     {
         public bool surroundSetupLoaded = false;
+        private  bool initConfig = false;
         Surround_Manager mySurround = new Surround_Manager();
 
         SurroundConfig defaultConfig;
@@ -54,14 +55,17 @@ namespace NVidia_Surround_Assistant
             bool skipSurround = false;
             bool skipDefault = false;
 
+            initConfig = true;
             //Save current display setup for re-application later
             SM_SaveCurrentSetup();
             SM_SaveWindowPositions();
 
             MyMessageBox.Show("The setup will ask to save two surround display configurations.\n" +
                 "    \u2022 The default configuration stores the monitor setup that is used when NVidia surround is disabled.\n" +
-                "    \u2022 The default surround configuration stores the monitor setup that is used when NVidia surround is enabled.\n" +
-                "    \u2022 Each application can have it's own custom surround configuration. The default surround configuration will automatically be selected when adding a new application to the detection list.\n" +
+                "    \u2022 The default surround configuration stores the monitor setup that is used when NVidia surround is\n" +
+                "      enabled.\n" +
+                "    \u2022 Each application can have it's own custom surround configuration. The default surround configuration\n" +
+                "      will automatically be selected when adding a new application to the detection list.\n" +
                 "    \u2022 The custom configurations can be added after setup under settings.", "Setup");
             
             //Check if surround setup file already exists
@@ -99,6 +103,7 @@ namespace NVidia_Surround_Assistant
                 {
                     MyMessageBox.Show("Default setup not saved. Certain functionality will not work until application is restarted or setup is run again");
                     MainForm.logger.Info("DM: Default setup not saved. Certain functionality will not work until application is restarted or setup is run again");
+                    initConfig = false;
                     return false;
                 }
             }
@@ -120,13 +125,19 @@ namespace NVidia_Surround_Assistant
                 {
                     MyMessageBox.Show("Default surround setup not saved. Certain functionality will not work until application is restarted");
                     MainForm.logger.Info("DM: Default surround setup not saved. Certain functionality will not work until application is restarted or setup is run again");
+                    initConfig = false;
                     return false;
                 }
             }
+            SM_ReadDefaultSurroundConfig();
             //Apply saved config. Display manager will not switch if there is no difference to grid setup
             SM_ApplySetupFromMemory(false);
-            SM_ApplyWindowPositions();           
-           
+            SM_ApplyWindowPositions();
+
+            MyMessageBox.Show("Surround Setup Complete");
+
+            initConfig = false;
+
             return true;
         }
 
@@ -229,13 +240,6 @@ namespace NVidia_Surround_Assistant
             return result;
         }
 
-        public bool SM_CheckMachineHasNVidiaGPU()
-        {
-            bool hasGPU = false;
-
-            return hasGPU;
-        }
-
         //Save current setup to memory
         public bool SM_SaveCurrentSetup()
         {
@@ -322,8 +326,13 @@ namespace NVidia_Surround_Assistant
             SurroundConfig surroundConfig = new SurroundConfig();
             try
             {
-                result = SM_SaveCurrentSetup("Default", defaultConfig.Id);
-                SM_ReadDefaultSurroundConfig();
+                if (!initConfig)
+                {
+                    result = SM_SaveCurrentSetup("Default", defaultConfig.Id);
+                    SM_ReadDefaultSurroundConfig();
+                }
+                else
+                    result = SM_SaveCurrentSetup("Default", 0);                
             }
             catch (DisplayManager_Exception ex)
             {
@@ -340,8 +349,13 @@ namespace NVidia_Surround_Assistant
             SurroundConfig surroundConfig = new SurroundConfig();
             try
             {
-                result = SM_SaveCurrentSetup("Default Surround", defaultSurroundConfig.Id);
-                SM_ReadDefaultSurroundConfig();
+                if (!initConfig)
+                {
+                    result = SM_SaveCurrentSetup("Default Surround", defaultSurroundConfig.Id);
+                    SM_ReadDefaultSurroundConfig();
+                }
+                else
+                    result = SM_SaveCurrentSetup("Default Surround", 1);
             }
             catch (DisplayManager_Exception ex)
             {

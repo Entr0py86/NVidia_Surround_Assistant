@@ -335,10 +335,10 @@ namespace NVidia_Surround_Assistant
 
             if (SQL_ExecuteNonQuery("INSERT INTO SurroundConfigs (Name, ConfigFile) values (@name, @config)", parameters) > 0)
             {
-                SQLiteDataReader reader = SQL_ExecuteQuery("SELECT * FROM SurroundConfigs WHERE Name = \"@name\"", parameters);
+                SQLiteDataReader reader = SQL_ExecuteQuery(String.Format("SELECT * FROM SurroundConfigs WHERE name = \"{0}\"", newConfig.Name));
                 if (reader != null)
                 {
-                    if (reader.VisibleFieldCount > 0)
+                    if (reader.VisibleFieldCount > 0 && reader.HasRows)
                     {
                         reader.Read();
                         return reader.GetInt32(reader.GetOrdinal("id"));

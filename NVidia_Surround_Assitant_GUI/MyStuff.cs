@@ -14,7 +14,7 @@ namespace MyStuff
         {
             Label l = new Label();
             l.Text = Text;
-            l.Font = (Font == null) ? new Font("Microsoft Sans Serif", 8.25F) : Font;
+            l.Font = (Font == null) ? new Font("Microsoft Sans Serif", 9F) : Font;
             l.ForeColor = (ForeColor == new Color()) ? SystemColors.GradientInactiveCaption : ForeColor;
             l.BackColor = (BackColor == new Color()) ? System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50))))) : BackColor;
             l.AutoSize = true;
@@ -77,8 +77,8 @@ namespace MyStuff
             //this.panText.Location = new Point(90, 90);
             this.panText.Margin = new Padding(0);
             this.panText.MaximumSize = new Size(800, 300);
-            this.panText.MinimumSize = new Size(108, 50);
-            this.panText.Size = new Size(108, 50);
+            this.panText.MinimumSize = new Size(150, 50);
+            this.panText.Size = new Size(150, 50);
             this.panText.ForeColor = SystemColors.GradientInactiveCaption;
             this.panText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             // 
@@ -89,15 +89,15 @@ namespace MyStuff
             this.panButtons.FlowDirection = FlowDirection.RightToLeft;
             this.panButtons.Location = new Point(89, 89);
             this.panButtons.Margin = new Padding(0);
-            this.panButtons.MaximumSize = new Size(580, 150);
-            this.panButtons.MinimumSize = new Size(108, 0);
+            this.panButtons.MaximumSize = new Size(650, 150);
+            this.panButtons.MinimumSize = new Size(150, 0);
             this.panButtons.Size = new Size(108, 35);
             // 
             // MyMessageBox
             // 
             this.AutoScaleDimensions = new SizeF(8F, 19F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(206, 133);
+            this.ClientSize = new Size(250, 133);
             this.Controls.Add(this.panButtons);
             this.Controls.Add(this.panText);
             this.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
@@ -105,7 +105,7 @@ namespace MyStuff
             this.Margin = new Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new Size(168, 132);
+            this.MinimumSize = new Size(200, 132);
             this.Name = "MyMessageBox";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

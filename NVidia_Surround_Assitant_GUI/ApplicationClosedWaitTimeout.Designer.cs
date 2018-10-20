@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.labelSeconds = new System.Windows.Forms.Label();
+            this.secondTick = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -71,6 +73,11 @@
             this.labelSeconds.TabIndex = 3;
             this.labelSeconds.Text = "600";
             // 
+            // secondTick
+            // 
+            this.secondTick.Interval = 1000;
+            this.secondTick.Tick += new System.EventHandler(this.secondTick_Tick);
+            // 
             // ApplicationClosedWaitTimeout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -100,5 +107,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelSeconds;
+        private System.Windows.Forms.Timer secondTick;
     }
 }

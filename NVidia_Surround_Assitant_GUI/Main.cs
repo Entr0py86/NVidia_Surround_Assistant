@@ -102,7 +102,7 @@ namespace NVidia_Surround_Assistant
         ManagementEventWatcher processStopEvent;
 
         //Timeout form used to allow visual notification as well as a method to cancel the switch.
-        ApplicationClosedWaitTimeout processDestroyedTimer = new ApplicationClosedWaitTimeout();
+        ApplicationClosedWaitTimeout processDestroyedTimer;
         //Atomic variable used to ensure only one event gets access to the ProcessCreated Function
         bool processDetectedBusy = false;
 
@@ -201,6 +201,7 @@ namespace NVidia_Surround_Assistant
             if(!surroundManager.SM_Initialize())
             {
                 MyMessageBox.Show("The application cannot work without the surround manager. Please fix issue before trying again.", "Critical");
+                quitApplication = true;
                 Close();
                 return;
             }
@@ -710,10 +711,11 @@ namespace NVidia_Surround_Assistant
                     case HookType.windowCreate:
                         logger.Debug("Window Created: App From list detected: {0} : {1}", process.processName, (int)process.procID);
                         //Disable stopTimer before continuing
-                        if (processDestroyedTimer.TimerEnabled)
+                        if (processDestroyedTimer != null && processDestroyedTimer.TimerEnabled)
                         {
                             logger.Debug("processDestroyedTimer stopped: {0} : {1}", process.processName, (int)process.procID);
                             processDestroyedTimer.CancelTimerAndClose();
+                            processDestroyedTimer = null;
                         }
                         //Run Nvidia surround check
                         ProcessCreated(process);
@@ -876,12 +878,15 @@ namespace NVidia_Surround_Assistant
                 //Has the app gone past the set start wait time
                 if (!timerStartWait.Enabled)
                 {
-                    if (!processDetectedBusy && !processDestroyedTimer.TimerEnabled)
+                    if (!processDetectedBusy && (processDestroyedTimer == null || !processDestroyedTimer.TimerEnabled))
                     {
                         logger.Debug("WMI Process stopped: {0}; Switch in {1} sec", processInfo.processName, applicationInfo.SwitchbackTimeout);
                         logger.Debug("processStopEvent_EventArrived: Stop Timer Started");
+                        //Stop zombie check so that it does not interfeere with exit timer
                         timerZombieCheck.Stop();
-                        processDestroyedTimer.StartTimer(applicationInfo.SwitchbackTimeout * 1000);//Make seconds into ms and start timer
+                        //Start the exit timer
+                        processDestroyedTimer = new ApplicationClosedWaitTimeout();
+                        processDestroyedTimer.StartTimer(applicationInfo.SwitchbackTimeout);
                         processDestroyedTimer.ShowDialog();
                         if(!processDestroyedTimer.TimerCanceled)
                         {
@@ -906,10 +911,11 @@ namespace NVidia_Surround_Assistant
                 }
                 else
                 {
-                    if (processDestroyedTimer.TimerEnabled)
+                    if (processDestroyedTimer != null && processDestroyedTimer.TimerEnabled)
                     {
                         logger.Debug("Stopping processDestroyedTimer: {0}, {1}", process.processName, process.procID);
                         processDestroyedTimer.CancelTimerAndClose();
+                        processDestroyedTimer = null;
                     }
                 }
                 if (!timerZombieCheck.Enabled)
@@ -1018,12 +1024,15 @@ namespace NVidia_Surround_Assistant
         {
             logger.Trace("Running Zombie process check tick");
             //Only run zombie check if all the timers are not active
-            if (!processDestroyedTimer.TimerEnabled && !timerStartWait.Enabled && CheckRunningListForZombies())
+            if ((processDestroyedTimer == null || !processDestroyedTimer.TimerEnabled) && !timerStartWait.Enabled && CheckRunningListForZombies())
             {
-                logger.Debug("Zombie check complete");
-                logger.Info("No more running applications, switching called");
-                SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
-                timerZombieCheck.Stop();
+                if (timerZombieCheck.Enabled)//If disabled, App closed while zombie check was busy. Let proper close be handled not zombie switch
+                {
+                    logger.Debug("Zombie check complete");
+                    logger.Info("No more running applications, switching called");
+                    SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
+                    timerZombieCheck.Stop();
+                }
             }
         }
 
@@ -1055,8 +1064,7 @@ namespace NVidia_Surround_Assistant
                     if(count != runningApplicationsList.Count && runningApplicationsList.Count > 0)
                     {
                         count = runningApplicationsList.Count;                        
-                    }
-                    
+                    }                    
                 }
                 runningApplicationsListSempahore.Release();
             }

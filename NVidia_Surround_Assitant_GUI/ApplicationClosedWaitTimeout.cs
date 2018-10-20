@@ -10,21 +10,18 @@ using System.Windows.Forms;
 
 namespace NVidia_Surround_Assistant
 {
+    public delegate void DelegateCrossThread();
+
     public partial class ApplicationClosedWaitTimeout : Form
     {
         int secondsTimeInterval = 0;
         bool timerCanceled = false;
-        System.Timers.Timer secondTick = new System.Timers.Timer();
+        bool nonUserExit = false;
         
 
         public ApplicationClosedWaitTimeout()
         {
-            InitializeComponent();
-
-            //Setup process stopped timer. 
-            secondTick.Interval = 1000;//1seconds
-            secondTick.AutoReset = true;
-            secondTick.Elapsed += secondTick_Tick;           
+            InitializeComponent(); 
         }
 
         /// <summary>
@@ -34,7 +31,7 @@ namespace NVidia_Surround_Assistant
         {
             get
             {
-                return secondTick.Enabled;
+                return (secondsTimeInterval > 0);
             }
         }
 
@@ -65,7 +62,19 @@ namespace NVidia_Surround_Assistant
         /// </summary>
         public void CancelTimerAndClose()
         {
+            nonUserExit = true;
             timerCanceled = true;
+            secondTick.Stop();
+            this.Close();
+        }
+
+        /// <summary>
+        /// close the form
+        /// </summary>
+        public void CloseForm()
+        {
+            nonUserExit = true;
+            timerCanceled = false;
             secondTick.Stop();
             this.Close();
         }
@@ -75,19 +84,20 @@ namespace NVidia_Surround_Assistant
         /// </summary>
         /// <param name="source"></param>
         /// <param name="e"></param>
-        private void secondTick_Tick(Object source, System.Timers.ElapsedEventArgs e)
+        private void secondTick_Tick(object sender, EventArgs e)
         {
             secondsTimeInterval--;
             if(secondsTimeInterval > 0)
             {
                 labelSeconds.Text = secondsTimeInterval.ToString();
+                secondTick.Start();
             }
             else
             {
-                timerCanceled = false;
-                this.Close();
+                CloseForm();
             }
         }
+
         /// <summary>
         /// Override ProcessCmdKey to have the shortcut work
         /// </summary>
@@ -107,10 +117,10 @@ namespace NVidia_Surround_Assistant
         private void ApplicationClosedWaitTimeout_FormClosing(object sender, FormClosingEventArgs e)
         {
             //If user is closing the form then cancel the timer.
-            if(e.CloseReason == CloseReason.UserClosing)
+            if(!nonUserExit && e.CloseReason == CloseReason.UserClosing)
             {
                 timerCanceled = true;
             }
-        }        
+        }
     }
 }
