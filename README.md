@@ -6,7 +6,7 @@ Then NVidia Surround Assistant (NVSA) could help you. NVSA will detect new/destr
 
 ## Getting Started
 
-There are [setup files](https://github.com/Entr0py86/NVidia_Surround_Assitant/tree/master/Setup) in the repository that can be used to install the application.
+There are [setup files](https://github.com/Entr0py86/NVidia_Surround_Assistant/releases) in the repository that can be used to install the application.
 I have unfortunately never tested the x86 version  of the build, as I no longer run Win x86 on any of my machines. Please create an issue and I will attempt to assist you as long as you are willing to help test.
 
 ### Installing
