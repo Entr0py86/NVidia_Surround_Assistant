@@ -13,8 +13,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Display_Manger", "Display_Manager\Display_Manger.vcxproj", "{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NVSA_Setup_x64", "NVSA_Setup_x64\NVSA_Setup_x64.vdproj", "{43F367B4-51AD-485E-A2BF-24F6607A893F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851} = {0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}
+	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NVSA_Setup_x86", "NVSA_Setup_x86\NVSA_Setup.vdproj", "{E16D180A-9568-4BA1-B6D0-507D39B89CAD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851} = {0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,12 +55,12 @@ Global
 		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x86.ActiveCfg = Release|Win32
 		{0D349A5B-EE1F-402B-8EBF-D6AD04FEC851}.Release|x86.Build.0 = Release|Win32
 		{43F367B4-51AD-485E-A2BF-24F6607A893F}.Debug|x64.ActiveCfg = Debug
+		{43F367B4-51AD-485E-A2BF-24F6607A893F}.Debug|x64.Build.0 = Debug
 		{43F367B4-51AD-485E-A2BF-24F6607A893F}.Debug|x86.ActiveCfg = Debug
 		{43F367B4-51AD-485E-A2BF-24F6607A893F}.Release|x64.ActiveCfg = Release
 		{43F367B4-51AD-485E-A2BF-24F6607A893F}.Release|x64.Build.0 = Release
 		{43F367B4-51AD-485E-A2BF-24F6607A893F}.Release|x86.ActiveCfg = Release
 		{E16D180A-9568-4BA1-B6D0-507D39B89CAD}.Debug|x64.ActiveCfg = Debug
-		{E16D180A-9568-4BA1-B6D0-507D39B89CAD}.Debug|x64.Build.0 = Debug
 		{E16D180A-9568-4BA1-B6D0-507D39B89CAD}.Debug|x86.ActiveCfg = Debug
 		{E16D180A-9568-4BA1-B6D0-507D39B89CAD}.Debug|x86.Build.0 = Debug
 		{E16D180A-9568-4BA1-B6D0-507D39B89CAD}.Release|x64.ActiveCfg = Release
