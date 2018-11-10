@@ -96,6 +96,8 @@
             this.Text = "Application Closed";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ApplicationClosedWaitTimeout_FormClosing);
+            this.Shown += new System.EventHandler(this.ApplicationClosedWaitTimeout_Shown);
+            this.Leave += new System.EventHandler(this.ApplicationClosedWaitTimeout_Leave);
             this.ResumeLayout(false);
             this.PerformLayout();
 

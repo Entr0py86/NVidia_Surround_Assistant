@@ -160,14 +160,14 @@ namespace NVidia_Surround_Assistant
             //Check the operating system and the application being run
             if (Environment.Is64BitProcess && !Environment.Is64BitOperatingSystem)
             {
-                MessageBox.Show("Trying to run 64bit version of application on 32bit Operating system.\n\nPlease use the 32bit binaries.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Trying to run 64bit version of application on 32bit Operating system.\n\nPlease use the 32bit binaries.", "NVSA - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 quitApplication = true;
                 Close();
                 return;
             }
             if (!Environment.Is64BitProcess && Environment.Is64BitOperatingSystem)
             {
-                MessageBox.Show("Trying to run 32bit version of application on 64bit Operating system.\n\nPlease use the 64bit binaries.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Trying to run 32bit version of application on 64bit Operating system.\n\nPlease use the 64bit binaries.", "NVSA - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 quitApplication = true;
                 Close();
                 return;
@@ -178,7 +178,7 @@ namespace NVidia_Surround_Assistant
             if (myPrincipal.IsInRole(WindowsBuiltInRole.Administrator) == false)
             {
                 //show message box - displaying a message to the user that rights are missing
-                MessageBox.Show(text: "The application requires Administrator rights.", caption: "Administrator rights required", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Exclamation);
+                MessageBox.Show(text: "The application requires Administrator rights.", caption: "NVSA - Administrator rights required", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Exclamation);
                 quitApplication = true;
                 Close();
                 return;
@@ -200,7 +200,7 @@ namespace NVidia_Surround_Assistant
             //Init Surround Manager
             if(!surroundManager.SM_Initialize())
             {
-                MyMessageBox.Show("The application cannot work without the surround manager. Please fix issue before trying again.", "Critical");
+                MyMessageBox.Show("The application cannot work without the surround manager. Please fix issue before trying again.", "NVSA - Critical");
                 quitApplication = true;
                 Close();
                 return;
@@ -377,6 +377,7 @@ namespace NVidia_Surround_Assistant
                     if (newApp.Id >= 0)
                     {
                         RegisterApplication(newApp);
+                        applicationList.Add(newApp);
                         result = true;
                     }
                     else
@@ -530,7 +531,7 @@ namespace NVidia_Surround_Assistant
         {
             if (surroundManager != null)
             {
-                if (surroundManager.SM_IsSurroundActive())
+                if (!surroundManager.SM_IsDefaultActive())
                 {
                     switch (ask)
                     {
@@ -880,13 +881,16 @@ namespace NVidia_Surround_Assistant
                 {
                     if (!processDetectedBusy && (processDestroyedTimer == null || !processDestroyedTimer.TimerEnabled))
                     {
-                        logger.Debug("WMI Process stopped: {0}; Switch in {1} sec", processInfo.processName, applicationInfo.SwitchbackTimeout);
+                        logger.Debug("Process stopped: {0}; Switch in {1} sec", processInfo.processName, applicationInfo?.SwitchbackTimeout);
                         logger.Debug("processStopEvent_EventArrived: Stop Timer Started");
                         //Stop zombie check so that it does not interfeere with exit timer
                         timerZombieCheck.Stop();
                         //Start the exit timer
                         processDestroyedTimer = new ApplicationClosedWaitTimeout();
-                        processDestroyedTimer.StartTimer(applicationInfo.SwitchbackTimeout);
+                        if(applicationInfo != null)
+                            processDestroyedTimer.StartTimer(applicationInfo.SwitchbackTimeout);
+                        else
+                            processDestroyedTimer.StartTimer(3);
                         processDestroyedTimer.ShowDialog();
                         if(!processDestroyedTimer.TimerCanceled)
                         {
@@ -968,7 +972,11 @@ namespace NVidia_Surround_Assistant
             ProcessInfo proc = new ProcessInfo();
             int index = 0;
             try
-            {                
+            {
+                if (timerZombieCheck.Enabled)
+                {
+                    timerZombieCheck.Stop();
+                }
                 while (!StoppedProcessList.IsEmpty)
                 {
                     if (StoppedProcessList.TryDequeue(out proc))
@@ -988,14 +996,11 @@ namespace NVidia_Surround_Assistant
                 //If no other app is in list switch back to normal mode
                 if (runningApplicationsList.Count == 0 && !timerStartWait.Enabled)
                 {
-                    if (timerZombieCheck.Enabled)
-                    {
-                        timerZombieCheck.Stop();
-                    }
                     logger.Info("No more running applications, switching called");
                     SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
                 }
-                else if (!timerStartWait.Enabled && !timerZombieCheck.Enabled)
+                //else start zombie timer if more apps are running
+                else if (!timerStartWait.Enabled && !timerZombieCheck.Enabled && runningApplicationsList.Count > 0)
                 {
                     logger.Debug("timerZombieCheck start, interval {0}", timerZombieCheck.Interval.ToString());
                     timerZombieCheck.Start();
@@ -1026,12 +1031,21 @@ namespace NVidia_Surround_Assistant
             //Only run zombie check if all the timers are not active
             if ((processDestroyedTimer == null || !processDestroyedTimer.TimerEnabled) && !timerStartWait.Enabled && CheckRunningListForZombies())
             {
+                
                 if (timerZombieCheck.Enabled)//If disabled, App closed while zombie check was busy. Let proper close be handled not zombie switch
                 {
+                    timerZombieCheck.Stop();                        
                     logger.Debug("Zombie check complete");
                     logger.Info("No more running applications, switching called");
-                    SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
-                    timerZombieCheck.Stop();
+                    //Start timer 
+                    processDestroyedTimer = new ApplicationClosedWaitTimeout();
+                    processDestroyedTimer.StartTimer(3);//TODO make global setting of time
+                    processDestroyedTimer.ShowDialog();
+                    //Only switch if the action was not cancelled
+                    if (!processDestroyedTimer.TimerCanceled)
+                    {
+                        SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
+                    }
                 }
             }
         }
@@ -1314,7 +1328,7 @@ namespace NVidia_Surround_Assistant
         {
             if (surroundManager.SM_SaveDefaultSurroundSetup())
             {
-                MyMessageBox.Show("Default setup saved succesfully.");
+                MyMessageBox.Show("Default surround setup saved succesfully.");
             }
         }
 
@@ -1326,7 +1340,7 @@ namespace NVidia_Surround_Assistant
             {
                 if (surroundManager.SM_SaveCurrentSetup(popup.surroundConfigName))
                 {
-                    MyMessageBox.Show("Default setup saved succesfully.");
+                    MyMessageBox.Show(String.Format("Setup ({0}) saved succesfully.", popup.surroundConfigName));
                 }
             }
         }

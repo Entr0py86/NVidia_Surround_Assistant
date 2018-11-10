@@ -551,7 +551,7 @@
             this.saveAsToolStripMenuItem});
             this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
             this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 92);
             // 
             // saveAsDefaultToolStripMenuItem
             // 
@@ -575,7 +575,7 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultSurroundToolStripMenuItem_Click);
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // contextMenuStripLoadSurroundConfig
             // 

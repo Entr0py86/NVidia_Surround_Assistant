@@ -475,7 +475,7 @@ namespace NVidia_Surround_Assistant
         {
             if (MainForm.surroundManager.SM_SaveDefaultSurroundSetup())
             {
-                MyMessageBox.Show("Default setup saved succesfully.");
+                MyMessageBox.Show("Default surround setup saved succesfully.");
             }
         }
 
@@ -487,7 +487,7 @@ namespace NVidia_Surround_Assistant
             {
                 if (MainForm.surroundManager.SM_SaveCurrentSetup(popup.surroundConfigName))
                 {
-                    MyMessageBox.Show("Default setup saved succesfully.");
+                    MyMessageBox.Show(String.Format("Setup ({0}) saved succesfully.", popup.surroundConfigName));
                 }
             }
         }

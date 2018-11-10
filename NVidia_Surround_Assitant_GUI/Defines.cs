@@ -134,15 +134,25 @@ namespace NVidia_Surround_Assistant
 
     public class ApplicationInfo
     {
+        //Id of application
         public int Id { get; set; }
+        //Is detection enabled for apllication
         public bool Enabled { get; set; }
+        //Name used for display
         public string DisplayName { get; set; }
+        //Full path to exe
         public string FullPath { get; set; }
+        //exe name 
         public string ProcessName { get; set; }
+        //image used in thumb
         public Bitmap Image { get; set; }
+        //surround grid to use
         public int SurroundGrid { get; set; }
+        //pause application, swtich, unpause 
         public bool PauseOnDetect { get; set; }
+        //Time to wait before switch back to default grid
         public int SwitchbackTimeout { get; set; }
+        //Time to wait before looking if application exited, after it's detection
         public int StartTimeout { get; set; }
 
         public ApplicationInfo()

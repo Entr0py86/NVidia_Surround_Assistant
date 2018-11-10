@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,14 +15,21 @@ namespace NVidia_Surround_Assistant
 
     public partial class ApplicationClosedWaitTimeout : Form
     {
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
         int secondsTimeInterval = 0;
         bool timerCanceled = false;
         bool nonUserExit = false;
-        
+
+        public IntPtr hWnd
+        {
+            get { return base.Handle; }
+        }
 
         public ApplicationClosedWaitTimeout()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         /// <summary>
@@ -87,7 +95,7 @@ namespace NVidia_Surround_Assistant
         private void secondTick_Tick(object sender, EventArgs e)
         {
             secondsTimeInterval--;
-            if(secondsTimeInterval > 0)
+            if (secondsTimeInterval > 0)
             {
                 labelSeconds.Text = secondsTimeInterval.ToString();
                 secondTick.Start();
@@ -117,10 +125,20 @@ namespace NVidia_Surround_Assistant
         private void ApplicationClosedWaitTimeout_FormClosing(object sender, FormClosingEventArgs e)
         {
             //If user is closing the form then cancel the timer.
-            if(!nonUserExit && e.CloseReason == CloseReason.UserClosing)
+            if (!nonUserExit && e.CloseReason == CloseReason.UserClosing)
             {
                 timerCanceled = true;
             }
+        }
+
+        private void ApplicationClosedWaitTimeout_Shown(object sender, EventArgs e)
+        {
+            SetForegroundWindow(hWnd);
+        }
+
+        private void ApplicationClosedWaitTimeout_Leave(object sender, EventArgs e)
+        {
+            SetForegroundWindow(hWnd);
         }
     }
 }

@@ -464,7 +464,14 @@ namespace NVidia_Surround_Assistant
 
             if (!autoSearchNewApp)
             {
-                comboBoxSurroundSetup.SelectedIndex = AppInfo.SurroundGrid;             
+                //Find item id
+                foreach(SurroundConfig item in comboBoxSurroundSetup.Items)
+                {
+                    if (item.Id.Equals(AppInfo.SurroundGrid))
+                    {
+                        comboBoxSurroundSetup.SelectedItem = item;
+                    }
+                }
             }
             else
             {

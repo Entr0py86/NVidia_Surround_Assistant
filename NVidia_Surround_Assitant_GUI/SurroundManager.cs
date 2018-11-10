@@ -428,6 +428,23 @@ namespace NVidia_Surround_Assistant
             return result;
         }
 
+        public bool SM_IsDefaultActive()
+        {
+            bool result = false;
+            try
+            {
+                if (!mySurround.apiLoaded)
+                    mySurround.Initialize();
+                if (defaultConfig != null)
+                    result = mySurround.IsSurroundActive(defaultConfig.Config);
+            }
+            catch (DisplayManager_Exception ex)
+            {
+                MainForm.logger.Error("DM: IsSurroundActive Error: {0}", ex.Message);
+            }
+            return result;
+        }
+
         public bool SM_IsSurroundActive(int configID)
         {
             bool result = false;

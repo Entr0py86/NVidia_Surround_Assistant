@@ -185,6 +185,7 @@
             this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
             this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsDefaultToolStripMenuItem.Text = "Save as Default";
+            this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
             // 
             // saveAsDefaultSurroundToolStripMenuItem
             // 
@@ -192,6 +193,7 @@
             this.saveAsDefaultSurroundToolStripMenuItem.Name = "saveAsDefaultSurroundToolStripMenuItem";
             this.saveAsDefaultSurroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsDefaultSurroundToolStripMenuItem.Text = "Save as Surround Default";
+            this.saveAsDefaultSurroundToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultSurroundToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -199,6 +201,7 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -318,7 +321,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NVidia Surround Assistant";
+            this.Text = "w";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
