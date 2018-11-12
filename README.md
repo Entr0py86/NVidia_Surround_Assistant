@@ -3,12 +3,10 @@
 Like your desktop in extended mode but like playing most of your games in 1x3 surround mode or maybe you want to play only on one screen and disable the others? 
 
 Then NVidia Surround Assistant (NVSA) could help you. NVSA will detect new/destroyed processes via two methods, hooks and wmi, and switch to a pre-configured NVidia surround/grid profile of your choosing. It uses IGDB api to query there database to get game cover art for the tiles but the images are customizable.
-
 There are two configurable dead zone timers that run:
  1. After the initial detection of an application it prohibits a switch back to desktop. I found this was required with games by Ubisoft. They start and kill there processes before actually launching there UI, I assume it has something to do with there DRM or update checks.
  2. After the detection of an application closing/exiting. This timer allows you to cancel the switch back if so required, via a pop up and keyboard shortcut. I use this at times when I am tweaking settings or mods but don't want to switch surround profiles the whole time.
- 
-NVSA will also attempt to save your window positions and restore them. This feature is very basic but does what I want it for, most of the time.
+ NVSA will also attempt to save your window positions and restore them. This feature is very basic but does what I want it for, most of the time.
 
 ## Getting Started
 
@@ -25,11 +23,11 @@ I have unfortunately never tested the x86 version  of the build, as I no longer 
 ### Testing:
 Setup Images [Star Citizen](https://robertsspaceindustries.com/spectrum/community/SC/forum/50264/thread/my-sim-pit-desk)
 
-Hardware:
-  1x GTX 1080 
-  1 x Acer 21.5 inch; 1600x900@60Hz
-  1 x Benq XL2420Z; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com] (https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
-  2 x Benq XL2430T; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com] (https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
+* Hardware:
+  * 1 x GTX 1080 
+  * 1 x Acer 21.5 inch; 1600x900@60Hz
+  * 1 x Benq XL2420Z; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com] (https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
+  * 2 x Benq XL2430T; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com] (https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
 
 Profiles:
   4x Screens all in extended mode 
