@@ -2,7 +2,7 @@
 
 Like your desktop in extended mode but like playing most of your games in 1x3 surround mode or maybe you want to play only on one screen and disable the others? 
 
-Then NVidia Surround Assistant (NVSA) could help you. NVSA will detect new/destroyed processes via two methods, hooks and wmi, and switch to a pre-configured NVidia surround/grid configuration of your choosing.
+Then NVidia Surround Assistant (NVSA) could help you. NVSA will detect new/destroyed processes via two methods, hooks and wmi, and switch to a pre-configured NVidia surround/grid profile of your choosing. It uses IGDB api to query there database
 
 ## Getting Started
 
