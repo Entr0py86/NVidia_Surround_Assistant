@@ -21,7 +21,7 @@ I have unfortunately never tested the x86 version  of the build, as I no longer 
 4. Add applications to your detection list.
 
 ### Testing:
-Setup Images [Star Citizen](https://robertsspaceindustries.com/spectrum/community/SC/forum/50264/thread/my-sim-pit-desk)
+Physical screen setup [images](https://robertsspaceindustries.com/spectrum/community/SC/forum/50264/thread/my-sim-pit-desk)
 
 * Hardware:
   * 1 x GTX 1080 
@@ -30,14 +30,9 @@ Setup Images [Star Citizen](https://robertsspaceindustries.com/spectrum/communit
   * 2 x Benq XL2430T; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com] (https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
 
 Profiles:
-  4x Screens all in extended mode 
-  ![4xEntended](Images/4xExtended.PNG?raw=true "4 x Extended Desktop")
-  
-  1x3 in surround and 1 x extended
-  ![1x3x1Entended](Images/1x3x1Extended.PNG?raw=true "1 x 3 x Extended Desktop")
-  
-  1x Desktop and 3 off
-  ![1xDesktop](Images/1xDesktop.PNG?raw=true "1 x Desktop")
+  * 4x Screens all in extended mode ![4xEntended](Images/4xExtended.PNG?raw=true "4 x Extended Desktop")
+  * 1x3 in surround and 1 x extended ![1x3x1Entended](Images/1x3x1Extended.PNG?raw=true "1 x 3 x Extended Desktop")
+  * 1x Desktop and 3 off ![1xDesktop](Images/1xDesktop.PNG?raw=true "1 x Desktop")
   
 ## Built With
 
