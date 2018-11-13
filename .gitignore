@@ -33,3 +33,4 @@ bin/x86/System.Data.SQLite.dll.config
 bin/x64/Newtonsoft.Json.xml
 bin/x64/NVidia Surround Assistant.exe.config
 *.config
+bin/x64/db/nvsa_db.sqlite
