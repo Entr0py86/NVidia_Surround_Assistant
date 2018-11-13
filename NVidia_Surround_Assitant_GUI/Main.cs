@@ -1356,7 +1356,7 @@ namespace NVidia_Surround_Assistant
 
         private void contextMenuStrip_SystemTray_Opening(object sender, CancelEventArgs e)
         {
-            if (surroundManager.SM_IsSurroundActive())
+            if (!surroundManager.SM_IsDefaultActive())
             {
                 toolStripMenuItem_ToggelSurround.Text = "Switch To Normal Mode";
             }

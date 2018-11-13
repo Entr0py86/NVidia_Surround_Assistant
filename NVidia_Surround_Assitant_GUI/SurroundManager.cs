@@ -465,7 +465,7 @@ namespace NVidia_Surround_Assistant
 
         public void SM_SwitchSurround()
         {
-            if (SM_IsSurroundActive())
+            if (!SM_IsDefaultActive())
             {
                 SM_ApplySetupFromMemory(false);
             }
