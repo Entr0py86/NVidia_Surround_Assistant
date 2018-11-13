@@ -1,3 +1,5 @@
+![NVSA](Images/NVSA.PNG?raw=true "Nvidia Surround Assistant")
+
 # NVidia Surround Assistant
 
 Like your desktop in extended mode but like playing most of your games in 1x3 surround mode or maybe you want to play only on one screen and disable the others? 
