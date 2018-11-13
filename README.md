@@ -28,8 +28,8 @@ Physical screen setup [images](https://robertsspaceindustries.com/spectrum/commu
 #### Hardware:
   * 1 x GTX 1080 
   * 1 x Acer 21.5 inch; 1600x900@60Hz
-  * 1 x Benq XL2420Z; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com] (https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
-  * 2 x Benq XL2430T; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com] (https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
+  * 1 x Benq XL2420Z; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com](https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
+  * 2 x Benq XL2430T; 1920x1080@120Hz (Using Custom resolution [BlurBuster.com](https://www.blurbusters.com/benq/strobe-utility/#largeverticaltotal))
 
 #### Profiles:
   * 4x Screens all in extended mode 
