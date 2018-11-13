@@ -8,7 +8,8 @@ Then NVidia Surround Assistant (NVSA) could help you. NVSA will detect new/destr
 There are two configurable dead zone timers that run:
  1. After the initial detection of an application it prohibits a switch back to desktop. I found this was required with games by Ubisoft. They start and kill there processes before actually launching there UI, I assume it has something to do with there DRM or update checks.
  2. After the detection of an application closing/exiting. This timer allows you to cancel the switch back if so required, via a pop up and keyboard shortcut. I use this at times when I am tweaking settings or mods but don't want to switch surround profiles the whole time.
- NVSA will also attempt to save your window positions and restore them. This feature is very basic but does what I want it for, most of the time.
+
+NVSA will also attempt to save your window positions and restore them. This feature is very basic but does what I want it for, most of the time.
 
 ## Getting Started
 
