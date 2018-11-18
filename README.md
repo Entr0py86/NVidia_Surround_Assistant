@@ -20,7 +20,7 @@ I have unfortunately never tested the x86 version  of the build, as I no longer 
 
 1. Run the installer
 2. Run NVidia Surround Assistant.exe
-3. Follow the message box instructions.
+3. Follow the message box instructions, for initial setup.
 4. Add applications to your detection list.
 
 ### Testing:
