@@ -137,7 +137,7 @@ namespace NVidia_Surround_Assistant
             }
 
             //Add Version to title
-            Text += String.Format("Version {0}", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            Text += String.Format(" - Version {0}", Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             //Setup zombie check timer
             this.timerZombieCheck.Interval = 15000;
