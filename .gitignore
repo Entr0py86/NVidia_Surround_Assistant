@@ -34,3 +34,6 @@ bin/x64/Newtonsoft.Json.xml
 bin/x64/NVidia Surround Assistant.exe.config
 *.config
 bin/x64/db/nvsa_db.sqlite
+NVSA_Setup_x64/Release/
+NVSA_Setup_x86/Release/
+Setup/setup.exe

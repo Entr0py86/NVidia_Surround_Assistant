@@ -134,7 +134,7 @@ namespace NVidia_Surround_Assistant
             SM_ApplySetupFromMemory(false);
             SM_ApplyWindowPositions();
 
-            MyMessageBox.Show("Surround Setup Complete");
+            MyMessageBox.Show("Setup Complete");
 
             initConfig = false;
 
