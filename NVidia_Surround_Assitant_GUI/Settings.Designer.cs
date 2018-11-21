@@ -266,7 +266,7 @@
             // pictureBoxAbout
             // 
             this.pictureBoxAbout.Image = global::NVidia_Surround_Assistant.Properties.Resources.information_24x24;
-            this.pictureBoxAbout.Location = new System.Drawing.Point(159, 598);
+            this.pictureBoxAbout.Location = new System.Drawing.Point(156, 577);
             this.pictureBoxAbout.Name = "pictureBoxAbout";
             this.pictureBoxAbout.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -302,9 +302,9 @@
             this.groupBox1.Controls.Add(this.comboBoxSurroundToNormal_OnClose);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox1.Location = new System.Drawing.Point(15, 311);
+            this.groupBox1.Location = new System.Drawing.Point(12, 291);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(315, 187);
+            this.groupBox1.Size = new System.Drawing.Size(318, 187);
             this.groupBox1.TabIndex = 83;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Surround Action";
@@ -369,9 +369,9 @@
             this.groupBox2.Controls.Add(this.comboBoxLogLevel);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox2.Location = new System.Drawing.Point(15, 504);
+            this.groupBox2.Location = new System.Drawing.Point(12, 484);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(315, 88);
+            this.groupBox2.Size = new System.Drawing.Size(318, 88);
             this.groupBox2.TabIndex = 84;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Logs";
@@ -551,7 +551,7 @@
             this.saveAsToolStripMenuItem});
             this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
             this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
             // 
             // saveAsDefaultToolStripMenuItem
             // 
@@ -587,7 +587,7 @@
             // pictureBoxCancel
             // 
             this.pictureBoxCancel.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxCancel.Location = new System.Drawing.Point(195, 598);
+            this.pictureBoxCancel.Location = new System.Drawing.Point(192, 577);
             this.pictureBoxCancel.Name = "pictureBoxCancel";
             this.pictureBoxCancel.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxCancel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -600,7 +600,7 @@
             // pictureBoxApply
             // 
             this.pictureBoxApply.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxApply.Location = new System.Drawing.Point(123, 598);
+            this.pictureBoxApply.Location = new System.Drawing.Point(120, 577);
             this.pictureBoxApply.Name = "pictureBoxApply";
             this.pictureBoxApply.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxApply.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -615,7 +615,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.ClientSize = new System.Drawing.Size(343, 640);
+            this.ClientSize = new System.Drawing.Size(343, 616);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
