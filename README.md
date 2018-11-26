@@ -73,7 +73,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 * Thank you to the Unknown-One for making there script available to us and for giving me the inspiration to make this project.
 
-## Buy Me a Beer
+## Donations
 
 If you like my work, a beer for the weekend would be greatly appreciated.
 
