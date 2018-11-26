@@ -88,7 +88,7 @@ namespace NVidia_Surround_Assistant
 
             if (!skipDefault)
             {
-                if (MessageBox.Show("The Default Configuration will be used as your non-surround configuration.\nWould you like to save the current display configuration as your default non-surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                if (MessageBox.Show("The Default Configuration will be used as your non-surround configuration.\n\nWould you like to save the current display configuration as your default non-surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                 {
                     if (SM_IsSurroundActive())
                     {
@@ -110,7 +110,7 @@ namespace NVidia_Surround_Assistant
 
             if (!skipSurround)
             {
-                if (MessageBox.Show("The Default Surround Configuration will be used as your surround configuration.\nWould you like to save the current display configuration as your default surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                if (MessageBox.Show("The Default Surround Configuration will be used as your surround configuration.\n\nWould you like to save the current display configuration as your default surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                 {
                     if (!SM_IsSurroundActive())
                     {

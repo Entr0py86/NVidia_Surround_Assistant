@@ -502,7 +502,11 @@ namespace NVidia_Surround_Assistant
                 //Populate options to start the application
                 startProcess.StartInfo.FileName = launchApp.FullPath;
                 try
-                {                    
+                {
+                    if (launchApp.StartTimeout <= 0)
+                    {
+                        launchApp.StartTimeout = 10;
+                    }
                     timerStartWait.Interval = launchApp.StartTimeout * 1000;
                     timerStartWait.Start();
                     logger.Debug("timerStartWait interval, {0}, started", timerStartWait.Interval);
