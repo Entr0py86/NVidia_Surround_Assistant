@@ -822,10 +822,6 @@ namespace NVidia_Surround_Assistant
                                 else
                                 {
                                     logger.Info("Application Detected and Surround Applied: {0}", process.processName);
-                                    //Add To running application list
-                                    logger.Debug("Adding Detected application to list: {0}, {1}", process.processName, process.procID);
-                                    runningApplicationsList.Add(process);
-
                                     if (app.PauseOnDetect)
                                     {
                                         if (DebugActiveProcessStop(process.procID) == 0)
@@ -836,7 +832,10 @@ namespace NVidia_Surround_Assistant
                                 }
 
                             }
-                            logger.Debug("ProcessCreatedWindow: processDetectedBusy = false", process.processName);
+                            //Add To running application list
+                            logger.Debug("Adding Detected application to list: {0}, {1}", process.processName, process.procID);
+                            runningApplicationsList.Add(process);
+                            logger.Debug("ProcessCreatedWindow: processDetectedBusy = false; {0}", process.processName);
                             timerStartWait.Interval = app.StartTimeout * 1000;
                             timerStartWait.Start();
                         }
@@ -933,7 +932,7 @@ namespace NVidia_Surround_Assistant
             }
             catch (Exception ex)
             {
-                logger.Error("ProcessCreatedWindow: {0}", ex.Message);
+                logger.Error("ProcessAlreadyInList: {0}", ex.Message);
             }
         }
         
@@ -966,8 +965,8 @@ namespace NVidia_Surround_Assistant
             else
             {
                 isDead = true;
-            }            
-
+            }
+            logger.Debug("IsProcessDead: Process Name: {0}; Process ID: {1}; Is Dead: {2}", proc.processName, proc.procID, isDead.ToString());
             return isDead;
         }
 
