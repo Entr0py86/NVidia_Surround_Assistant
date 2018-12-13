@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -623,8 +624,9 @@
             this.Controls.Add(this.pictureBoxAbout);
             this.Controls.Add(this.pictureBoxCancel);
             this.Controls.Add(this.pictureBoxApply);
-            this.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";

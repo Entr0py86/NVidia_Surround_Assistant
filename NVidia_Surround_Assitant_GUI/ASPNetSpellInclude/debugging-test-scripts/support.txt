@@ -1,0 +1,9 @@
+Email support@aspnetspell.com if you need help with anything!
+==========
+
+Quickstart Guide
+
+1 Download and unzip AspNetSpell to a convenient location on your hard disk. We suggest C:\ASPNetSpell\ 
+2 Add the ASPNetSpell.dll to your Visual Studio toolbox. For AJAX support - install from the "Ajax Enabled Dll" folder.
+3 Copy the directory called "AspNetSpell" to the root folder of your website project. You do not need to add this to the application in Visual Studio. 
+4 Drag the SpellTextBox or SpellButton into your Web Page in Visual Studio

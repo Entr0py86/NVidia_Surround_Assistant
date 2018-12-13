@@ -9,6 +9,12 @@ using MyStuff;
 
 namespace NVidia_Surround_Assistant
 {    
+
+    public enum SM_SetupState
+    {
+
+    };
+
     /// <summary>
     /// Surround manager is a C# wrapper for the c++/cli dll that controls the NVidia API
     /// </summary>
@@ -52,38 +58,57 @@ namespace NVidia_Surround_Assistant
 
         public bool SM_DoInitialSetup()
         {
-            bool skipSurround = false;
-            bool skipDefault = false;
+            bool surroundProfileDone = false;
+            bool defaultProfileDone = false;
 
             initConfig = true;
             //Save current display setup for re-application later
             SM_SaveCurrentSetup();
             SM_SaveWindowPositions();
 
-            MyMessageBox.Show("The setup will ask to save two surround display configurations.\n" +
-                "    \u2022 The default configuration stores the monitor setup that is used when NVidia surround is disabled.\n" +
-                "    \u2022 The default surround configuration stores the monitor setup that is used when NVidia surround is\n" +
+            MyMessageBox.Show("The setup will ask to save two surround display profiles.\n" +
+                "    \u2022 The default profile stores the monitor setup that is used when NVidia surround is disabled.\n" +
+                "    \u2022 The default surround profile stores the monitor setup that is used when NVidia surround is\n" +
                 "      enabled.\n" +
-                "    \u2022 Each application can have it's own custom surround configuration. The default surround configuration\n" +
+                "    \u2022 Two message boxes will ask to save the profile's, while each message box is open/not answered\n" +
+                "      you are able to change your monitor setup using either NVidia Control panel or Windows Display Manager" +
+                "    \u2022 Each application can have it's own custom surround profile. The default surround profile\n" +
                 "      will automatically be selected when adding a new application to the detection list.\n" +
-                "    \u2022 The custom configurations can be added after setup under settings.", "Setup");
-            
-            //Check if surround setup file already exists
-            if (MainForm.sqlInterface.SurroundConfigExists("Default Surround"))
+                "    \u2022 The custom profile's can be added after setup under settings.", "Setup");
+
+            //Check if default setup file already exists
+            if (MainForm.sqlInterface.SurroundConfigExists("Default"))
             {
-                if (MessageBox.Show("Default Surround Setup found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    MainForm.sqlInterface.DeleteSurroundConfig("Default Surround");
-                else
-                    skipSurround = true;
+                if (MessageBox.Show("Default Profile found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+                    defaultProfileDone = true;
             }
 
             //Check if surround setup file already exists
-            if (MainForm.sqlInterface.SurroundConfigExists("Default"))
+            if (MainForm.sqlInterface.SurroundConfigExists("Default Surround"))
             {
-                if (MessageBox.Show("Default Setup found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    MainForm.sqlInterface.DeleteSurroundConfig("Default");
+                if (MessageBox.Show("Default Surround Profile found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+                    surroundProfileDone = true;                
+            }
+
+            if (!surroundProfileDone && !defaultProfileDone && SM_IsSurroundActive())
+            {
+                if (MessageBox.Show("Surround Profile Detected.\n\nWould you like to save the current monitor setup as your default surround profile?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    SM_SaveDefaultSurroundSetup();
+                }
                 else
-                    skipDefault = true;
+                {
+
+                }
+            }
+            else if(!surroundProfileDone && !defaultProfileDone)
+            {
+
+            }
+
+            while (!surroundProfileDone || !defaultProfileDone)
+            {
+                
             }
 
             if (!skipDefault)
