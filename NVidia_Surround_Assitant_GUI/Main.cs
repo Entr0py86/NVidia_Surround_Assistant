@@ -326,7 +326,6 @@ namespace NVidia_Surround_Assistant
         {
             if (MessageBox.Show("Delete from database?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-
                 if (sqlInterface.DeleteApplication(AppThumb.Id))
                 {
                     //Remove data from lists    

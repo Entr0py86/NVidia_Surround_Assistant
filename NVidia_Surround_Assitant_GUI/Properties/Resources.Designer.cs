@@ -73,6 +73,16 @@ namespace NVidia_Surround_Assistant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap back_48x48 {
+            get {
+                object obj = ResourceManager.GetObject("back_48x48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap close_48x48 {
             get {
                 object obj = ResourceManager.GetObject("close_48x48", resourceCulture);
@@ -186,6 +196,16 @@ namespace NVidia_Surround_Assistant.Properties {
         internal static System.Drawing.Bitmap folder_24x24 {
             get {
                 object obj = ResourceManager.GetObject("folder_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap forward_48x48 {
+            get {
+                object obj = ResourceManager.GetObject("forward_48x48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

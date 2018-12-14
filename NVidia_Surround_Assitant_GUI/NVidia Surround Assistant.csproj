@@ -202,6 +202,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\forward 48x48.png" />
+    <None Include="Resources\back 48x48.png" />
     <EmbeddedResource Include="AboutBoxNVSA.resx">
       <DependentUpon>AboutBoxNVSA.cs</DependentUpon>
     </EmbeddedResource>

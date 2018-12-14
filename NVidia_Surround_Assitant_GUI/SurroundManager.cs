@@ -58,110 +58,110 @@ namespace NVidia_Surround_Assistant
 
         public bool SM_DoInitialSetup()
         {
-            bool surroundProfileDone = false;
-            bool defaultProfileDone = false;
+            //bool surroundProfileDone = false;
+            //bool defaultProfileDone = false;
 
-            initConfig = true;
-            //Save current display setup for re-application later
-            SM_SaveCurrentSetup();
-            SM_SaveWindowPositions();
+            //initConfig = true;
+            ////Save current display setup for re-application later
+            //SM_SaveCurrentSetup();
+            //SM_SaveWindowPositions();
 
-            MyMessageBox.Show("The setup will ask to save two surround display profiles.\n" +
-                "    \u2022 The default profile stores the monitor setup that is used when NVidia surround is disabled.\n" +
-                "    \u2022 The default surround profile stores the monitor setup that is used when NVidia surround is\n" +
-                "      enabled.\n" +
-                "    \u2022 Two message boxes will ask to save the profile's, while each message box is open/not answered\n" +
-                "      you are able to change your monitor setup using either NVidia Control panel or Windows Display Manager" +
-                "    \u2022 Each application can have it's own custom surround profile. The default surround profile\n" +
-                "      will automatically be selected when adding a new application to the detection list.\n" +
-                "    \u2022 The custom profile's can be added after setup under settings.", "Setup");
+            //MyMessageBox.Show("The setup will ask to save two surround display profiles.\n" +
+            //    "    \u2022 The default profile stores the monitor setup that is used when NVidia surround is disabled.\n" +
+            //    "    \u2022 The default surround profile stores the monitor setup that is used when NVidia surround is\n" +
+            //    "      enabled.\n" +
+            //    "    \u2022 Two message boxes will ask to save the profile's, while each message box is open/not answered\n" +
+            //    "      you are able to change your monitor setup using either NVidia Control panel or Windows Display Manager" +
+            //    "    \u2022 Each application can have it's own custom surround profile. The default surround profile\n" +
+            //    "      will automatically be selected when adding a new application to the detection list.\n" +
+            //    "    \u2022 The custom profile's can be added after setup under settings.", "Setup");
 
-            //Check if default setup file already exists
-            if (MainForm.sqlInterface.SurroundConfigExists("Default"))
-            {
-                if (MessageBox.Show("Default Profile found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
-                    defaultProfileDone = true;
-            }
+            ////Check if default setup file already exists
+            //if (MainForm.sqlInterface.SurroundConfigExists("Default"))
+            //{
+            //    if (MessageBox.Show("Default Profile found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+            //        defaultProfileDone = true;
+            //}
 
-            //Check if surround setup file already exists
-            if (MainForm.sqlInterface.SurroundConfigExists("Default Surround"))
-            {
-                if (MessageBox.Show("Default Surround Profile found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
-                    surroundProfileDone = true;                
-            }
+            ////Check if surround setup file already exists
+            //if (MainForm.sqlInterface.SurroundConfigExists("Default Surround"))
+            //{
+            //    if (MessageBox.Show("Default Surround Profile found. Overwrite it?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+            //        surroundProfileDone = true;                
+            //}
 
-            if (!surroundProfileDone && !defaultProfileDone && SM_IsSurroundActive())
-            {
-                if (MessageBox.Show("Surround Profile Detected.\n\nWould you like to save the current monitor setup as your default surround profile?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                {
-                    SM_SaveDefaultSurroundSetup();
-                }
-                else
-                {
+            //if (!surroundProfileDone && !defaultProfileDone && SM_IsSurroundActive())
+            //{
+            //    if (MessageBox.Show("Surround Profile Detected.\n\nWould you like to save the current monitor setup as your default surround profile?", "Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            //    {
+            //        SM_SaveDefaultSurroundSetup();
+            //    }
+            //    else
+            //    {
 
-                }
-            }
-            else if(!surroundProfileDone && !defaultProfileDone)
-            {
+            //    }
+            //}
+            //else if(!surroundProfileDone && !defaultProfileDone)
+            //{
 
-            }
+            //}
 
-            while (!surroundProfileDone || !defaultProfileDone)
-            {
+            //while (!surroundProfileDone || !defaultProfileDone)
+            //{
                 
-            }
+            //}
 
-            if (!skipDefault)
-            {
-                if (MessageBox.Show("The Default Configuration will be used as your non-surround configuration.\n\nWould you like to save the current display configuration as your default non-surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                {
-                    if (SM_IsSurroundActive())
-                    {
-                        if (MessageBox.Show("NVidia Surround mode is currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(or keyboard shortcuts) now.\n\nWhen the displays are setup to your liking for the default configuration, press OK", "Default Display Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
-                            skipDefault = true;
-                    }
-                    //Save memory to file
-                    if(!skipDefault)
-                        SM_SaveDefaultSetup();
-                }
-                else
-                {
-                    MyMessageBox.Show("Default setup not saved. Certain functionality will not work until application is restarted or setup is run again");
-                    MainForm.logger.Info("DM: Default setup not saved. Certain functionality will not work until application is restarted or setup is run again");
-                    initConfig = false;
-                    return false;
-                }
-            }
+            //if (!skipDefault)
+            //{
+            //    if (MessageBox.Show("The Default Configuration will be used as your non-surround configuration.\n\nWould you like to save the current display configuration as your default non-surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            //    {
+            //        if (SM_IsSurroundActive())
+            //        {
+            //            if (MessageBox.Show("NVidia Surround mode is currently active. If this is not your intention, then please disable NVidia Surround via NVidia control panel(or keyboard shortcuts) now.\n\nWhen the displays are setup to your liking for the default configuration, press OK", "Default Display Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
+            //                skipDefault = true;
+            //        }
+            //        //Save memory to file
+            //        if(!skipDefault)
+            //            SM_SaveDefaultSetup();
+            //    }
+            //    else
+            //    {
+            //        MyMessageBox.Show("Default setup not saved. Certain functionality will not work until application is restarted or setup is run again");
+            //        MainForm.logger.Info("DM: Default setup not saved. Certain functionality will not work until application is restarted or setup is run again");
+            //        initConfig = false;
+            //        return false;
+            //    }
+            //}
 
-            if (!skipSurround)
-            {
-                if (MessageBox.Show("The Default Surround Configuration will be used as your surround configuration.\n\nWould you like to save the current display configuration as your default surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                {
-                    if (!SM_IsSurroundActive())
-                    {
-                        if (MessageBox.Show("NVidia Surround mode is currently not active. If this is not your intention, then please enable NVidia Surround via NVidia control panel(or keyboard shortcuts) now.\n\nWhen the displays are setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
-                            skipSurround = true;
-                    }
-                    //Save memory to file
-                    if (!skipSurround)
-                        SM_SaveDefaultSurroundSetup();
-                }
-                else
-                {
-                    MyMessageBox.Show("Default surround setup not saved. Certain functionality will not work until application is restarted");
-                    MainForm.logger.Info("DM: Default surround setup not saved. Certain functionality will not work until application is restarted or setup is run again");
-                    initConfig = false;
-                    return false;
-                }
-            }
-            SM_ReadDefaultSurroundConfig();
-            //Apply saved config. Display manager will not switch if there is no difference to grid setup
-            SM_ApplySetupFromMemory(false);
-            SM_ApplyWindowPositions();
+            //if (!skipSurround)
+            //{
+            //    if (MessageBox.Show("The Default Surround Configuration will be used as your surround configuration.\n\nWould you like to save the current display configuration as your default surround configuration?", "Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            //    {
+            //        if (!SM_IsSurroundActive())
+            //        {
+            //            if (MessageBox.Show("NVidia Surround mode is currently not active. If this is not your intention, then please enable NVidia Surround via NVidia control panel(or keyboard shortcuts) now.\n\nWhen the displays are setup to your liking, press OK", "Default Display Setup", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
+            //                skipSurround = true;
+            //        }
+            //        //Save memory to file
+            //        if (!skipSurround)
+            //            SM_SaveDefaultSurroundSetup();
+            //    }
+            //    else
+            //    {
+            //        MyMessageBox.Show("Default surround setup not saved. Certain functionality will not work until application is restarted");
+            //        MainForm.logger.Info("DM: Default surround setup not saved. Certain functionality will not work until application is restarted or setup is run again");
+            //        initConfig = false;
+            //        return false;
+            //    }
+            //}
+            //SM_ReadDefaultSurroundConfig();
+            ////Apply saved config. Display manager will not switch if there is no difference to grid setup
+            //SM_ApplySetupFromMemory(false);
+            //SM_ApplyWindowPositions();
 
-            MyMessageBox.Show("Setup Complete");
+            //MyMessageBox.Show("Setup Complete");
 
-            initConfig = false;
+            //initConfig = false;
 
             return true;
         }
