@@ -20,6 +20,8 @@ namespace NVidia_Surround_Assistant
         int SurroundToNormal_OnClose = NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnClose;
         int SurroundToNormal_OnExit = NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit;
         int configLogLevel = NVidia_Surround_Assistant.Properties.Settings.Default.LogLevel;
+        int waitForStartTimeout = NVidia_Surround_Assistant.Properties.Settings.Default.WaitForStartTimeout;
+        int switchbackTimeout = NVidia_Surround_Assistant.Properties.Settings.Default.SwitchbackTImeout;
 
         bool settingsNotSaved = false;
 
@@ -88,6 +90,8 @@ namespace NVidia_Surround_Assistant
             comboBoxSurroundToNormal_OnClose.SelectedIndex = SurroundToNormal_OnClose;
             comboBoxSurroundToNormal_OnExit.SelectedIndex = SurroundToNormal_OnExit;
             comboBoxLogLevel.SelectedIndex = configLogLevel;
+            numericUpDownWaitForStart.Value = waitForStartTimeout;
+            numericUpDownSwitchBackTimeout.Value = switchbackTimeout;
         }
 
         void CreateTask()
@@ -157,6 +161,8 @@ namespace NVidia_Surround_Assistant
             NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnClose = SurroundToNormal_OnClose;
             NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit = SurroundToNormal_OnExit;
             NVidia_Surround_Assistant.Properties.Settings.Default.LogLevel = configLogLevel;
+            NVidia_Surround_Assistant.Properties.Settings.Default.WaitForStartTimeout = waitForStartTimeout;
+            NVidia_Surround_Assistant.Properties.Settings.Default.SwitchbackTImeout = switchbackTimeout;
 
             //Save settings
             NVidia_Surround_Assistant.Properties.Settings.Default.Save();
@@ -400,6 +406,7 @@ namespace NVidia_Surround_Assistant
                     logLevel = LogLevel.Info;
                     break;
             }
+            settingsNotSaved = true;
             configLogLevel = comboBoxLogLevel.SelectedIndex;
             UpdateLogRules(logLevel);
             LogManager.Configuration.Reload();
@@ -496,6 +503,18 @@ namespace NVidia_Surround_Assistant
         {
             AboutBoxNVSA aboutBoxNVSA = new AboutBoxNVSA();
             aboutBoxNVSA.Show();
+        }
+
+        private void numericUpDownWaitForStart_ValueChanged(object sender, EventArgs e)
+        {
+            settingsNotSaved = true;
+            waitForStartTimeout = (int)numericUpDownWaitForStart.Value;
+        }
+
+        private void numericUpDownSwitchBackTimeout_ValueChanged(object sender, EventArgs e)
+        {
+            settingsNotSaved = true;
+            switchbackTimeout = (int)numericUpDownSwitchBackTimeout.Value;
         }
     }
 }

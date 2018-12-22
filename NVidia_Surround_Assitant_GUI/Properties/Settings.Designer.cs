@@ -130,5 +130,29 @@ namespace NVidia_Surround_Assistant.Properties {
                 this["LogLevel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int WaitForStartTimeout {
+            get {
+                return ((int)(this["WaitForStartTimeout"]));
+            }
+            set {
+                this["WaitForStartTimeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int SwitchbackTImeout {
+            get {
+                return ((int)(this["SwitchbackTImeout"]));
+            }
+            set {
+                this["SwitchbackTImeout"] = value;
+            }
+        }
     }
 }

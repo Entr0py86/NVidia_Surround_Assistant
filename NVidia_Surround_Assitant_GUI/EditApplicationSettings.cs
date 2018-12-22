@@ -80,6 +80,11 @@ namespace NVidia_Surround_Assistant
                     numericUpDownSwitchbackTimeout.Value = Appinfo.SwitchbackTimeout;
                     numericUpDownWaitStart.Value = Appinfo.StartTimeout;
                 }
+                else
+                {
+                    numericUpDownWaitStart.Value = NVidia_Surround_Assistant.Properties.Settings.Default.WaitForStartTimeout;
+                    numericUpDownSwitchbackTimeout.Value = NVidia_Surround_Assistant.Properties.Settings.Default.SwitchbackTImeout;
+                }
                 settingsNotSaved = false;
             }
         }

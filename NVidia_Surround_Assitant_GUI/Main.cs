@@ -1,4 +1,5 @@
 ﻿#define CLR
+#define DEBUG_GUI
 
 using System;
 using System.Collections.Generic;
@@ -196,7 +197,7 @@ namespace NVidia_Surround_Assistant
 
             //Open SQL connection to db
             sqlInterface.SQL_OpenConnection(binDir + "\\db\\nvsa_db.sqlite");
-
+#if !DEBUG_GUI
             //Init Surround Manager
             if(!surroundManager.SM_Initialize())
             {
@@ -207,7 +208,7 @@ namespace NVidia_Surround_Assistant
             }
             //Load defaults config's
             surroundManager.SM_ReadDefaultSurroundConfig();
-
+#endif
             //Initialize application            
             hookManager = new HookManager(hWnd, ref registeredWindows);
             Initialize();
@@ -296,6 +297,7 @@ namespace NVidia_Surround_Assistant
 
         void Initialize()
         {
+#if !DEBUG_GUI
             //Install the hooks
             hookInstalled = hookManager.InstallHooksAndRegisterWindows();
             //Start message process thread
@@ -303,7 +305,7 @@ namespace NVidia_Surround_Assistant
             {
                 processEventWorker.RunWorkerAsync();
             }
-
+#endif
             //Load all applications into list
             LoadApplicationList();
             populateContextMenuStripLoadApp();
@@ -888,13 +890,13 @@ namespace NVidia_Surround_Assistant
                         //Stop zombie check so that it does not interfeere with exit timer
                         timerZombieCheck.Stop();
                         //Start the exit timer
-                        processDestroyedTimer = new ApplicationClosedWaitTimeout();
-                        if(applicationInfo != null)
-                            processDestroyedTimer.StartTimer(applicationInfo.SwitchbackTimeout);
+                        processDestroyedTimer = new ApplicationClosedWaitTimeout();                        
+                        if (applicationInfo != null)
+                            processDestroyedTimer.Interval = applicationInfo.SwitchbackTimeout;
                         else
-                            processDestroyedTimer.StartTimer(3);
+                            processDestroyedTimer.Interval = 5;
                         processDestroyedTimer.ShowDialog();
-                        if(!processDestroyedTimer.TimerCanceled)
+                        if (!processDestroyedTimer.Canceled)
                         {
                             FinalizeProcessDestroyed();
                         }
@@ -1032,8 +1034,7 @@ namespace NVidia_Surround_Assistant
             logger.Trace("Running Zombie process check tick");
             //Only run zombie check if all the timers are not active
             if ((processDestroyedTimer == null || !processDestroyedTimer.TimerEnabled) && !timerStartWait.Enabled && CheckRunningListForZombies())
-            {
-                
+            {                
                 if (timerZombieCheck.Enabled)//If disabled, App closed while zombie check was busy. Let proper close be handled not zombie switch
                 {
                     timerZombieCheck.Stop();                        
@@ -1041,10 +1042,10 @@ namespace NVidia_Surround_Assistant
                     logger.Info("No more running applications, switching called");
                     //Start timer 
                     processDestroyedTimer = new ApplicationClosedWaitTimeout();
-                    processDestroyedTimer.StartTimer(3);//TODO make global setting of time
+                    processDestroyedTimer.Interval = 5;//TODO make global setting of time
                     processDestroyedTimer.ShowDialog();
                     //Only switch if the action was not cancelled
-                    if (!processDestroyedTimer.TimerCanceled)
+                    if (!processDestroyedTimer.Canceled)
                     {
                         SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
                     }
@@ -1208,7 +1209,7 @@ namespace NVidia_Surround_Assistant
             contextMenuStripLoadApp.AutoSize = true;
         }
 
-        #region GUI Tweaks
+#region GUI Tweaks
         private class NvsaRenderer : ToolStripProfessionalRenderer
         {
             protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs myMenu)
@@ -1225,9 +1226,9 @@ namespace NVidia_Surround_Assistant
                 }
             }
         }
-        #endregion
+#endregion
 
-        #region controls
+#region controls
         private void PictureBoxAddGame_Click(object sender, EventArgs e)
         {
             ApplicationInfo newApp = new ApplicationInfo();
@@ -1238,7 +1239,7 @@ namespace NVidia_Surround_Assistant
             {
                 newApp.DisplayName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
                 newApp.FullPath = Path.GetFullPath(openFileDialog.FileName);
-                newApp.ProcessName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                newApp.ProcessName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);                
 
                 if (AddNewApplication(newApp))
                 {
@@ -1435,6 +1436,6 @@ namespace NVidia_Surround_Assistant
             PictureBox pictureBox = sender as PictureBox;
             pictureBox.BackColor = normalControlColor;
         }
-        #endregion        
+#endregion
     }
 }

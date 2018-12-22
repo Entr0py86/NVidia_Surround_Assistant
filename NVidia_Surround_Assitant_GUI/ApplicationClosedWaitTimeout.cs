@@ -18,7 +18,7 @@ namespace NVidia_Surround_Assistant
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SetForegroundWindow(IntPtr hWnd);
-        int secondsTimeInterval = 0;
+        int secondsTimeInterval = 5;
         bool timerCanceled = false;
         bool nonUserExit = false;
 
@@ -46,7 +46,7 @@ namespace NVidia_Surround_Assistant
         /// <summary>
         /// Was the timer canceld by the user
         /// </summary>
-        public bool TimerCanceled
+        public bool Canceled
         {
             get
             {
@@ -55,12 +55,22 @@ namespace NVidia_Surround_Assistant
         }
 
         /// <summary>
+        /// Set the timer value
+        /// </summary>
+        public int Interval
+        {
+            set
+            {
+                secondsTimeInterval = value;
+            }
+        }
+
+        /// <summary>
         /// Set and Start the timer 
         /// </summary>
         /// <param name="SecondsTimeInterval"></param>
-        public void StartTimer(int SecondsTimeInterval)
+        private void StartTimer()
         {
-            secondsTimeInterval = SecondsTimeInterval;
             labelSeconds.Text = secondsTimeInterval.ToString();
             secondTick.Start();
         }
@@ -134,6 +144,10 @@ namespace NVidia_Surround_Assistant
         private void ApplicationClosedWaitTimeout_Shown(object sender, EventArgs e)
         {
             SetForegroundWindow(hWnd);
+            if(!TimerEnabled)
+            {
+                StartTimer();
+            }
         }
 
         private void ApplicationClosedWaitTimeout_Leave(object sender, EventArgs e)

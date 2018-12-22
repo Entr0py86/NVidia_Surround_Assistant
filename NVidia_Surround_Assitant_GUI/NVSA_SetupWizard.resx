@@ -117,6 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label6.Text" xml:space="preserve">
+    <value>The surround profile stores the monitor setup 
+that is used when NVidia surround is enabled.
+
+Please edit your display (monitor) configuration using 
+NVidia Control Panel or Windows Display Manager now.
+When satisfied with the configuaration click next. 
+
+The surround profile will be saved once you click next.</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>* Each application can have it's own custom
+  surround profile. The default surround profile
+  will automatically be selected when adding a 
+  new application to the detection list.
+  The custom profile's can be added after 
+  setup under settings.</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>The default profile stores the monitor setup 
+that is used when NVidia surround is disabled.
+
+Please edit your display (monitor) configuration using 
+NVidia Control Panel or Windows Display Manager now.
+When satisfied with the configuaration click next. 
+
+The default profile will be saved once you click next.</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

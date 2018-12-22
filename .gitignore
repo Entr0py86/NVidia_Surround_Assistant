@@ -37,3 +37,4 @@ bin/x64/db/nvsa_db.sqlite
 NVSA_Setup_x64/Release/
 NVSA_Setup_x86/Release/
 Setup/setup.exe
+bin/x86/logs/nvsa_log.txt

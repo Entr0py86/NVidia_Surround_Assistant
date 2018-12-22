@@ -44,6 +44,8 @@
             this.pictureBoxSaveWindowPositions_Yes = new System.Windows.Forms.PictureBox();
             this.pictureBoxSaveWindowPositions_No = new System.Windows.Forms.PictureBox();
             this.pictureBoxAbout = new System.Windows.Forms.PictureBox();
+            this.numericUpDownWaitForStart = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownSwitchBackTimeout = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -55,6 +57,8 @@
             this.comboBoxLogLevel = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.pictureBoxStartMax = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartOnStartup_No = new System.Windows.Forms.PictureBox();
             this.pictureBoxStartMin = new System.Windows.Forms.PictureBox();
@@ -79,6 +83,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_Yes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_No)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitForStart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSwitchBackTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -100,7 +106,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label4.Location = new System.Drawing.Point(6, 52);
+            this.label4.Location = new System.Drawing.Point(6, 63);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(159, 15);
             this.label4.TabIndex = 52;
@@ -111,7 +117,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label1.Location = new System.Drawing.Point(6, 83);
+            this.label1.Location = new System.Drawing.Point(6, 99);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 15);
             this.label1.TabIndex = 57;
@@ -128,7 +134,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label9.Location = new System.Drawing.Point(13, 21);
+            this.label9.Location = new System.Drawing.Point(6, 21);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(106, 15);
             this.label9.TabIndex = 81;
@@ -141,7 +147,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label5.Location = new System.Drawing.Point(7, 159);
+            this.label5.Location = new System.Drawing.Point(6, 151);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(134, 15);
             this.label5.TabIndex = 68;
@@ -154,7 +160,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label7.Location = new System.Drawing.Point(13, 27);
+            this.label7.Location = new System.Drawing.Point(6, 26);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(167, 15);
             this.label7.TabIndex = 85;
@@ -165,7 +171,7 @@
             // pictureBoxSetup
             // 
             this.pictureBoxSetup.Image = global::NVidia_Surround_Assistant.Properties.Resources.settings_24x24;
-            this.pictureBoxSetup.Location = new System.Drawing.Point(220, 91);
+            this.pictureBoxSetup.Location = new System.Drawing.Point(225, 92);
             this.pictureBoxSetup.Name = "pictureBoxSetup";
             this.pictureBoxSetup.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxSetup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -179,7 +185,7 @@
             // pictureBoxLoadConfig
             // 
             this.pictureBoxLoadConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.folder_24x24;
-            this.pictureBoxLoadConfig.Location = new System.Drawing.Point(220, 55);
+            this.pictureBoxLoadConfig.Location = new System.Drawing.Point(225, 55);
             this.pictureBoxLoadConfig.Name = "pictureBoxLoadConfig";
             this.pictureBoxLoadConfig.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxLoadConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -193,7 +199,7 @@
             // pictureBoxSaveConfig
             // 
             this.pictureBoxSaveConfig.Image = global::NVidia_Surround_Assistant.Properties.Resources.save_24x24;
-            this.pictureBoxSaveConfig.Location = new System.Drawing.Point(220, 19);
+            this.pictureBoxSaveConfig.Location = new System.Drawing.Point(225, 19);
             this.pictureBoxSaveConfig.Name = "pictureBoxSaveConfig";
             this.pictureBoxSaveConfig.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxSaveConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -237,7 +243,7 @@
             // pictureBoxSaveWindowPositions_Yes
             // 
             this.pictureBoxSaveWindowPositions_Yes.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxSaveWindowPositions_Yes.Location = new System.Drawing.Point(225, 151);
+            this.pictureBoxSaveWindowPositions_Yes.Location = new System.Drawing.Point(225, 144);
             this.pictureBoxSaveWindowPositions_Yes.Name = "pictureBoxSaveWindowPositions_Yes";
             this.pictureBoxSaveWindowPositions_Yes.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxSaveWindowPositions_Yes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -252,7 +258,7 @@
             // pictureBoxSaveWindowPositions_No
             // 
             this.pictureBoxSaveWindowPositions_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxSaveWindowPositions_No.Location = new System.Drawing.Point(225, 151);
+            this.pictureBoxSaveWindowPositions_No.Location = new System.Drawing.Point(225, 144);
             this.pictureBoxSaveWindowPositions_No.Name = "pictureBoxSaveWindowPositions_No";
             this.pictureBoxSaveWindowPositions_No.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxSaveWindowPositions_No.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -266,8 +272,9 @@
             // 
             // pictureBoxAbout
             // 
+            this.pictureBoxAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxAbout.Image = global::NVidia_Surround_Assistant.Properties.Resources.information_24x24;
-            this.pictureBoxAbout.Location = new System.Drawing.Point(156, 577);
+            this.pictureBoxAbout.Location = new System.Drawing.Point(156, 669);
             this.pictureBoxAbout.Name = "pictureBoxAbout";
             this.pictureBoxAbout.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -278,12 +285,48 @@
             this.pictureBoxAbout.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
             this.pictureBoxAbout.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
+            // numericUpDownWaitForStart
+            // 
+            this.numericUpDownWaitForStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.numericUpDownWaitForStart.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.numericUpDownWaitForStart.Location = new System.Drawing.Point(195, 141);
+            this.numericUpDownWaitForStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDownWaitForStart.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitForStart.Name = "numericUpDownWaitForStart";
+            this.numericUpDownWaitForStart.Size = new System.Drawing.Size(90, 20);
+            this.numericUpDownWaitForStart.TabIndex = 70;
+            this.toolTip1.SetToolTip(this.numericUpDownWaitForStart, "How long to wait after application was detected to start checking for exit. Some " +
+        "applications start and exit multiple instantces before actually launching the ap" +
+        "plication. (Max 600 sec = 10 min)");
+            this.numericUpDownWaitForStart.ValueChanged += new System.EventHandler(this.numericUpDownWaitForStart_ValueChanged);
+            // 
+            // numericUpDownSwitchBackTimeout
+            // 
+            this.numericUpDownSwitchBackTimeout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.numericUpDownSwitchBackTimeout.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.numericUpDownSwitchBackTimeout.Location = new System.Drawing.Point(195, 183);
+            this.numericUpDownSwitchBackTimeout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDownSwitchBackTimeout.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.numericUpDownSwitchBackTimeout.Name = "numericUpDownSwitchBackTimeout";
+            this.numericUpDownSwitchBackTimeout.Size = new System.Drawing.Size(90, 20);
+            this.numericUpDownSwitchBackTimeout.TabIndex = 72;
+            this.toolTip1.SetToolTip(this.numericUpDownSwitchBackTimeout, "Timeout for how long to switch back after process exit. (Max 120 sec = 2 min)");
+            this.numericUpDownSwitchBackTimeout.ValueChanged += new System.EventHandler(this.numericUpDownSwitchBackTimeout_ValueChanged);
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label6.Location = new System.Drawing.Point(6, 21);
+            this.label6.Location = new System.Drawing.Point(6, 26);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(159, 15);
             this.label6.TabIndex = 67;
@@ -303,7 +346,7 @@
             this.groupBox1.Controls.Add(this.comboBoxSurroundToNormal_OnClose);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox1.Location = new System.Drawing.Point(12, 291);
+            this.groupBox1.Location = new System.Drawing.Point(12, 380);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(318, 187);
             this.groupBox1.TabIndex = 83;
@@ -312,13 +355,15 @@
             // 
             // comboBoxSurroundToNormal_OnExit
             // 
+            this.comboBoxSurroundToNormal_OnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.comboBoxSurroundToNormal_OnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.comboBoxSurroundToNormal_OnExit.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.comboBoxSurroundToNormal_OnExit.FormattingEnabled = true;
             this.comboBoxSurroundToNormal_OnExit.Items.AddRange(new object[] {
             "Always",
             "Ask",
             "Never"});
-            this.comboBoxSurroundToNormal_OnExit.Location = new System.Drawing.Point(174, 92);
+            this.comboBoxSurroundToNormal_OnExit.Location = new System.Drawing.Point(174, 102);
             this.comboBoxSurroundToNormal_OnExit.Name = "comboBoxSurroundToNormal_OnExit";
             this.comboBoxSurroundToNormal_OnExit.Size = new System.Drawing.Size(121, 23);
             this.comboBoxSurroundToNormal_OnExit.TabIndex = 67;
@@ -329,7 +374,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label3.Location = new System.Drawing.Point(7, 73);
+            this.label3.Location = new System.Drawing.Point(6, 83);
             this.label3.MaximumSize = new System.Drawing.Size(159, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(140, 60);
@@ -338,13 +383,15 @@
             // 
             // comboBoxSurroundToNormal_OnClose
             // 
+            this.comboBoxSurroundToNormal_OnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.comboBoxSurroundToNormal_OnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.comboBoxSurroundToNormal_OnClose.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.comboBoxSurroundToNormal_OnClose.FormattingEnabled = true;
             this.comboBoxSurroundToNormal_OnClose.Items.AddRange(new object[] {
             "Always",
             "Ask",
             "Never"});
-            this.comboBoxSurroundToNormal_OnClose.Location = new System.Drawing.Point(174, 27);
+            this.comboBoxSurroundToNormal_OnClose.Location = new System.Drawing.Point(174, 37);
             this.comboBoxSurroundToNormal_OnClose.Name = "comboBoxSurroundToNormal_OnClose";
             this.comboBoxSurroundToNormal_OnClose.Size = new System.Drawing.Size(121, 23);
             this.comboBoxSurroundToNormal_OnClose.TabIndex = 65;
@@ -355,7 +402,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label2.Location = new System.Drawing.Point(7, 16);
+            this.label2.Location = new System.Drawing.Point(6, 26);
             this.label2.MaximumSize = new System.Drawing.Size(159, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(140, 45);
@@ -370,7 +417,7 @@
             this.groupBox2.Controls.Add(this.comboBoxLogLevel);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox2.Location = new System.Drawing.Point(12, 484);
+            this.groupBox2.Location = new System.Drawing.Point(12, 574);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(318, 88);
             this.groupBox2.TabIndex = 84;
@@ -379,7 +426,9 @@
             // 
             // comboBoxLogLevel
             // 
+            this.comboBoxLogLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.comboBoxLogLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.comboBoxLogLevel.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.comboBoxLogLevel.FormattingEnabled = true;
             this.comboBoxLogLevel.Items.AddRange(new object[] {
             "None",
@@ -388,7 +437,7 @@
             "Info",
             "Error",
             "Fatal"});
-            this.comboBoxLogLevel.Location = new System.Drawing.Point(174, 48);
+            this.comboBoxLogLevel.Location = new System.Drawing.Point(174, 53);
             this.comboBoxLogLevel.Name = "comboBoxLogLevel";
             this.comboBoxLogLevel.Size = new System.Drawing.Size(121, 23);
             this.comboBoxLogLevel.TabIndex = 80;
@@ -399,15 +448,19 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label10.Location = new System.Drawing.Point(13, 48);
+            this.label10.Location = new System.Drawing.Point(6, 53);
             this.label10.MaximumSize = new System.Drawing.Size(159, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(56, 15);
+            this.label10.Size = new System.Drawing.Size(59, 15);
             this.label10.TabIndex = 79;
-            this.label10.Text = "Log level";
+            this.label10.Text = "Log level:";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.numericUpDownSwitchBackTimeout);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.numericUpDownWaitForStart);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.pictureBoxStartMax);
             this.groupBox3.Controls.Add(this.pictureBoxStartOnStartup_No);
@@ -420,15 +473,37 @@
             this.groupBox3.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(318, 114);
+            this.groupBox3.Size = new System.Drawing.Size(318, 223);
             this.groupBox3.TabIndex = 85;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "General";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label13.Location = new System.Drawing.Point(6, 183);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(156, 15);
+            this.label13.TabIndex = 73;
+            this.label13.Text = "Default switchback timeout:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label12.Location = new System.Drawing.Point(6, 141);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(91, 30);
+            this.label12.TabIndex = 71;
+            this.label12.Text = "Default wait for \r\nstart timeout:";
+            // 
             // pictureBoxStartMax
             // 
             this.pictureBoxStartMax.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxStartMax.Location = new System.Drawing.Point(225, 44);
+            this.pictureBoxStartMax.Location = new System.Drawing.Point(225, 55);
             this.pictureBoxStartMax.Name = "pictureBoxStartMax";
             this.pictureBoxStartMax.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxStartMax.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -441,7 +516,7 @@
             // pictureBoxStartOnStartup_No
             // 
             this.pictureBoxStartOnStartup_No.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxStartOnStartup_No.Location = new System.Drawing.Point(225, 13);
+            this.pictureBoxStartOnStartup_No.Location = new System.Drawing.Point(225, 19);
             this.pictureBoxStartOnStartup_No.Name = "pictureBoxStartOnStartup_No";
             this.pictureBoxStartOnStartup_No.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxStartOnStartup_No.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -454,7 +529,7 @@
             // pictureBoxStartMin
             // 
             this.pictureBoxStartMin.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxStartMin.Location = new System.Drawing.Point(225, 44);
+            this.pictureBoxStartMin.Location = new System.Drawing.Point(225, 55);
             this.pictureBoxStartMin.Name = "pictureBoxStartMin";
             this.pictureBoxStartMin.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxStartMin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -467,7 +542,7 @@
             // pictureBoxStartOnStartup_Yes
             // 
             this.pictureBoxStartOnStartup_Yes.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxStartOnStartup_Yes.Location = new System.Drawing.Point(225, 13);
+            this.pictureBoxStartOnStartup_Yes.Location = new System.Drawing.Point(225, 19);
             this.pictureBoxStartOnStartup_Yes.Name = "pictureBoxStartOnStartup_Yes";
             this.pictureBoxStartOnStartup_Yes.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxStartOnStartup_Yes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -480,7 +555,7 @@
             // pictureBoxCloseOnClose
             // 
             this.pictureBoxCloseOnClose.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxCloseOnClose.Location = new System.Drawing.Point(225, 75);
+            this.pictureBoxCloseOnClose.Location = new System.Drawing.Point(225, 92);
             this.pictureBoxCloseOnClose.Name = "pictureBoxCloseOnClose";
             this.pictureBoxCloseOnClose.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxCloseOnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -493,7 +568,7 @@
             // pictureBoxCloseToTray
             // 
             this.pictureBoxCloseToTray.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxCloseToTray.Location = new System.Drawing.Point(225, 75);
+            this.pictureBoxCloseToTray.Location = new System.Drawing.Point(225, 92);
             this.pictureBoxCloseToTray.Name = "pictureBoxCloseToTray";
             this.pictureBoxCloseToTray.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxCloseToTray.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -512,9 +587,9 @@
             this.groupBox4.Controls.Add(this.pictureBoxLoadConfig);
             this.groupBox4.Controls.Add(this.pictureBoxSaveConfig);
             this.groupBox4.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox4.Location = new System.Drawing.Point(12, 133);
+            this.groupBox4.Location = new System.Drawing.Point(12, 241);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(318, 152);
+            this.groupBox4.Size = new System.Drawing.Size(318, 132);
             this.groupBox4.TabIndex = 86;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Surround Configurations";
@@ -524,28 +599,29 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label11.Location = new System.Drawing.Point(13, 99);
+            this.label11.Location = new System.Drawing.Point(6, 99);
             this.label11.MaximumSize = new System.Drawing.Size(159, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(106, 15);
+            this.label11.Size = new System.Drawing.Size(109, 15);
             this.label11.TabIndex = 87;
-            this.label11.Text = "Re-do initial setup";
+            this.label11.Text = "Re-do initial setup:";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label8.Location = new System.Drawing.Point(13, 55);
+            this.label8.Location = new System.Drawing.Point(6, 63);
             this.label8.MaximumSize = new System.Drawing.Size(159, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(92, 30);
             this.label8.TabIndex = 84;
-            this.label8.Text = "Load Surround Configuration";
+            this.label8.Text = "Load Surround Configuration:";
             // 
             // contextMenuStripSaveSurroundConfig
             // 
             this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripSaveSurroundConfig.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveAsDefaultToolStripMenuItem,
             this.saveAsDefaultSurroundToolStripMenuItem,
@@ -581,14 +657,16 @@
             // contextMenuStripLoadSurroundConfig
             // 
             this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripLoadSurroundConfig.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
             this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
             this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
             // 
             // pictureBoxCancel
             // 
+            this.pictureBoxCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxCancel.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxCancel.Location = new System.Drawing.Point(192, 577);
+            this.pictureBoxCancel.Location = new System.Drawing.Point(192, 669);
             this.pictureBoxCancel.Name = "pictureBoxCancel";
             this.pictureBoxCancel.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxCancel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -600,8 +678,9 @@
             // 
             // pictureBoxApply
             // 
+            this.pictureBoxApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxApply.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxApply.Location = new System.Drawing.Point(120, 577);
+            this.pictureBoxApply.Location = new System.Drawing.Point(120, 669);
             this.pictureBoxApply.Name = "pictureBoxApply";
             this.pictureBoxApply.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxApply.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -616,7 +695,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.ClientSize = new System.Drawing.Size(343, 616);
+            this.ClientSize = new System.Drawing.Size(338, 708);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -624,7 +703,6 @@
             this.Controls.Add(this.pictureBoxAbout);
             this.Controls.Add(this.pictureBoxCancel);
             this.Controls.Add(this.pictureBoxApply);
-            this.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
@@ -639,6 +717,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_Yes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveWindowPositions_No)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAbout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitForStart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSwitchBackTimeout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -704,5 +784,9 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadSurroundConfig;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.PictureBox pictureBoxSetup;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown numericUpDownSwitchBackTimeout;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numericUpDownWaitForStart;
     }
 }

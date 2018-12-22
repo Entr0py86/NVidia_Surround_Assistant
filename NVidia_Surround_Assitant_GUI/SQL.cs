@@ -37,7 +37,7 @@ namespace NVidia_Surround_Assistant
 
                     SQL_ExecuteNonQuery("CREATE TABLE ApplicationList ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, enabled BOOLEAN DEFAULT true," +
                         "DisplayName STRING(256), fullPath STRING(260) UNIQUE, image BLOB(20971520), surroundGrid INTEGER DEFAULT 0," +
-                        "pauseOnDetect BOOLEAN DEFAULT true, switchbackTimeout INTEGER DEFAULT 3, waitStartTimeout	INTEGER DEFAULT 3)");//20mb file
+                        "pauseOnDetect BOOLEAN DEFAULT true, switchbackTimeout INTEGER DEFAULT 5, waitStartTimeout	INTEGER DEFAULT 120)");//20mb file
                     SQL_ExecuteNonQuery("CREATE TABLE SurroundConfigs ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Name TEXT UNIQUE, ConfigFile BLOB )");
                 }
                 else
