@@ -35,11 +35,16 @@ namespace NVidia_Surround_Assistant
         /// <summary>
         /// Is the timer curently active
         /// </summary>
+        bool timerEnabled = false;
         public bool TimerEnabled
         {
             get
             {
-                return (secondsTimeInterval > 0);
+                return (timerEnabled);
+            }
+            set
+            {
+                timerEnabled = value;
             }
         }
 
@@ -73,6 +78,7 @@ namespace NVidia_Surround_Assistant
         {
             labelSeconds.Text = secondsTimeInterval.ToString();
             secondTick.Start();
+            TimerEnabled = true;
         }
 
         /// <summary>
@@ -83,6 +89,7 @@ namespace NVidia_Surround_Assistant
             nonUserExit = true;
             timerCanceled = true;
             secondTick.Stop();
+            TimerEnabled = false;
             this.Close();
         }
 
@@ -93,6 +100,7 @@ namespace NVidia_Surround_Assistant
         {
             nonUserExit = true;
             timerCanceled = false;
+            TimerEnabled = false;
             secondTick.Stop();
             this.Close();
         }

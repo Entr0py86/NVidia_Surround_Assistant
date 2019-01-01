@@ -1,5 +1,5 @@
 ﻿#define CLR
-#define DEBUG_GUI
+//#define DEBUG_GUI
 
 using System;
 using System.Collections.Generic;
