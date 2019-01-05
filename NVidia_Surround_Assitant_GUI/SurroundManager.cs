@@ -9,12 +9,6 @@ using MyStuff;
 
 namespace NVidia_Surround_Assistant
 {    
-
-    public enum SM_SetupState
-    {
-
-    };
-
     /// <summary>
     /// Surround manager is a C# wrapper for the c++/cli dll that controls the NVidia API
     /// </summary>
@@ -59,6 +53,7 @@ namespace NVidia_Surround_Assistant
         public bool SM_DoInitialSetup()
         {
             NVSA_SetupWizard setupWizard = new NVSA_SetupWizard();
+
             initConfig = true;
             setupWizard.ShowDialog();
             initConfig = false;
@@ -85,7 +80,7 @@ namespace NVidia_Surround_Assistant
                         return surroundSetupLoaded;
                     }
                     defaultConfig = MainForm.sqlInterface.GetSurroundConfig("Default");
-                    defaultSurroundConfig = MainForm.sqlInterface.GetSurroundConfig("Default Surround");                    
+                    defaultSurroundConfig = MainForm.sqlInterface.GetSurroundConfig("Default Surround");       
                 }
                 mySurround.LoadSetup(false, defaultConfig.Config);
                 mySurround.LoadSetup(true, defaultSurroundConfig.Config);
