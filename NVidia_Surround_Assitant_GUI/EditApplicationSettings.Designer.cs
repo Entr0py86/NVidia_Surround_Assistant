@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditApplicationSettings));
             this.timerWait = new System.Windows.Forms.Timer(this.components);
             this.labelWait = new System.Windows.Forms.Label();
             this.labelGameList = new System.Windows.Forms.Label();
@@ -491,6 +492,7 @@
             this.Controls.Add(this.labelWait);
             this.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EditApplicationSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit Application";

@@ -18,6 +18,7 @@ typedef struct _DisplayManager_Header
 {
 	NVAPI_DataType	fileType;
 	unsigned int	size;
+	bool			sli_enabled;
 }DisplayManager_Header;
 
 typedef struct _DisplayManager_PathInfo
