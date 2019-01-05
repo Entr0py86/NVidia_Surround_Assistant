@@ -161,7 +161,7 @@ namespace NVidia_Surround_Assistant
             switch (currentPanel)
             {
                 case PanelSelect.InfoPanel:
-                    if(MainForm.surroundManager.SM_IsDefaultActive())
+                    if(!MainForm.surroundManager.SM_IsSurroundActive())
                     {
                         ShowPanel(PanelSelect.saveDefaultQuestion);
                     }

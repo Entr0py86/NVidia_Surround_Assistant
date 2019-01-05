@@ -304,6 +304,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "NVSA_SetupWizard";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "NVSA_SetupWizard";
             this.panelSaveSurround.ResumeLayout(false);
             this.panelSaveSurround.PerformLayout();

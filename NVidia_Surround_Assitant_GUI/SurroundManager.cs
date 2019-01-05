@@ -59,8 +59,10 @@ namespace NVidia_Surround_Assistant
         public bool SM_DoInitialSetup()
         {
             NVSA_SetupWizard setupWizard = new NVSA_SetupWizard();
-            setupWizard.Show();
-            
+            initConfig = true;
+            setupWizard.ShowDialog();
+            initConfig = false;
+
             return setupWizard.SetupSuccessful;
         }
 
