@@ -229,11 +229,14 @@ namespace NVidia_Surround_Assistant
 
             if (!SurroundConfigExists(newConfig.Name))
             {
-                AddSurroundConfig(newConfig);
+                if (AddSurroundConfig(newConfig) == -1)
+                    result = false;
             }
             else
             {
-                UpdateSurroundConfig(newConfig);
+                SurroundConfig updateConfig = GetSurroundConfig(newConfig.Name);
+                updateConfig.Config = newConfig.Config;
+                result = UpdateSurroundConfig(updateConfig);
             }
             return result;
         }
@@ -353,7 +356,7 @@ namespace NVidia_Surround_Assistant
         {
             SQLiteParameter[] parameters = { new SQLiteParameter("@id", editConfig.Id), new SQLiteParameter("@name", editConfig.Name), new SQLiteParameter("@config", editConfig.Config) };
 
-            if (SQL_ExecuteNonQuery("UPDATE SurroundConfigs SET Name = @name, ConfigFile = @config WHERE id = @id", parameters) > 0)
+            if (SQL_ExecuteNonQuery("UPDATE SurroundConfigs SET ConfigFile = @config WHERE id = @id", parameters) > 0)
                 return true;
             else
                 return false;

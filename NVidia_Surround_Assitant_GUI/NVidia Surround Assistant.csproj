@@ -202,6 +202,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\delete filled red 48x48.png" />
+    <None Include="Resources\delete filled red 24x24.png" />
+    <None Include="Resources\success green 48x48.png" />
     <None Include="Resources\forward 48x48.png" />
     <None Include="Resources\back 48x48.png" />
     <EmbeddedResource Include="AboutBoxNVSA.resx">
@@ -401,9 +404,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\help 24x24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete filled red 24x24.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\success green 24x24.png" />

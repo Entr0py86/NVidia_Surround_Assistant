@@ -56,6 +56,9 @@
             this.pictureBoxSettings = new System.Windows.Forms.PictureBox();
             this.pictureBoxAddGame = new System.Windows.Forms.PictureBox();
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
+            this.newProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripDeleteProfiles = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteSurroundProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_SystemTray.SuspendLayout();
             this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
@@ -99,11 +102,12 @@
             this.toolStripMenuItem_ToggelSurround,
             this.toolStripMenuItem_LoadSurroundFile,
             this.toolStripMenuItem_SaveSurroundFile,
+            this.deleteSurroundProfileToolStripMenuItem,
             this.toolStripSeparator1,
             this.toolStripMenuItem_Quit});
             this.contextMenuStrip_SystemTray.Name = "contextMenuStrip_SystemTray";
             this.contextMenuStrip_SystemTray.ShowImageMargin = false;
-            this.contextMenuStrip_SystemTray.Size = new System.Drawing.Size(187, 148);
+            this.contextMenuStrip_SystemTray.Size = new System.Drawing.Size(187, 170);
             this.contextMenuStrip_SystemTray.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_SystemTray_Opening);
             // 
             // toolStripMenuItem_AddApp
@@ -149,13 +153,12 @@
             this.toolStripMenuItem_LoadSurroundFile.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolStripMenuItem_LoadSurroundFile.Name = "toolStripMenuItem_LoadSurroundFile";
             this.toolStripMenuItem_LoadSurroundFile.Size = new System.Drawing.Size(186, 22);
-            this.toolStripMenuItem_LoadSurroundFile.Text = "Apply Surround File";
+            this.toolStripMenuItem_LoadSurroundFile.Text = "Apply Surround Profile";
             // 
             // contextMenuStripLoadSurroundConfig
             // 
             this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
-            this.contextMenuStripLoadSurroundConfig.OwnerItem = this.toolStripMenuItem_LoadSurroundFile;
             this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
             this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
             // 
@@ -165,7 +168,7 @@
             this.toolStripMenuItem_SaveSurroundFile.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.toolStripMenuItem_SaveSurroundFile.Name = "toolStripMenuItem_SaveSurroundFile";
             this.toolStripMenuItem_SaveSurroundFile.Size = new System.Drawing.Size(186, 22);
-            this.toolStripMenuItem_SaveSurroundFile.Text = "Save Surround File";
+            this.toolStripMenuItem_SaveSurroundFile.Text = "Save Surround Profile";
             // 
             // contextMenuStripSaveSurroundConfig
             // 
@@ -175,7 +178,6 @@
             this.saveAsDefaultSurroundToolStripMenuItem,
             this.saveAsToolStripMenuItem});
             this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
-            this.contextMenuStripSaveSurroundConfig.OwnerItem = this.toolStripMenuItem_SaveSurroundFile;
             this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
             this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
             // 
@@ -197,11 +199,12 @@
             // 
             // saveAsToolStripMenuItem
             // 
+            this.saveAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newProfileToolStripMenuItem});
             this.saveAsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -305,6 +308,31 @@
             this.thumbGridView.Size = new System.Drawing.Size(1056, 414);
             this.thumbGridView.TabIndex = 5;
             // 
+            // newProfileToolStripMenuItem
+            // 
+            this.newProfileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.newProfileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.newProfileToolStripMenuItem.Name = "newProfileToolStripMenuItem";
+            this.newProfileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newProfileToolStripMenuItem.Text = "New Profile";
+            this.newProfileToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // contextMenuStripDeleteProfiles
+            // 
+            this.contextMenuStripDeleteProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripDeleteProfiles.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripDeleteProfiles.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripDeleteProfiles.ShowImageMargin = false;
+            this.contextMenuStripDeleteProfiles.Size = new System.Drawing.Size(36, 4);
+            // 
+            // deleteSurroundProfileToolStripMenuItem
+            // 
+            this.deleteSurroundProfileToolStripMenuItem.DropDown = this.contextMenuStripDeleteProfiles;
+            this.deleteSurroundProfileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.deleteSurroundProfileToolStripMenuItem.Name = "deleteSurroundProfileToolStripMenuItem";
+            this.deleteSurroundProfileToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.deleteSurroundProfileToolStripMenuItem.Text = "Delete Surround Profile";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,6 +393,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveAsDefaultSurroundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadSurroundConfig;
+        private System.Windows.Forms.ToolStripMenuItem newProfileToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripDeleteProfiles;
+        private System.Windows.Forms.ToolStripMenuItem deleteSurroundProfileToolStripMenuItem;
     }
 }
 

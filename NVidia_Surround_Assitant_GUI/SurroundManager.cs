@@ -203,9 +203,9 @@ namespace NVidia_Surround_Assistant
                 surroundConfig.Config = mySurround.SaveSetup();
                 if (surroundConfig.Config != null)
                 {
-                    MainForm.sqlInterface.SetSurroundConfig(surroundConfig);
-                    MainForm.logger.Info("DM: Saving to file successful");
-                    result = true;
+                    result = MainForm.sqlInterface.SetSurroundConfig(surroundConfig);
+                    if(result)
+                        MainForm.logger.Info("DM: Saving to file successful");                    
                 }
             }
             catch (DisplayManager_Exception ex)
@@ -229,9 +229,9 @@ namespace NVidia_Surround_Assistant
                 surroundConfig.Config = mySurround.SaveSetup();
                 if (surroundConfig.Config != null)
                 {
-                    MainForm.sqlInterface.SetSurroundConfig(surroundConfig);
-                    MainForm.logger.Info("DM: Saving to file successful");
-                    result = true;
+                    result = MainForm.sqlInterface.SetSurroundConfig(surroundConfig);
+                    if(result)
+                        MainForm.logger.Info("DM: Saving to file successful");                    
                 }
             }
             catch (DisplayManager_Exception ex)

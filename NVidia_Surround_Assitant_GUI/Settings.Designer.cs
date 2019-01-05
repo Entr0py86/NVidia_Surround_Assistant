@@ -68,13 +68,17 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.contextMenuStripSaveSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsDefaultSurroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLoadSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pictureBoxCancel = new System.Windows.Forms.PictureBox();
             this.pictureBoxApply = new System.Windows.Forms.PictureBox();
+            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsDefaultSurroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripSaveSurroundConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label14 = new System.Windows.Forms.Label();
+            this.pictureBoxDeleteProfile = new System.Windows.Forms.PictureBox();
+            this.contextMenuStripDeleteProfiles = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSetup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoadConfig)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSaveConfig)).BeginInit();
@@ -96,9 +100,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseOnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseToTray)).BeginInit();
             this.groupBox4.SuspendLayout();
-            this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxApply)).BeginInit();
+            this.contextMenuStripSaveSurroundConfig.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDeleteProfile)).BeginInit();
             this.SuspendLayout();
             // 
             // label4
@@ -162,16 +167,16 @@
             this.label7.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.label7.Location = new System.Drawing.Point(6, 26);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(167, 15);
+            this.label7.Size = new System.Drawing.Size(129, 15);
             this.label7.TabIndex = 85;
-            this.label7.Text = "Save Surround Configuration:";
+            this.label7.Text = "Save Surround Profile:";
             this.toolTip1.SetToolTip(this.label7, "An attempt will be made to save all window positions before the surround switch a" +
         "nd will be restored after switching back");
             // 
             // pictureBoxSetup
             // 
             this.pictureBoxSetup.Image = global::NVidia_Surround_Assistant.Properties.Resources.settings_24x24;
-            this.pictureBoxSetup.Location = new System.Drawing.Point(225, 92);
+            this.pictureBoxSetup.Location = new System.Drawing.Point(225, 127);
             this.pictureBoxSetup.Name = "pictureBoxSetup";
             this.pictureBoxSetup.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxSetup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -274,7 +279,7 @@
             // 
             this.pictureBoxAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxAbout.Image = global::NVidia_Surround_Assistant.Properties.Resources.information_24x24;
-            this.pictureBoxAbout.Location = new System.Drawing.Point(156, 669);
+            this.pictureBoxAbout.Location = new System.Drawing.Point(156, 723);
             this.pictureBoxAbout.Name = "pictureBoxAbout";
             this.pictureBoxAbout.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -290,7 +295,7 @@
             this.numericUpDownWaitForStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.numericUpDownWaitForStart.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.numericUpDownWaitForStart.Location = new System.Drawing.Point(195, 141);
-            this.numericUpDownWaitForStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDownWaitForStart.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDownWaitForStart.Maximum = new decimal(new int[] {
             600,
             0,
@@ -302,14 +307,13 @@
             this.toolTip1.SetToolTip(this.numericUpDownWaitForStart, "How long to wait after application was detected to start checking for exit. Some " +
         "applications start and exit multiple instantces before actually launching the ap" +
         "plication. (Max 600 sec = 10 min)");
-            this.numericUpDownWaitForStart.ValueChanged += new System.EventHandler(this.numericUpDownWaitForStart_ValueChanged);
             // 
             // numericUpDownSwitchBackTimeout
             // 
             this.numericUpDownSwitchBackTimeout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.numericUpDownSwitchBackTimeout.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.numericUpDownSwitchBackTimeout.Location = new System.Drawing.Point(195, 183);
-            this.numericUpDownSwitchBackTimeout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDownSwitchBackTimeout.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDownSwitchBackTimeout.Maximum = new decimal(new int[] {
             120,
             0,
@@ -319,7 +323,6 @@
             this.numericUpDownSwitchBackTimeout.Size = new System.Drawing.Size(90, 20);
             this.numericUpDownSwitchBackTimeout.TabIndex = 72;
             this.toolTip1.SetToolTip(this.numericUpDownSwitchBackTimeout, "Timeout for how long to switch back after process exit. (Max 120 sec = 2 min)");
-            this.numericUpDownSwitchBackTimeout.ValueChanged += new System.EventHandler(this.numericUpDownSwitchBackTimeout_ValueChanged);
             // 
             // label6
             // 
@@ -346,7 +349,7 @@
             this.groupBox1.Controls.Add(this.comboBoxSurroundToNormal_OnClose);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox1.Location = new System.Drawing.Point(12, 380);
+            this.groupBox1.Location = new System.Drawing.Point(12, 414);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(318, 187);
             this.groupBox1.TabIndex = 83;
@@ -417,7 +420,7 @@
             this.groupBox2.Controls.Add(this.comboBoxLogLevel);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.groupBox2.Location = new System.Drawing.Point(12, 574);
+            this.groupBox2.Location = new System.Drawing.Point(12, 607);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(318, 88);
             this.groupBox2.TabIndex = 84;
@@ -441,7 +444,6 @@
             this.comboBoxLogLevel.Name = "comboBoxLogLevel";
             this.comboBoxLogLevel.Size = new System.Drawing.Size(121, 23);
             this.comboBoxLogLevel.TabIndex = 80;
-            this.comboBoxLogLevel.SelectedIndexChanged += new System.EventHandler(this.comboBoxLogLevel_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -580,6 +582,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.pictureBoxDeleteProfile);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.pictureBoxSetup);
             this.groupBox4.Controls.Add(this.label7);
@@ -589,17 +593,17 @@
             this.groupBox4.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.groupBox4.Location = new System.Drawing.Point(12, 241);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(318, 132);
+            this.groupBox4.Size = new System.Drawing.Size(318, 167);
             this.groupBox4.TabIndex = 86;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Surround Configurations";
+            this.groupBox4.Text = "Surround Profiles";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.label11.Location = new System.Drawing.Point(6, 99);
+            this.label11.Location = new System.Drawing.Point(6, 134);
             this.label11.MaximumSize = new System.Drawing.Size(159, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(109, 15);
@@ -614,21 +618,45 @@
             this.label8.Location = new System.Drawing.Point(6, 63);
             this.label8.MaximumSize = new System.Drawing.Size(159, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(92, 30);
+            this.label8.Size = new System.Drawing.Size(130, 15);
             this.label8.TabIndex = 84;
-            this.label8.Text = "Load Surround Configuration:";
+            this.label8.Text = "Load Surround Profile:";
             // 
-            // contextMenuStripSaveSurroundConfig
+            // contextMenuStripLoadSurroundConfig
             // 
-            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.contextMenuStripSaveSurroundConfig.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveAsDefaultToolStripMenuItem,
-            this.saveAsDefaultSurroundToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
-            this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
-            this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripLoadSurroundConfig.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
+            this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
+            // 
+            // pictureBoxCancel
+            // 
+            this.pictureBoxCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBoxCancel.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
+            this.pictureBoxCancel.Location = new System.Drawing.Point(192, 723);
+            this.pictureBoxCancel.Name = "pictureBoxCancel";
+            this.pictureBoxCancel.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxCancel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxCancel.TabIndex = 56;
+            this.pictureBoxCancel.TabStop = false;
+            this.pictureBoxCancel.Click += new System.EventHandler(this.pictureBoxCancel_Click);
+            this.pictureBoxCancel.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxCancel.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            // 
+            // pictureBoxApply
+            // 
+            this.pictureBoxApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBoxApply.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
+            this.pictureBoxApply.Location = new System.Drawing.Point(120, 723);
+            this.pictureBoxApply.Name = "pictureBoxApply";
+            this.pictureBoxApply.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxApply.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxApply.TabIndex = 55;
+            this.pictureBoxApply.TabStop = false;
+            this.pictureBoxApply.Click += new System.EventHandler(this.pictureBoxApply_Click);
+            this.pictureBoxApply.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBoxApply.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
             // saveAsDefaultToolStripMenuItem
             // 
@@ -648,54 +676,72 @@
             // 
             // saveAsToolStripMenuItem
             // 
+            this.saveAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newItemToolStripMenuItem});
             this.saveAsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
-            // contextMenuStripLoadSurroundConfig
+            // contextMenuStripSaveSurroundConfig
             // 
-            this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.contextMenuStripLoadSurroundConfig.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
-            this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
-            this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
+            this.contextMenuStripSaveSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripSaveSurroundConfig.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripSaveSurroundConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveAsDefaultToolStripMenuItem,
+            this.saveAsDefaultSurroundToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
+            this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
+            this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
+            this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
             // 
-            // pictureBoxCancel
+            // newItemToolStripMenuItem
             // 
-            this.pictureBoxCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBoxCancel.Image = global::NVidia_Surround_Assistant.Properties.Resources.delete_filled_red_24x24;
-            this.pictureBoxCancel.Location = new System.Drawing.Point(192, 669);
-            this.pictureBoxCancel.Name = "pictureBoxCancel";
-            this.pictureBoxCancel.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxCancel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxCancel.TabIndex = 56;
-            this.pictureBoxCancel.TabStop = false;
-            this.pictureBoxCancel.Click += new System.EventHandler(this.pictureBoxCancel_Click);
-            this.pictureBoxCancel.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxCancel.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.newItemToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.newItemToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.newItemToolStripMenuItem.Name = "newItemToolStripMenuItem";
+            this.newItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newItemToolStripMenuItem.Text = "New Profile";
+            this.newItemToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
-            // pictureBoxApply
+            // label14
             // 
-            this.pictureBoxApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBoxApply.Image = global::NVidia_Surround_Assistant.Properties.Resources.success_green_24x24;
-            this.pictureBoxApply.Location = new System.Drawing.Point(120, 669);
-            this.pictureBoxApply.Name = "pictureBoxApply";
-            this.pictureBoxApply.Size = new System.Drawing.Size(30, 30);
-            this.pictureBoxApply.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxApply.TabIndex = 55;
-            this.pictureBoxApply.TabStop = false;
-            this.pictureBoxApply.Click += new System.EventHandler(this.pictureBoxApply_Click);
-            this.pictureBoxApply.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
-            this.pictureBoxApply.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.label14.Location = new System.Drawing.Point(6, 99);
+            this.label14.MaximumSize = new System.Drawing.Size(159, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(138, 15);
+            this.label14.TabIndex = 89;
+            this.label14.Text = "Delete Surround Profile:";
+            // 
+            // pictureBoxDeleteProfile
+            // 
+            this.pictureBoxDeleteProfile.Image = global::NVidia_Surround_Assistant.Properties.Resources.close24x24;
+            this.pictureBoxDeleteProfile.Location = new System.Drawing.Point(225, 91);
+            this.pictureBoxDeleteProfile.Name = "pictureBoxDeleteProfile";
+            this.pictureBoxDeleteProfile.Size = new System.Drawing.Size(30, 30);
+            this.pictureBoxDeleteProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxDeleteProfile.TabIndex = 88;
+            this.pictureBoxDeleteProfile.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxDeleteProfile, "Load Display Setup");
+            this.pictureBoxDeleteProfile.Click += new System.EventHandler(this.pictureBoxDeleteProfile_Click);
+            // 
+            // contextMenuStripDeleteProfiles
+            // 
+            this.contextMenuStripDeleteProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripDeleteProfiles.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripDeleteProfiles.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripDeleteProfiles.ShowImageMargin = false;
+            this.contextMenuStripDeleteProfiles.Size = new System.Drawing.Size(36, 4);
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.ClientSize = new System.Drawing.Size(338, 708);
+            this.ClientSize = new System.Drawing.Size(338, 762);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -734,9 +780,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseToTray)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.contextMenuStripSaveSurroundConfig.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxApply)).EndInit();
+            this.contextMenuStripSaveSurroundConfig.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDeleteProfile)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -777,10 +824,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxSurroundToNormal_OnClose;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripSaveSurroundConfig;
-        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultSurroundToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLoadSurroundConfig;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.PictureBox pictureBoxSetup;
@@ -788,5 +831,13 @@
         private System.Windows.Forms.NumericUpDown numericUpDownSwitchBackTimeout;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown numericUpDownWaitForStart;
+        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultSurroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripSaveSurroundConfig;
+        private System.Windows.Forms.ToolStripMenuItem newItemToolStripMenuItem;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.PictureBox pictureBoxDeleteProfile;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripDeleteProfiles;
     }
 }

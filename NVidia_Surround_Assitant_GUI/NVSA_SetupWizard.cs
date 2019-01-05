@@ -243,8 +243,8 @@ namespace NVidia_Surround_Assistant
             if ((sender as Panel).Visible)
             {
                 questionVisible = true;
-                pictureBoxBack.Image = Properties.Resources.delete_filled_red_24x24;
-                pictureBoxForward.Image = Properties.Resources.success_green_24x24;//TODO make bigger images
+                pictureBoxBack.Image = Properties.Resources.delete_filled_red_48x48;
+                pictureBoxForward.Image = Properties.Resources.success_green_48x48;
             }
             else
             {
@@ -258,7 +258,7 @@ namespace NVidia_Surround_Assistant
         {
             if (panelFinished.Visible)
             {
-                pictureBoxForward.Image = Properties.Resources.success_green_24x24;//TODO make bigger images
+                pictureBoxForward.Image = Properties.Resources.success_green_48x48;
             }
             else
             {

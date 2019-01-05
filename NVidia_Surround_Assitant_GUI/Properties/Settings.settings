@@ -30,10 +30,10 @@
       <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="WaitForStartTimeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">120</Value>
     </Setting>
     <Setting Name="SwitchbackTImeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">120</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

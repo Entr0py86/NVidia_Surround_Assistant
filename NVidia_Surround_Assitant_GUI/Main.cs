@@ -1,6 +1,5 @@
 ﻿#define CLR
 //#define DEBUG_GUI
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -1042,7 +1041,7 @@ namespace NVidia_Surround_Assistant
                     logger.Info("No more running applications, switching called");
                     //Start timer 
                     processDestroyedTimer = new ApplicationClosedWaitTimeout();
-                    processDestroyedTimer.Interval = 5;//TODO make global setting of time
+                    processDestroyedTimer.Interval = 5;
                     processDestroyedTimer.ShowDialog();
                     //Only switch if the action was not cancelled
                     if (!processDestroyedTimer.Canceled)
@@ -1290,23 +1289,56 @@ namespace NVidia_Surround_Assistant
 
         private void populateContextMenuStripLoadSurroundConfig()
         {
-            ToolStripMenuItem toolStripButton;
+            ToolStripMenuItem toolStripButtonLoad;
+            ToolStripMenuItem toolStripButtonOverwrite;
+            ToolStripMenuItem toolStripButtonDelete;
+            int saveAsMenuItemIndex = contextMenuStripSaveSurroundConfig.Items.IndexOfKey("saveAsToolStripMenuItem");
 
             contextMenuStripLoadSurroundConfig.AutoSize = false;
             contextMenuStripLoadSurroundConfig.SuspendLayout();
+            contextMenuStripSaveSurroundConfig.AutoSize = false;
+            contextMenuStripSaveSurroundConfig.SuspendLayout();
+            contextMenuStripDeleteProfiles.AutoSize = false;
+            contextMenuStripDeleteProfiles.SuspendLayout();
             if (contextMenuStripLoadSurroundConfig.Items.Count > 0)
                 contextMenuStripLoadSurroundConfig.Items.Clear();
-
-            foreach (SurroundConfig surroundConfig in sqlInterface.GetSurroundConfigList())
+            if ((contextMenuStripSaveSurroundConfig.Items[saveAsMenuItemIndex] as ToolStripMenuItem).DropDownItems.Count > 0)
             {
-                toolStripButton = new ToolStripMenuItem(surroundConfig.Name, null, contextMenuStripLoadSurroundConfig_Click);
-                toolStripButton.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-                toolStripButton.BackColor = normalControlColor;
-                toolStripButton.Tag = surroundConfig;
-                contextMenuStripLoadSurroundConfig.Items.Add(toolStripButton);
+                ToolStripItem toolStripButtonNewProfile = (contextMenuStripSaveSurroundConfig.Items[saveAsMenuItemIndex] as ToolStripMenuItem).DropDownItems[0];
+                (contextMenuStripSaveSurroundConfig.Items[saveAsMenuItemIndex] as ToolStripMenuItem).DropDownItems.Clear();
+                (contextMenuStripSaveSurroundConfig.Items[saveAsMenuItemIndex] as ToolStripMenuItem).DropDownItems.Add(toolStripButtonNewProfile);
+            }
+            if (contextMenuStripDeleteProfiles.Items.Count > 0)
+                contextMenuStripDeleteProfiles.Items.Clear();
+
+            foreach (SurroundConfig surroundConfig in MainForm.sqlInterface.GetSurroundConfigList())
+            {
+                toolStripButtonLoad = new ToolStripMenuItem(surroundConfig.Name, null, contextMenuStripLoadSurroundConfig_Click);
+                toolStripButtonLoad.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+                toolStripButtonLoad.BackColor = MainForm.normalControlColor;
+                toolStripButtonLoad.Tag = surroundConfig;
+                contextMenuStripLoadSurroundConfig.Items.Add(toolStripButtonLoad);
+                //Add overwrite event
+                toolStripButtonOverwrite = new ToolStripMenuItem(surroundConfig.Name, null, overwriteAsToolStripMenuItem_Click);
+                toolStripButtonOverwrite.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+                toolStripButtonOverwrite.BackColor = MainForm.normalControlColor;
+                toolStripButtonOverwrite.Tag = surroundConfig;
+                (contextMenuStripSaveSurroundConfig.Items[saveAsMenuItemIndex] as ToolStripMenuItem).DropDownItems.Add(toolStripButtonOverwrite);
+                //Add delete event
+                toolStripButtonDelete = new ToolStripMenuItem(surroundConfig.Name, null, deleteToolStripMenuItem_Click);
+                toolStripButtonDelete.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+                toolStripButtonDelete.BackColor = MainForm.normalControlColor;
+                toolStripButtonDelete.Tag = surroundConfig;
+                contextMenuStripDeleteProfiles.Items.Add(toolStripButtonDelete);
             }
             contextMenuStripLoadSurroundConfig.ResumeLayout();
             contextMenuStripLoadSurroundConfig.AutoSize = true;
+
+            contextMenuStripSaveSurroundConfig.ResumeLayout();
+            contextMenuStripSaveSurroundConfig.AutoSize = true;
+
+            contextMenuStripDeleteProfiles.ResumeLayout();
+            contextMenuStripDeleteProfiles.AutoSize = true;
         }
 
         private void contextMenuStripLoadSurroundConfig_Click(object sender, EventArgs e)
@@ -1344,6 +1376,34 @@ namespace NVidia_Surround_Assistant
                 if (surroundManager.SM_SaveCurrentSetup(popup.surroundConfigName))
                 {
                     MyMessageBox.Show(String.Format("Setup ({0}) saved succesfully.", popup.surroundConfigName));
+                    populateContextMenuStripLoadSurroundConfig();
+                }
+            }
+        }
+
+        private void overwriteAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+
+            if (menuItem != null)
+            {
+                if (MainForm.surroundManager.SM_SaveCurrentSetup(menuItem.Text))
+                {
+                    MyMessageBox.Show(String.Format("Setup ({0}) saved succesfully.", menuItem.Text));
+                }
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+
+            if (menuItem != null)
+            {
+                if (MainForm.sqlInterface.DeleteSurroundConfig(menuItem.Text))
+                {
+                    MyMessageBox.Show(String.Format("Setup ({0}) deleted succesfully.", menuItem.Text));
+                    populateContextMenuStripLoadSurroundConfig();
                 }
             }
         }
@@ -1439,3 +1499,4 @@ namespace NVidia_Surround_Assistant
 #endregion
     }
 }
+ 

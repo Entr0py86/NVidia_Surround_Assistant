@@ -1790,10 +1790,13 @@
         ////////////////////////
 </value>
   </data>
-  <metadata name="contextMenuStripSaveSurroundConfig.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 62</value>
-  </metadata>
   <metadata name="contextMenuStripLoadSurroundConfig.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>279, 62</value>
+    <value>505, 17</value>
+  </metadata>
+  <metadata name="contextMenuStripSaveSurroundConfig.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>244, 17</value>
+  </metadata>
+  <metadata name="contextMenuStripDeleteProfiles.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>767, 17</value>
   </metadata>
 </root>
