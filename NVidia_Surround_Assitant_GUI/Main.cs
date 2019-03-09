@@ -17,10 +17,10 @@ using System.IO;
 using NLog;
 using NLog.Windows.Forms;
 using System.Diagnostics;
-using NLog.Config;
 using NLog.Targets;
 using System.Reflection;
 using MyStuff;
+using NLog.Config;
 
 namespace NVidia_Surround_Assistant
 {
@@ -1013,6 +1013,10 @@ namespace NVidia_Surround_Assistant
             {
                 runningApplicationsListSempahore.Release();
             }
+            catch(System.NullReferenceException)
+            {
+                runningApplicationsListSempahore.Release();
+            }
         }
         
         //Process the closed/destryed apllications
@@ -1039,14 +1043,18 @@ namespace NVidia_Surround_Assistant
                     timerZombieCheck.Stop();                        
                     logger.Debug("Zombie check complete");
                     logger.Info("No more running applications, switching called");
-                    //Start timer 
-                    processDestroyedTimer = new ApplicationClosedWaitTimeout();
-                    processDestroyedTimer.Interval = 5;
-                    processDestroyedTimer.ShowDialog();
-                    //Only switch if the action was not cancelled
-                    if (!processDestroyedTimer.Canceled)
+                    //Only start timer if still in surround mode
+                    if (surroundManager.SM_IsSurroundActive())
                     {
-                        SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
+                        //Start timer 
+                        processDestroyedTimer = new ApplicationClosedWaitTimeout();
+                        processDestroyedTimer.Interval = 5;
+                        processDestroyedTimer.ShowDialog();
+                        //Only switch if the action was not cancelled
+                        if (!processDestroyedTimer.Canceled)
+                        {
+                            SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
+                        }
                     }
                 }
             }
