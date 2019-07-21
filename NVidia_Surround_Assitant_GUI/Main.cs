@@ -1429,11 +1429,11 @@ namespace NVidia_Surround_Assistant
         {
             if (!surroundManager.SM_IsDefaultActive())
             {
-                toolStripMenuItem_ToggelSurround.Text = "Switch To Normal Mode";
+                toolStripMenuItem_ToggelSurround.Text = "Switch To Default Profile";
             }
             else
             {
-                toolStripMenuItem_ToggelSurround.Text = "Switch To Surround Mode";
+                toolStripMenuItem_ToggelSurround.Text = "Switch To Default Surround Profile";
             }
         }
 

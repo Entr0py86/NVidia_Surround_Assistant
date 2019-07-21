@@ -47,6 +47,9 @@
             this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsDefaultSurroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSurroundProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripDeleteProfiles = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxLogs = new System.Windows.Forms.RichTextBox();
@@ -56,9 +59,6 @@
             this.pictureBoxSettings = new System.Windows.Forms.PictureBox();
             this.pictureBoxAddGame = new System.Windows.Forms.PictureBox();
             this.thumbGridView = new NVidia_Surround_Assistant.ThumbGridView();
-            this.newProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripDeleteProfiles = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteSurroundProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_SystemTray.SuspendLayout();
             this.contextMenuStripSaveSurroundConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSwitchSurround)).BeginInit();
@@ -159,6 +159,7 @@
             // 
             this.contextMenuStripLoadSurroundConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.contextMenuStripLoadSurroundConfig.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripLoadSurroundConfig.OwnerItem = this.toolStripMenuItem_LoadSurroundFile;
             this.contextMenuStripLoadSurroundConfig.ShowImageMargin = false;
             this.contextMenuStripLoadSurroundConfig.Size = new System.Drawing.Size(36, 4);
             // 
@@ -178,6 +179,7 @@
             this.saveAsDefaultSurroundToolStripMenuItem,
             this.saveAsToolStripMenuItem});
             this.contextMenuStripSaveSurroundConfig.Name = "contextMenuStripSaveSurroundConfig";
+            this.contextMenuStripSaveSurroundConfig.OwnerItem = this.toolStripMenuItem_SaveSurroundFile;
             this.contextMenuStripSaveSurroundConfig.ShowImageMargin = false;
             this.contextMenuStripSaveSurroundConfig.Size = new System.Drawing.Size(181, 70);
             // 
@@ -205,6 +207,32 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
+            // 
+            // newProfileToolStripMenuItem
+            // 
+            this.newProfileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.newProfileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.newProfileToolStripMenuItem.Name = "newProfileToolStripMenuItem";
+            this.newProfileToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.newProfileToolStripMenuItem.Text = "New Profile";
+            this.newProfileToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // deleteSurroundProfileToolStripMenuItem
+            // 
+            this.deleteSurroundProfileToolStripMenuItem.DropDown = this.contextMenuStripDeleteProfiles;
+            this.deleteSurroundProfileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.deleteSurroundProfileToolStripMenuItem.Name = "deleteSurroundProfileToolStripMenuItem";
+            this.deleteSurroundProfileToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.deleteSurroundProfileToolStripMenuItem.Text = "Delete Surround Profile";
+            // 
+            // contextMenuStripDeleteProfiles
+            // 
+            this.contextMenuStripDeleteProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.contextMenuStripDeleteProfiles.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripDeleteProfiles.Name = "contextMenuStripLoadSurroundConfig";
+            this.contextMenuStripDeleteProfiles.OwnerItem = this.deleteSurroundProfileToolStripMenuItem;
+            this.contextMenuStripDeleteProfiles.ShowImageMargin = false;
+            this.contextMenuStripDeleteProfiles.Size = new System.Drawing.Size(36, 4);
             // 
             // toolStripSeparator1
             // 
@@ -307,31 +335,6 @@
             this.thumbGridView.Name = "thumbGridView";
             this.thumbGridView.Size = new System.Drawing.Size(1056, 414);
             this.thumbGridView.TabIndex = 5;
-            // 
-            // newProfileToolStripMenuItem
-            // 
-            this.newProfileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.newProfileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.newProfileToolStripMenuItem.Name = "newProfileToolStripMenuItem";
-            this.newProfileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.newProfileToolStripMenuItem.Text = "New Profile";
-            this.newProfileToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
-            // 
-            // contextMenuStripDeleteProfiles
-            // 
-            this.contextMenuStripDeleteProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.contextMenuStripDeleteProfiles.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripDeleteProfiles.Name = "contextMenuStripLoadSurroundConfig";
-            this.contextMenuStripDeleteProfiles.ShowImageMargin = false;
-            this.contextMenuStripDeleteProfiles.Size = new System.Drawing.Size(36, 4);
-            // 
-            // deleteSurroundProfileToolStripMenuItem
-            // 
-            this.deleteSurroundProfileToolStripMenuItem.DropDown = this.contextMenuStripDeleteProfiles;
-            this.deleteSurroundProfileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.deleteSurroundProfileToolStripMenuItem.Name = "deleteSurroundProfileToolStripMenuItem";
-            this.deleteSurroundProfileToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.deleteSurroundProfileToolStripMenuItem.Text = "Delete Surround Profile";
             // 
             // MainForm
             // 

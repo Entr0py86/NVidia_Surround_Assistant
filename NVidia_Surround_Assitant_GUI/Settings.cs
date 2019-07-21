@@ -23,6 +23,8 @@ namespace NVidia_Surround_Assistant
         int waitForStartTimeout = NVidia_Surround_Assistant.Properties.Settings.Default.WaitForStartTimeout;
         int switchbackTimeout = NVidia_Surround_Assistant.Properties.Settings.Default.SwitchbackTImeout;
 
+        //TODO confirm windows start-up task exisits when changing settings
+
         bool settingsNotSaved = false;
 
         public Settings()
@@ -112,7 +114,7 @@ namespace NVidia_Surround_Assistant
                 // Create a trigger that will fire the task at this time every other day
                 td.Triggers.Add(new LogonTrigger
                 {
-                    Delay = new TimeSpan(0),
+                    Delay = new TimeSpan(0, 0, 30),
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name
                 });
 
