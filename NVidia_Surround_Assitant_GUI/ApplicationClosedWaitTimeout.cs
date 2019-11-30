@@ -19,7 +19,6 @@ namespace NVidia_Surround_Assistant
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SetForegroundWindow(IntPtr hWnd);
         int secondsTimeInterval = 5;
-        bool timerCanceled = false;
         bool nonUserExit = false;
 
         public IntPtr hWnd
@@ -45,17 +44,6 @@ namespace NVidia_Surround_Assistant
             set
             {
                 timerEnabled = value;
-            }
-        }
-
-        /// <summary>
-        /// Was the timer canceld by the user
-        /// </summary>
-        public bool Canceled
-        {
-            get
-            {
-                return timerCanceled;
             }
         }
 
@@ -87,9 +75,9 @@ namespace NVidia_Surround_Assistant
         public void CancelTimerAndClose()
         {
             nonUserExit = true;
-            timerCanceled = true;
             secondTick.Stop();
             TimerEnabled = false;
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
@@ -99,9 +87,9 @@ namespace NVidia_Surround_Assistant
         public void CloseForm()
         {
             nonUserExit = true;
-            timerCanceled = false;
             TimerEnabled = false;
             secondTick.Stop();
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
@@ -145,7 +133,8 @@ namespace NVidia_Surround_Assistant
             //If user is closing the form then cancel the timer.
             if (!nonUserExit && e.CloseReason == CloseReason.UserClosing)
             {
-                timerCanceled = true;
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
             }
         }
 

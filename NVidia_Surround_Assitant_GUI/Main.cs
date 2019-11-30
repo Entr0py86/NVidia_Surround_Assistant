@@ -894,10 +894,14 @@ namespace NVidia_Surround_Assistant
                             processDestroyedTimer.Interval = applicationInfo.SwitchbackTimeout;
                         else
                             processDestroyedTimer.Interval = 5;
-                        processDestroyedTimer.ShowDialog();
-                        if (!processDestroyedTimer.Canceled)
+                        
+                        if (processDestroyedTimer.ShowDialog() == DialogResult.OK)
                         {
                             FinalizeProcessDestroyed();
+                        }
+                        else
+                        {
+                            timerZombieCheck.Stop();
                         }
                     }
                 }
@@ -1051,7 +1055,7 @@ namespace NVidia_Surround_Assistant
                         processDestroyedTimer.Interval = 5;
                         processDestroyedTimer.ShowDialog();
                         //Only switch if the action was not cancelled
-                        if (!processDestroyedTimer.Canceled)
+                        if (processDestroyedTimer.ShowDialog() == DialogResult.OK)
                         {
                             SwitchToNormalMode((Settings_AskSwitch)NVidia_Surround_Assistant.Properties.Settings.Default.SurroundToNormal_OnExit);
                         }
@@ -1244,7 +1248,7 @@ namespace NVidia_Surround_Assistant
             openFileDialog.FilterIndex = 2;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                newApp.DisplayName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                newApp.DisplayName = Path.GetFileNameWithoutExtension(Path.GetDirectoryName(openFileDialog.FileName));
                 newApp.FullPath = Path.GetFullPath(openFileDialog.FileName);
                 newApp.ProcessName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);                
 

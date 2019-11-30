@@ -9,6 +9,8 @@ using NLog;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using MyStuff;
+using IGDB;
+using IGDB.Models;
 
 namespace NVidia_Surround_Assistant
 {
@@ -26,7 +28,7 @@ namespace NVidia_Surround_Assistant
         int y_spacing;
 
         //Application Database API  interfaces
-        IgdbAPI.ApiClient igdbClient = new IgdbAPI.ApiClient("https://api-2445582011268.apicast.io");
+        IGDBApi igdbClient = Client.Create("0638759164b00165dcae1fafbe681834");
 
         //New app flag
         bool autoSearchNewApp;
@@ -53,9 +55,6 @@ namespace NVidia_Surround_Assistant
                 pictureBoxDisabled.Visible = !AppInfo.Enabled;
                 pictureBoxEnabled.Visible = AppInfo.Enabled;
             }
-
-            //Setup Rest client for IGDB
-            igdbClient.SetAuthHeader("user-key", "ac7be2d5cce384506dfc786fdabec51c");
         }
 
         private void UpdateDisplay(ApplicationInfo Appinfo)
@@ -228,33 +227,34 @@ namespace NVidia_Surround_Assistant
         {
             try
             {
-                Task<List<IgdbAPI.Game>> getGameList = igdbClient.SearchGamesAsync(textBoxGameSearch.Text);
+                labelHttpFoundApp.Text = String.Format("Searching IGDN for {0}", textBoxGameSearch.Text);
 
-                labelHttpFoundApp.Text = "Getting Application Information";
-                List <IgdbAPI.Game> gameList = await getGameList;
+                // Search[] gameList = await igdbClient.QueryAsync<Search>(Client.Endpoints.Search, query: String.Format("fields *; search \"{0}\"; limit 30;", textBoxGameSearch.Text));
+                Game[] gameList = await igdbClient.QueryAsync<Game>(Client.Endpoints.Games, query: String.Format("search \"{0}\"; limit 30; fields name,cover,cover.*;", textBoxGameSearch.Text));
                 ApplicationInfo appInfo;
 
                 if (gameList != null)
                 {
-                    foreach (IgdbAPI.Game game in gameList)
+                    foreach (Game game in gameList)
                     {
                         if (MainForm.logger != null)
-                            MainForm.logger.Info("Game found: {0}", game.name);
+                            MainForm.logger.Info("Game found: {0}", game.Name);
                         appInfo = new ApplicationInfo
                         {
-                            DisplayName = game.name,
+                            DisplayName = game.Name,
                         };
-                        labelHttpFoundApp.Text = String.Format("Getting Image for: {0}", game.name);
-                        if (game.cover != null)
+                        labelHttpFoundApp.Text = String.Format("Fetching Image for {0}", game.Name);
+
+                        if (game.Cover != null)
                         {
                             try
                             {
-                                appInfo.Image = await GetHttpImg(game.cover.url);
+                                appInfo.Image = await GetHttpImg(game.Cover.Value.Url);
                             }
                             catch (System.NullReferenceException)
                             {
                                 appInfo.Image = null;
-                            }                            
+                            }
                         }
                         if (appInfo != null)
                             gameList_UserChoice.Add(appInfo);
