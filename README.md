@@ -77,6 +77,6 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 If you like my work, a beer for the weekend would be greatly appreciated.
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JWCEP7GLR62J2)
+[![paypal]([https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JWCEP7GLR62J2](https://www.paypal.com/donate/?hosted_button_id=YE8Y7DFXMATMJ))
 
 
